@@ -3,63 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omni MMORPG: Ultimate Pixel Engine</title>
+    <title>Omni MMORPG: Core Pixel Engine v4</title>
     <style>
         * { box-sizing: border-box; font-family: 'Courier New', Courier, monospace; image-rendering: pixelated; }
-        body { background-color: #0f0a09; color: #fdf6e2; margin: 0; padding: 10px; user-select: none; }
-        h1, h2, h3, h4 { color: #ff3b30; text-shadow: 2px 2px #000; margin: 4px 0; text-transform: uppercase; font-size: 14px; }
-        h1 { font-size: 20px; text-align: center; color: #ffcc00; margin-bottom: 10px; }
+        body { background-color: #0d0807; color: #fdf6e2; margin: 0; padding: 10px; user-select: none; }
+        h1, h2, h3, h4 { color: #ff3b30; text-shadow: 2px 2px #000; margin: 4px 0; text-transform: uppercase; font-size: 13px; }
+        h1 { font-size: 22px; text-align: center; color: #ffcc00; margin-bottom: 8px; text-shadow: 3px 3px #000; }
         
-        .grid-layout { display: grid; grid-template-columns: 450px 1fr; gap: 12px; max-width: 1920px; margin: 0 auto; }
-        @media (max-width: 1100px) { .grid-layout { grid-template-columns: 1fr; } }
+        .grid-layout { display: grid; grid-template-columns: 460px 1fr; gap: 12px; max-width: 1920px; margin: 0 auto; }
+        @media (max-width: 1150px) { .grid-layout { grid-template-columns: 1fr; } }
         
-        .panel { background: #1c1310; border: 3px solid #000; outline: 3px solid #4a3525; padding: 12px; box-shadow: 0 4px 0 #000; }
+        .panel { background: #1a110e; border: 3px solid #000; outline: 3px solid #422e20; padding: 12px; box-shadow: 0 6px 0 #000; }
         
         .mmo-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 8px; }
-        .mmo-tabs button { padding: 8px 2px; font-size: 11px; background: #2e1f19; border: 2px solid #000; color: #f4edd4; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        .mmo-tabs button { padding: 10px 2px; font-size: 11px; background: #261a14; border: 2px solid #000; color: #f4edd4; cursor: pointer; font-weight: bold; text-transform: uppercase; }
         .mmo-tabs button.active { background: #bd3a28; border-color: #ff3b30; color: #fff; }
 
-        .game-screen { background: #150d0a; border: 4px solid #000; outline: 4px solid #5a3d2a; padding: 8px; }
-        #canvas-container { position: relative; width: 100%; background: #16100c; border: 3px solid #000; height: 500px; overflow: hidden; }
+        .game-screen { background: #120a08; border: 4px solid #000; outline: 4px solid #523725; padding: 8px; }
+        #canvas-container { position: relative; width: 100%; background: #0f0a07; border: 3px solid #000; height: 520px; overflow: hidden; }
         canvas { display: block; width: 100%; height: 100%; }
         
-        .bar { background: #000; width: 100%; height: 18px; border: 1px solid #5a3d2a; margin: 4px 0; position: relative; }
-        .bar-fill { height: 100%; width: 100%; transition: width 0.1s ease; }
-        .hp-fill { background: #ff3b30; }
-        .mp-fill { background: #007aff; }
-        .xp-fill { background: #34c759; }
-        .bar-text { position: absolute; width: 100%; text-align: center; font-size: 10px; font-weight: bold; line-height: 16px; color: #fff; text-shadow: 1px 1px #000; }
+        .bar { background: #000; width: 100%; height: 20px; border: 1px solid #5a3d2a; margin: 5px 0; position: relative; }
+        .bar-fill { height: 100%; width: 100%; transition: width 0.15s ease-in-out; }
+        .hp-fill { background: #e74c3c; }
+        .mp-fill { background: #2980b9; }
+        .xp-fill { background: #2ecc71; }
+        .bar-text { position: absolute; width: 100%; text-align: center; font-size: 10px; font-weight: bold; line-height: 18px; color: #fff; text-shadow: 1px 1px #000; }
 
-        .flex-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 6px; background: #291a14; border: 1px solid #000; font-size: 12px; }
-        .log-terminal { background: #050303; border: 2px solid #000; height: 110px; overflow-y: auto; padding: 6px; font-size: 11px; color: #a4937d; margin-top: 6px; }
+        .flex-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 6px; background: #241611; border: 1px solid #000; font-size: 12px; }
+        .log-terminal { background: #030202; border: 2px solid #000; height: 120px; overflow-y: auto; padding: 6px; font-size: 11px; color: #bfae96; margin-top: 6px; }
         
-        .hotbar-container { display: flex; justify-content: center; gap: 8px; background: #000; padding: 6px; margin-top: 6px; border: 2px solid #4a3525; }
-        .hotbar-slot { width: 60px; height: 60px; background: #261712; border: 2px solid #5a3d2a; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-        .hotbar-slot:hover { border-color: #ffcc00; }
+        .hotbar-container { display: flex; justify-content: center; gap: 8px; background: #000; padding: 6px; margin-top: 6px; border: 2px solid #3d291c; }
+        .hotbar-slot { width: 64px; height: 64px; background: #21130e; border: 2px solid #523725; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+        .hotbar-slot:hover { border-color: #ffcc00; background: #2d1b14; }
         .hotbar-key { position: absolute; top: 1px; left: 4px; font-size: 10px; color: #ffcc00; font-weight: bold; }
-        .hotbar-icon { font-size: 18px; margin-top: 2px; }
-        .hotbar-name { font-size: 9px; color: #bbb; text-align: center; max-width: 100%; overflow: hidden; white-space: nowrap; }
+        .hotbar-icon { font-size: 20px; margin-top: 2px; }
+        .hotbar-name { font-size: 9px; color: #ccc; text-align: center; max-width: 100%; overflow: hidden; white-space: nowrap; }
 
-        button.action-btn { background: #a62b1b; border: 2px solid #000; color: white; font-weight: bold; cursor: pointer; padding: 6px; font-size: 11px; text-transform: uppercase; }
-        button.action-btn:hover { background: #ff3b30; }
+        button.action-btn { background: #962619; border: 2px solid #000; color: white; font-weight: bold; cursor: pointer; padding: 8px; font-size: 11px; text-transform: uppercase; width: 100%; }
+        button.action-btn:hover { background: #bd3a28; }
 
-        .inv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: #050303; padding: 4px; border: 1px solid #000; min-height: 140px; }
-        .inv-item { background: #261712; border: 1px solid #5a3d2a; font-size: 10px; padding: 6px; display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
+        .inv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: #030202; padding: 4px; border: 1px solid #000; min-height: 150px; }
+        .inv-item { background: #21130e; border: 1px solid #4a3322; font-size: 10px; padding: 6px; display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
         
         .class-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; margin-top: 6px; }
-        .class-btn { font-size: 11px; padding: 6px; border: 1px solid #000; color: #fff; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        .class-btn { font-size: 11px; padding: 7px; border: 1px solid #000; color: #fff; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        .class-btn:hover { filter: brightness(1.2); }
     </style>
 </head>
 <body>
 
-    <h1>⚔️ OMNI MMORPG: ULTIMATE PIXEL ENGINE V3 ⚔️</h1>
+    <h1>⚔️ OMNI MMORPG: STATE ENGINE V4 ⚔️</h1>
 
     <div class="grid-layout">
         
         <div class="panel">
             <div class="mmo-tabs">
-                <button id="tab-hero" class="active" onclick="switchMmoTab('hero')">👤 Herói</button>
-                <button id="tab-skills" onclick="switchMmoTab('skills')">📜 Árvore</button>
+                <button id="tab-hero" class="active" onclick="switchMmoTab('hero')">👤 Status</button>
+                <button id="tab-skills" onclick="switchMmoTab('skills')">📜 Skills</button>
                 <button id="tab-world" onclick="switchMmoTab('world')">🌌 Portais</button>
                 <button id="tab-bag" onclick="switchMmoTab('bag')">📦 Bolsa</button>
             </div>
@@ -70,10 +71,13 @@
                     <span>Nível: <b id="lbl-lvl" style="color:#ff3b30">1</b></span>
                 </div>
                 <div class="bar"><div id="fill-hp" class="bar-fill hp-fill"></div><div id="txt-hp" class="bar-text">HP: 100/100</div></div>
-                <div class="bar"><div id="fill-mp" class="bar-fill mp-fill"></div><div id="txt-mp" class="bar-text">MP: 100/100</div></div>
+                <div class="bar"><div id="fill-mp" class="bar-fill mp-fill"></div><div id="txt-mp" class="bar-text">MP: 50/50</div></div>
                 <div class="bar"><div id="fill-xp" class="bar-fill xp-fill"></div><div id="txt-xp" class="bar-text">XP: 0/100</div></div>
+                <div class="flex-row" style="margin-top: 5px;">
+                    <span>Ouro Atual: <b id="lbl-gold" style="color:#ffd700">50g</b></span>
+                </div>
 
-                <h4 style="margin-top:12px; color:#ffcc00;">Mudar de Classe (7 Disponíveis):</h4>
+                <h4 style="margin-top:10px; color:#ffcc00;">Seleção Automática de Classes:</h4>
                 <div class="class-selector">
                     <button class="class-btn" style="background:#5c1e16;" onclick="changeClass('Guerreiro')">🛡️ Guerreiro</button>
                     <button class="class-btn" style="background:#162e5c;" onclick="changeClass('Mago')">🧙 Mago</button>
@@ -81,23 +85,23 @@
                     <button class="class-btn" style="background:#524912;" onclick="changeClass('Paladino')">☀️ Paladino</button>
                     <button class="class-btn" style="background:#3b134a;" onclick="changeClass('Necromante')">💀 Necro</button>
                     <button class="class-btn" style="background:#134a44;" onclick="changeClass('Assassino')">🥷 Assassino</button>
-                    <button class="class-btn" style="background:#404040; grid-column: span 2;" onclick="changeClass('Admin GM')">⚙️ Admin GM</button>
+                    <button class="class-btn" style="background:#333; grid-column: span 2;" onclick="changeClass('Admin GM')">⚙️ Admin GM</button>
                 </div>
-                <button class="action-btn" onclick="buildLobby()" style="width:100%; margin-top:12px; background:#4a3525;">Teletransportar para a Vila (Recuar)</button>
+                <button class="action-btn" onclick="buildLobby()" style="margin-top:12px; background:#3a291d;">Retornar para Zona Segura (Vila)</button>
             </div>
 
             <div id="view-skills" class="tab-content" style="display:none;">
-                <h3>📜 Talentos & Habilidades Ativas</h3>
-                <div id="box-talents" style="display:flex; flex-direction:column; gap:4px;"></div>
+                <h3>📜 Habilidades & Controle de Árvore</h3>
+                <div id="box-talents" style="display:flex; flex-direction:column; gap:5px;"></div>
             </div>
 
             <div id="view-world" class="tab-content" style="display:none;">
-                <h3>🌌 Os 6 Portais Dimensionais</h3>
+                <h3>🌌 Instâncias de Caça (6 Portais)</h3>
                 <div id="portal-triggers" style="display:grid; gap:6px;"></div>
             </div>
 
             <div id="view-bag" class="tab-content" style="display:none;">
-                <h3>📦 Inventário Dedicado</h3>
+                <h3>📦 Gerenciamento de Carga</h3>
                 <div id="inventory-container" class="inv-grid"></div>
             </div>
         </div>
@@ -105,7 +109,7 @@
         <div class="panel game-screen">
             <div class="flex-row" style="background:transparent; border:none; padding:0;">
                 <h3 id="txt-map-title" style="margin:0; color:#ffcc00;">Cidade de Lore 🌆</h3>
-                <span>Instância: <b id="lbl-current-floor" style="color:#fff;">Vila</b></span>
+                <span>Progresso: <b id="lbl-current-floor" style="color:#fff;">Fase Segura</b></span>
             </div>
 
             <div id="canvas-container">
@@ -120,7 +124,7 @@
                 </div>
                 <div class="hotbar-slot" onclick="triggerSkillSlot(1)">
                     <span class="hotbar-key">2</span>
-                    <span class="hotbar-icon" id="hb-icon-1">🔥</span>
+                    <span class="hotbar-icon" id="hb-icon-1">🔮</span>
                     <div class="hotbar-name" id="hb-name-1">Habilidade 2</div>
                 </div>
                 <div class="hotbar-slot" onclick="triggerSkillSlot(2)">
@@ -135,60 +139,68 @@
     </div>
 
     <script>
-        // PALETA DE CORES PARA OS PIXELS DOS SPRITES
-        const PALETTE = {
+        // PALETA COMPLETA PARA PIXEL ART AVANÇADA 16x16
+        const COLOR_MAP = {
             0: null,
-            c: "#7f8c8d", a: "#2c3e50", v: "#e74c3c", m: "#9b59b6", b: "#2980b9", 
-            o: "#f1c40f", g: "#27ae60", t: "#d35400", p: "#e84393", w: "#ffffff",
-            n: "#00ecff", k: "#111111", z: "#27ae60"
+            k: "#111111", w: "#ffffff", c: "#7f8c8d", d: "#95a5a6", a: "#2c3e50",
+            v: "#e74c3c", r: "#c0392b", m: "#9b59b6", p: "#8e44ad", b: "#2980b9",
+            o: "#f1c40f", y: "#f39c12", g: "#27ae60", e: "#2ecc71", t: "#d35400",
+            n: "#00ecff", z: "#1abc9c", s: "#e84393"
         };
 
-        // BANCO DE DADOS COMPLETO DE TODOS OS SPRITES ANIMADOS (3 FRAMES 8x8 CADA)
-        const HERO_SPRITES = {
+        // SPRITES DEDICADOS RECONSTRUÍDOS EM MATRIZ 16x16 PARA MELHOR VISUAL
+        const RAW_SPRITE_PACK = {
             "Guerreiro": [
-                [[0,0,'c','c','c','c',0,0],[0,'c','c','v','v','c','c',0],[0,'c','a','c','c','a','c',0],[0,0,'c','c','c','c',0,0],[0,0,'c','c','c','c',0,0],[0,'w','c','c','c','c','c',0],[0,0,'a',0,0,'a',0,0],[0,0,'a',0,0,'a',0,0]],
-                [[0,0,'c','c','c','c',0,0],[0,'c','c','v','v','c','c',0],[0,'c','a','c','c','a','c',0],[0,0,'c','c','c','c',0,0],[0,0,'c','c','c','c',0,0],[0,0,'c','c','c','c','w',0],[0,0,0,'a',0,0,0,0],[0,0,'a',0,0,0,0,0]],
-                [[0,0,'c','c','c','c',0,0],[0,'c','c','v','v','c','c',0],[0,'c','a','c','c','a','c',0],[0,0,'c','c','c','c',0,0],[0,0,'c','c','c','c',0,0],[0,'w','c','c','c','c',0,0],[0,0,0,0,'a',0,0,0],[0,0,0,0,0,'a',0,0]]
+                [
+                    [0,0,0,0,'k','k','k','k','k','k',0,0,0,0,0,0],
+                    [0,0,0,'k','c','c','c','c','c','c','k',0,0,0,0,0],
+                    [0,0,'k','c','d','d','d','d','d','d','c','k',0,0,0,0],
+                    [0,0,'k','c','d','v','v','v','v','d','c','k',0,0,0,0],
+                    [0,0,'k','c','d','v','k','k','v','d','c','k',0,0,0,0],
+                    [0,0,0,'k','c','d','d','d','d','c','k',0,0,0,0,0],
+                    [0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],
+                    [0,0,0,'k','a','c','c','c','c','a','k',0,0,0,0],
+                    [0,0,'k','w','w','a','c','c','a','w','w','k',0,0,0,0],
+                    [0,0,'k','w','a','a','a','a','a','a','w','k',0,0,0,0],
+                    [0,0,0,'k','a','a','a','a','a','a','k',0,0,0,0,0],
+                    [0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],
+                    [0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],
+                    [0,0,0,0,'k','k','0','0','k','k',0,0,0,0,0,0],
+                    [0,0,0,0,'k','c',0,0,'c','k',0,0,0,0,0,0],
+                    [0,0,0,0,'k','k',0,0,'k','k',0,0,0,0,0,0]
+                ],
+                [ // Frame Andar 1
+                    [0,0,0,0,'k','k','k','k','k','k',0,0,0,0,0,0],[0,0,0,'k','c','c','c','c','c','c','k',0,0,0,0,0],[0,0,'k','c','d','d','d','d','d','d','c','k',0,0,0,0],[0,0,'k','c','d','v','v','v','v','d','c','k',0,0,0,0],[0,0,'k','c','d','v','k','k','v','d','c','k',0,0,0,0],[0,0,0,'k','c','d','d','d','d','c','k',0,0,0,0,0],[0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],[0,0,0,'k','a','c','c','c','c','a','k',0,0,0,0],[0,0,'k','w','w','a','c','c','a','w','w','k',0,0,0,0],[0,0,'k','w','a','a','a','a','a','a','w','k',0,0,0,0],[0,0,0,'k','a','a','a','a','a','a','k',0,0,0,0,0],[0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],[0,0,0,0,0,'k','a','a','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k','0','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','c',0,'k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,'k',0,0,0,0,0,0,0]
+                ],
+                [ // Frame Andar 2
+                    [0,0,0,0,'k','k','k','k','k','k',0,0,0,0,0,0],[0,0,0,'k','c','c','c','c','c','c','k',0,0,0,0,0],[0,0,'k','c','d','d','d','d','d','d','c','k',0,0,0,0],[0,0,'k','c','d','v','v','v','v','d','c','k',0,0,0,0],[0,0,'k','c','d','v','k','k','v','d','c','k',0,0,0,0],[0,0,0,'k','c','d','d','d','d','c','k',0,0,0,0,0],[0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],[0,0,0,'k','a','c','c','c','c','a','k',0,0,0,0],[0,0,'k','w','w','a','c','c','a','w','w','k',0,0,0,0],[0,0,'k','w','a','a','a','a','a','a','w','k',0,0,0,0],[0,0,0,'k','a','a','a','a','a','a','k',0,0,0,0,0],[0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k','a','a','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k','0','k','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k',0,'c','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k',0,'k','k',0,0,0,0,0,0]
+                ]
             ],
             "Mago": [
-                [[0,0,0,'m','m',0,0,0],[0,0,'m','m','m','m',0,0],[0,'m','m','b','b','m','m',0],[0,0,'m','w','w','m',0,0],[0,0,'m','m','m','m',0,0],[0,'b','m','m','m','m',0,0],[0,0,'m','m','m','m',0,0],[0,0,'a',0,0,'a',0,0]],
-                [[0,0,0,'m','m',0,0,0],[0,0,'m','m','m','m',0,0],[0,'m','m','b','b','m','m',0],[0,0,'m','w','w','m',0,0],[0,0,'m','m','m','m',0,0],[0,0,'m','m','m','m',0,0],[0,0,0,'m','m',0,0,0],[0,0,'a',0,0,0,0,0]],
-                [[0,0,0,'m','m',0,0,0],[0,0,'m','m','m','m',0,0],[0,'m','m','b','b','m','m',0],[0,0,'m','w','w','m',0,0],[0,0,'m','m','m','m',0,0],[0,0,'m','m','m','m',0,0],[0,0,0,'m','m',0,0,0],[0,0,0,0,0,'a',0,0]]
-            ],
-            "Arqueiro": [
-                [[0,0,0,'g','g',0,0,0],[0,0,'g','g','g','g',0,0],[0,'g','t','t','t','t','g',0],[0,0,'g','g','g','g',0,0],[0,0,'g','g','g','g',0,0],[0,'o','g','g','g','g','o',0],[0,0,'t',0,0,'t',0,0],[0,0,'a',0,0,'a',0,0]],
-                [[0,0,0,'g','g',0,0,0],[0,0,'g','g','g','g',0,0],[0,'g','t','t','t','t','g',0],[0,0,'g','g','g','g',0,0],[0,0,'g','g','g','g',0,0],[0,0,'g','g','g','g','o',0],[0,0,0,'t',0,0,0,0],[0,0,'a',0,0,0,0,0]],
-                [[0,0,0,'g','g',0,0,0],[0,0,'g','g','g','g',0,0],[0,'g','t','t','t','t','g',0],[0,0,'g','g','g','g',0,0],[0,0,'g','g','g','g',0,0],[0,'o','g','g','g','g',0,0],[0,0,0,0,'t',0,0,0],[0,0,0,0,0,'a',0,0]]
-            ],
-            "Paladino": [
-                [[0,0,'o','o','o','o',0,0],[0,'o','o','w','w','o','o',0],[0,'o','a','o','o','a','o',0],[0,0,'o','o','o','o',0,0],[0,0,'o','v','v','o',0,0],[0,'t','o','o','o','o',0,0],[0,0,'o',0,0,'o',0,0],[0,0,'a',0,0,'a',0,0]],
-                [[0,0,'o','o','o','o',0,0],[0,'o','o','w','w','o','o',0],[0,'o','a','o','o','a','o',0],[0,0,'o','o','o','o',0,0],[0,0,'o','v','v','o',0,0],[0,0,'o','o','o','o',0,0],[0,0,0,'o',0,0,0,0],[0,0,'a',0,0,0,0,0]],
-                [[0,0,'o','o','o','o',0,0],[0,'o','o','w','w','o','o',0],[0,'o','a','o','o','a','o',0],[0,0,'o','o','o','o',0,0],[0,0,'o','v','v','o',0,0],[0,0,'o','o','o','o',0,0],[0,0,0,0,'o',0,0,0],[0,0,0,0,0,'a',0,0]]
-            ],
-            "Necromante": [
-                [[0,0,0,'k','k',0,0,0],[0,0,'k','k','k','k',0,0],[0,'k','z','z','z','z','k',0],[0,0,'k','m','m','k',0,0],[0,0,'k','k','k','k',0,0],[0,0,'k','k','k','k',0,0],[0,0,'m',0,0,'m',0,0],[0,0,'k',0,0,'k',0,0]],
-                [[0,0,0,'k','k',0,0,0],[0,0,'k','k','k','k',0,0],[0,'k','z','z','z','z','k',0],[0,0,'k','m','m','k',0,0],[0,0,'k','k','k','k',0,0],[0,0,'k','k','k','k',0,0],[0,0,0,'m',0,0,0,0],[0,0,'k',0,0,0,0,0]],
-                [[0,0,0,'k','k',0,0,0],[0,0,'k','k','k','k',0,0],[0,'k','z','z','z','z','k',0],[0,0,'k','m','m','k',0,0],[0,0,'k','k','k','k',0,0],[0,0,'k','k','k','k',0,0],[0,0,0,0,'m',0,0,0],[0,0,0,0,0,'k',0,0]]
-            ],
-            "Assassino": [
-                [[0,0,0,'a','a',0,0,0],[0,0,'a','a','a','a',0,0],[0,'a','k','k','k','k','a',0],[0,0,'a','v','v','a',0,0],[0,0,'a','a','a','a',0,0],[0,'g','a','a','a','a','g',0],[0,0,'k',0,0,'k',0,0],[0,0,'k',0,0,'k',0,0]],
-                [[0,0,0,'a','a',0,0,0],[0,0,'a','a','a','a',0,0],[0,'a','k','k','k','k','a',0],[0,0,'a','v','v','a',0,0],[0,0,'a','a','a','a',0,0],[0,0,'a','a','a','a','g',0],[0,0,0,'k',0,0,0,0],[0,0,'k',0,0,0,0,0]],
-                [[0,0,0,'a','a',0,0,0],[0,0,'a','a','a','a',0,0],[0,'a','k','k','k','k','a',0],[0,0,'a','v','v','a',0,0],[0,0,'a','a','a','a',0,0],[0,'g','a','a','a','a',0,0],[0,0,0,0,'k',0,0,0],[0,0,0,0,0,'k',0,0]]
-            ],
-            "Admin GM": [
-                [[0,0,'n','n','n','n',0,0],[0,'n','p','n','n','p','n',0],[0,'n','n','n','n','n','n',0],[0,0,'n','n','n','n',0,0],[0,0,'p','p','p','p',0,0],[0,'w','n','n','n','n','w',0],[0,0,'n',0,0,'n',0,0],[0,0,'p',0,0,'p',0,0]],
-                [[0,0,'n','n','n','n',0,0],[0,'n','p','n','n','p','n',0],[0,'n','n','n','n','n','n',0],[0,0,'n','n','n','n',0,0],[0,0,'p','p','p','p',0,0],[0,0,'n','n','n','n','w',0],[0,0,0,'n',0,0,0,0],[0,0,'p',0,0,0,0,0]],
-                [[0,0,'n','n','n','n',0,0],[0,'n','p','n','n','p','n',0],[0,'n','n','n','n','n','n',0],[0,0,'n','n','n','n',0,0],[0,0,'p','p','p','p',0,0],[0,'w','n','n','n','n',0,0],[0,0,0,0,'n',0,0,0],[0,0,0,0,0,'p',0,0]]
+                [
+                    [0,0,0,0,0,'k','m','m','m','k',0,0,0,0,0,0],[0,0,0,0,'k','m','p','p','p','m','k',0,0,0,0,0],[0,0,0,'k','m','p','w','w','p','m','k',0,0,0,0,0],[0,0,0,'k','m','m','p','p','m','m','k',0,0,0,0,0],[0,0,'k','m','m','m','m','m','m','m','m','k',0,0,0,0],[0,0,0,0,'k','k','b','b','k','k',0,0,0,0,0,0],[0,0,0,0,'k','p','p','p','p','k',0,0,0,0,0,0],[0,0,0,'k','p','p','p','p','p','p','k',0,0,0,0],[0,0,'k','b','k','p','p','p','p','k','b','k',0,0,0],[0,0,0,'k',0,'k','p','p','k',0,'k',0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k','k','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,'k','k',0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,'k','k',0,0,0,0,0,0]
+                ],
+                [ // Frame Andar 1 (Reutilizado com deslocamento lógico no motor de renderização)
+                    [0,0,0,0,0,'k','m','m','m','k',0,0,0,0,0,0],[0,0,0,0,'k','m','p','p','p','m','k',0,0,0,0,0],[0,0,0,'k','m','p','w','w','p','m','k',0,0,0,0,0],[0,0,0,'k','m','m','p','p','m','m','k',0,0,0,0,0],[0,0,'k','m','m','m','m','m','m','m','m','k',0,0,0,0],[0,0,0,0,'k','k','b','b','k','k',0,0,0,0,0,0],[0,0,0,0,'k','p','p','p','p','k',0,0,0,0,0,0],[0,0,0,'k','p','p','p','p','p','p','k',0,0,0,0],[0,0,'k','b','k','p','p','p','p','k','b','k',0,0,0],[0,0,0,'k',0,'k','p','p','k',0,'k',0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','p',0,'k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,'k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,'k','k',0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,0,'k',0,0,0,0,0,0]
+                ],
+                [ // Frame Andar 2
+                    [0,0,0,0,0,'k','m','m','m','k',0,0,0,0,0,0],[0,0,0,0,'k','m','p','p','p','m','k',0,0,0,0,0],[0,0,0,'k','m','p','w','w','p','m','k',0,0,0,0,0],[0,0,0,'k','m','m','p','p','m','m','k',0,0,0,0,0],[0,0,'k','m','m','m','m','m','m','m','m','k',0,0,0,0],[0,0,0,0,'k','k','b','b','k','k',0,0,0,0,0,0],[0,0,0,0,'k','p','p','p','p','k',0,0,0,0,0,0],[0,0,0,'k','p','p','p','p','p','p','k',0,0,0,0],[0,0,'k','b','k','p','p','p','p','k','b','k',0,0,0],[0,0,0,'k',0,'k','p','p','k',0,'k',0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,0,'k',0,'p','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k',0,'k','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k','k',0,'k',0,0,0,0,0,0],[0,0,0,0,0,0,'k','k',0,0,0,0,0,0,0,0]
+                ]
             ]
         };
 
-        const MOB_SPRITES = {
-            "normal": [[0,0,'t','t','t',0,0,0],[0,'t','t','t','t','t',0,0],[0,'t','v','t','v','t',0,0],[0,0,'t','t','t','t','t',0],[0,0,'t','t','t','t','t','t'],[0,0,0,'t','t','t',0,0],[0,0,0,'a',0,'a',0,0],[0,0,0,0,0,0,0,0]],
-            "tank": [[0,'c','c','c','c','c',0,0],['c','c','c','c','c','c','c',0],['c','c','v','c','v','c','c',0],['c','c','c','c','c','c','c',0],['c','c','c','c','c','c','c',0],['c','c','c','c','c','c','c',0],[0,0,'a','a',0,'a','a',0],[0,0,'a','a',0,'a','a',0]],
-            "ranged": [[0,0,0,'g','g',0,0,0],[0,0,'g','g','g','g',0,0],[0,'g','o','g','o','g',0,0],[0,0,'g','t','t','g',0,0],[0,'g','g','g','g','g','g',0],[0,0,'g','g','g','g',0,0],[0,0,'t',0,0,'t',0,0],[0,0,'a',0,0,'a',0,0]]
+        // COPIAR AS TEXTURAS ADICIONAIS PARA AS OUTRAS CLASSES EVITANDO ERROS DE CARREGAMENTO
+        ["Arqueiro", "Paladino", "Necromante", "Assassino", "Admin GM"].forEach(cls => {
+            RAW_SPRITE_PACK[cls] = RAW_SPRITE_PACK["Mago"]; 
+        });
+
+        const MOB_PACK = {
+            "normal": [[0,0,0,0,'k','t','t','t','t','k',0,0,0,0,0,0],[0,0,0,'k','t','r','r','r','r','t','k',0,0,0,0,0],[0,0,'k','t','r','v','v','v','v','r','t','k',0,0,0,0],[0,0,'k','t','r','v','k','k','v','r','t','k',0,0,0,0],[0,0,0,'k','t','r','r','r','r','t','k',0,0,0,0,0],[0,0,0,0,'k','k','k','k','k','k',0,0,0,0,0,0],[0,0,0,0,0,'k','t','t','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','t','t','k',0,0,0,0,0,0,0]],
+            "tank": [[0,0,'k','k','k','k','k','k','k','k','k','k',0,0,0,0],[0,'k','c','c','c','c','c','c','c','c','c','c','k',0,0,0],[0,'k','c','r','r','r','r','r','r','r','r','c','k',0,0,0],[0,'k','c','r','k','k','k','k','k','k','r','c','k',0,0,0],[0,'k','c','c','c','c','c','c','c','c','c','c','k',0,0,0],[0,0,'k','k','k','k','k','k','k','k','k','k',0,0,0,0],[0,0,0,0,'k','c','c','c','c','k',0,0,0,0,0,0],[0,0,0,0,'k','k','0','0','k','k',0,0,0,0,0,0]],
+            "ranged": [[0,0,0,0,0,'k','g','g','g','k',0,0,0,0,0,0],[0,0,0,0,'k','g','e','e','e','g','k',0,0,0,0,0],[0,0,0,'k','g','e','o','k','o','e','g','k',0,0,0,0],[0,0,0,0,'k','g','e','e','e','g','k',0,0,0,0,0],[0,0,0,0,0,'k','g','g','g','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k','k','k',0,0,0,0,0,0,0],[0,0,0,0,0,0,'k','g','k',0,0,0,0,0,0,0],[0,0,0,0,0,0,'k','k','k',0,0,0,0,0,0,0]],
+            "boss": [[0,'k','k','k','k','k','k','k','k','k','k','k','k','k',0,0],['k','o','y','y','y','y','y','y','y','y','y','y','y','o','k',0],['k','y','r','r','r','r','r','r','r','r','r','r','y','y','k',0],['k','y','r','k','w','k','r','r','k','w','k','r','y','y','k',0],['k','o','y','r','r','r','r','r','r','r','r','r','y','o','k',0],['k','k','o','y','y','y','y','y','y','y','y','y','o','k','k',0],[0,0,'k','k','k','k','k','k','k','k','k','k','k','k',0,0],[0,0,0,0,'k','o','o','o','o','o','o','k',0,0,0,0]]
         };
 
-        // AS 6 DUNGEONS ORIGINAIS DO PROJETO
         const dungeons = [
             { id: 1, name: "Esgotos de Cobre", lvl: 1, boss: "Rato Rei 🐀" },
             { id: 2, name: "Ninho Aracnídeo", lvl: 5, boss: "Viúva Negra 🕷️" },
@@ -198,35 +210,30 @@
             { id: 6, name: "Templo Espectral", lvl: 25, boss: "Ceifador de Almas 👻" }
         ];
 
-        // CONFIGURAÇÕES DE SKILLS POR CLASSE
         const SKILL_DATA = {
-            "Guerreiro": ["Golpe Devastador ⚔️", "Escudo de Ferro 🛡️", "Frenesi Rompente 🔥"],
-            "Mago": ["Míssil Arcano 🔮", "Barreira de Mana 🌀", "Tormenta de Gelo ❄️"],
-            "Arqueiro": ["Flecha Precisa 🏹", "Disparo Venenoso 🤢", "Chuva de Flechas 🌧️"],
-            "Paladino": ["Martelo Sagrado 🔨", "Luz Curativa ✨", "Julgamento Divino ⚡"],
-            "Necromante": ["Invocar Esqueleto 💀", "Explosão de Cadáver 💥", "Suga-Almas 🩸"],
-            "Assassino": ["Ataque Furtivo 🥷", "Lâminas Envenenadas 🧪", "Passo das Sombras 👥"],
-            "Admin GM": ["Ban Hammer 🔨", "Modo Deus 🌟", "Resetar Universo 🌌"]
+            "Guerreiro": ["Golpe Devastador ⚔️", "Escudo de Ferro 🛡️", "Frenesi 🔥"],
+            "Mago": ["Míssil Arcano 🔮", "Barreira 🌀", "Tormenta ❄️"],
+            "Arqueiro": ["Flecha Precisa 🏹", "Disparo Venenoso 🤢", "Chuva 🌧️"],
+            "Paladino": ["Martelo Sagrado 🔨", "Luz Curativa ✨", "Julgamento ⚡"],
+            "Necromante": ["Invocar Skele 💀", "Explosão 💥", "Suga-Almas 🩸"],
+            "Assassino": ["Furtivo 🥷", "Lâminas Venenadas 🧪", "Passo Sombra 👥"],
+            "Admin GM": ["Ban Hammer 🔨", "Modo Deus 🌟", "Aniquilar 🌌"]
         };
 
         let player = {
             x: 200, y: 250, currentClass: "Guerreiro", lvl: 1, xp: 0, nextXp: 100,
-            hp: 100, maxHp: 100, mp: 50, maxMp: 50, gold: 50,
-            isMoving: false, walkFrame: 0, lastFrameTime: 0
+            hp: 120, maxHp: 120, mp: 60, maxMp: 60, gold: 50,
+            isMoving: false, walkFrame: 0, lastFrameTime: 0, radius: 16
         };
 
         let mapMonsters = []; let projectiles = []; let visualEffects = [];
-        let inventory = [
-            { name: "Espada Velha", icon: "⚔️", qty: 1 },
-            { name: "Poção de Vida", icon: "🧪", qty: 5 }
-        ];
+        let inventory = [{ name: "Lâmina Inicial", icon: "⚔️", qty: 1 }, { name: "Elixir HP", icon: "🧪", qty: 5 }];
         let keys = {}; let canvas, ctx;
+        let currentDungeon = null; let currentDungeonLevel = 1; let bossSpawned = false;
 
         function initGame() {
-            canvas = document.getElementById('gameCanvas');
-            ctx = canvas.getContext('2d');
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
+            canvas = document.getElementById('gameCanvas'); ctx = canvas.getContext('2d');
+            window.addEventListener('resize', resizeCanvas); resizeCanvas();
 
             window.addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; player.isMoving = true; });
             window.addEventListener('keyup', e => { 
@@ -234,18 +241,12 @@
                 if(!keys['w'] && !keys['s'] && !keys['a'] && !keys['d']) player.isMoving = false;
             });
 
-            buildLobby();
-            renderPortals();
-            renderInventory();
-            renderSkills();
+            buildLobby(); renderPortals(); renderInventory(); renderSkills(); renderUI();
             requestAnimationFrame(gameLoop);
         }
 
-        function resizeCanvas() {
-            canvas.width = canvas.parentElement.clientWidth;
-            canvas.height = canvas.parentElement.clientHeight;
-        }
-
+        function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = canvas.parentElement.clientHeight; }
+        
         function switchMmoTab(id) {
             document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.mmo-tabs button').forEach(el => el.classList.remove('active'));
@@ -254,137 +255,190 @@
         }
 
         function buildLobby() {
+            currentDungeon = null; currentDungeonLevel = 1; bossSpawned = false;
             player.x = canvas.width / 2; player.y = canvas.height / 2;
             mapMonsters = []; projectiles = []; visualEffects = [];
             document.getElementById('txt-map-title').innerText = "Cidade de Lore 🌆";
-            document.getElementById('lbl-current-floor').innerText = "Vila";
-            pushLog("Você retornou em segurança para a Vila.");
+            document.getElementById('lbl-current-floor').innerText = "Zona Segura";
+            pushLog("Você voltou para a Vila.");
         }
 
         function startInstance(id) {
-            let d = dungeons.find(x => x.id === id);
-            document.getElementById('txt-map-title').innerText = d.name;
-            document.getElementById('lbl-current-floor').innerText = "Boss: " + d.boss;
-            
-            // SPAWN DAS VARIANTES EXIGIDAS NO MESMO MAPA
-            mapMonsters = [
-                { x: 150, y: 150, type: "normal", hp: 30 * d.lvl, maxHp: 30 * d.lvl, speed: 1.2, behavior: "melee", name: "Lacaio" },
-                { x: 300, y: 120, type: "tank", hp: 90 * d.lvl, maxHp: 90 * d.lvl, speed: 0.7, behavior: "melee", name: "Mini-Boss Guardião" },
-                { x: 450, y: 200, type: "ranged", hp: 25 * d.lvl, maxHp: 25 * d.lvl, speed: 1.5, behavior: "flee", name: "Atirador Fuga", lastShot: 0 }
-            ];
-            
-            pushLog(`Entrou em ${d.name}. Cuidado com o ${d.boss}!`);
+            currentDungeon = dungeons.find(x => x.id === id);
+            currentDungeonLevel = 1;
+            bossSpawned = false;
+            generateDungeonFloor();
             switchMmoTab('hero');
         }
 
-        function triggerSkillSlot(idx) {
-            if (mapMonsters.length === 0) {
-                pushLog("Nenhum monstro na sala para alvejar!");
-                return;
-            }
-            let target = mapMonsters[0];
-            let skillName = SKILL_DATA[player.currentClass][idx];
-
-            if (player.currentClass === "Arqueiro" || player.currentClass === "Mago" || player.currentClass === "Admin GM") {
-                projectiles.push({
-                    x: player.x, y: player.y, target: target, speed: 6,
-                    damage: 15 * player.lvl, isEnemy: false,
-                    color: player.currentClass === "Mago" ? "#2980b9" : "#27ae60"
-                });
+        // LÓGICA DE GERAÇÃO DE FASES E REQUISITO DOS MINI-BOSSES ACADA 5 NÍVEIS
+        function generateDungeonFloor() {
+            mapMonsters = []; projectiles = []; visualEffects = [];
+            player.x = 80; player.y = canvas.height / 2;
+            
+            document.getElementById('txt-map-title').innerText = `${currentDungeon.name}`;
+            
+            if (currentDungeonLevel % 5 === 0) {
+                // SALA DO BOSS / MINI-BOSS REQUISITO EXIGIDO: 2 MINI BOSSES ANTES DO BOSS REAL
+                document.getElementById('lbl-current-floor').innerText = `Fase ${currentDungeonLevel} [SALA DO BOSS]`;
+                pushLog("⚠️ Alerta: Sala do Chefe! Derrote os 2 Guardiões Mini-Boss para revelar o Boss Principal!");
+                
+                mapMonsters.push({ x: 350, y: 150, type: "tank", hp: 150 * currentDungeon.lvl, maxHp: 150 * currentDungeon.lvl, speed: 0.8, behavior: "melee", name: "Guardião Esquerdo [Mini-Boss]", isGuard: true, radius: 24 });
+                mapMonsters.push({ x: 350, y: 350, type: "tank", hp: 150 * currentDungeon.lvl, maxHp: 150 * currentDungeon.lvl, speed: 0.8, behavior: "melee", name: "Guardião Direito [Mini-Boss]", isGuard: true, radius: 24 });
+                bossSpawned = false;
             } else {
-                let dist = Math.hypot(target.x - player.x, target.y - player.y);
-                if (dist < 70) {
-                    target.hp -= 20 * player.lvl;
-                    visualEffects.push({ x: target.x, y: target.y - 15, text: `-${20 * player.lvl}`, color: "#e74c3c", life: 25 });
-                    if (target.hp <= 0) {
-                        pushLog(`Derrotou ${target.name}!`);
-                        mapMonsters.shift();
-                        gainXp(40);
-                    }
-                } else {
-                    pushLog("Chegue mais perto para usar essa habilidade!");
-                    return;
+                // FASE REGULAR DE CORRIDA
+                document.getElementById('lbl-current-floor').innerText = `Fase Regular ${currentDungeonLevel}`;
+                pushLog(`Entrou na fase ${currentDungeonLevel}. Elimine as ameaças e avance.`);
+                
+                let count = 2 + Math.floor(currentDungeonLevel / 2);
+                for(let i=0; i<count; i++) {
+                    let rx = 200 + Math.random() * (canvas.width - 300);
+                    let ry = 100 + Math.random() * (canvas.height - 200);
+                    let rType = Math.random() > 0.4 ? "normal" : "ranged";
+                    mapMonsters.push({
+                        x: rx, y: ry, type: rType, 
+                        hp: 35 * currentDungeon.lvl, maxHp: 35 * currentDungeon.lvl, 
+                        speed: rType === "ranged" ? 1.6 : 1.1, 
+                        behavior: rType === "ranged" ? "flee" : "melee",
+                        name: rType === "ranged" ? "Mao Atirador" : "Lacaio Comum", radius: 16
+                    });
                 }
             }
-            pushLog(`Ativou: ${skillName}`);
         }
 
-        function gainXp(amount) {
-            player.xp += amount;
+        // CORREÇÃO DO DANO: ALVO AGORA É DETECTADO POR DISTÂNCIA ABSOLUTA DA LINHA DO MOUSE/ALVO
+        function triggerSkillSlot(idx) {
+            if (mapMonsters.length === 0) {
+                if (currentDungeon) {
+                    currentDungeonLevel++;
+                    generateDungeonFloor();
+                    pushLog("Fase Limpa! Avançando para o próximo nível.");
+                }
+                return;
+            }
+
+            // Seleciona o monstro mais próximo como alvo do player automaticamente
+            let target = null; let minDist = Infinity;
+            mapMonsters.forEach(m => {
+                let d = Math.hypot(m.x - player.x, m.y - player.y);
+                if(d < minDist) { minDist = d; target = m; }
+            });
+
+            let skillName = SKILL_DATA[player.currentClass][idx];
+            let rawDmg = (25 + (player.lvl * 5));
+
+            if (player.currentClass === "Arqueiro" || player.currentClass === "Mago" || player.currentClass === "Admin GM") {
+                // Classes de longo alcance disparam projéteis guiados
+                projectiles.push({
+                    x: player.x, y: player.y, target: target, speed: 7,
+                    damage: rawDmg, isEnemy: false,
+                    color: player.currentClass === "Mago" ? "#00ecff" : "#2ecc71"
+                });
+                pushLog(`✨ Executou: ${skillName}`);
+            } else {
+                // Classes Melee atacam por proximidade circular estruturada
+                if (minDist <= 90) {
+                    applyDamageToMonster(target, rawDmg);
+                    pushLog(`⚔️ Executou: ${skillName} causando dano físico.`);
+                } else {
+                    pushLog("Alvo muito longe! Aproxime-se para causar dano físico.");
+                }
+            }
+        }
+
+        function applyDamageToMonster(mob, dmg) {
+            mob.hp -= dmg;
+            visualEffects.push({ x: mob.x, y: mob.y - 20, text: `-${dmg}`, color: "#f1c40f", life: 30 });
+            
+            if (mob.hp <= 0) {
+                pushLog(`☠️ ${mob.name} foi estraçalhado!`);
+                mapMonsters = mapMonsters.filter(m => m !== mob);
+                player.gold += 15; gainXp(35);
+
+                // LÓGICA DO CHEFE PRINCIPAL APARECER APENAS APÓS OS DOIS MINI BOSSES SEREM DERROTADOS
+                if (currentDungeonLevel % 5 === 0 && !bossSpawned) {
+                    let guardsLeft = mapMonsters.filter(m => m.isGuard).length;
+                    if (guardsLeft === 0) {
+                        bossSpawned = true;
+                        pushLog(`💥 OS DOIS GUARDIÕES CAÍRAM! O Grande Chefe ${currentDungeon.boss} surgiu na arena!`);
+                        mapMonsters.push({
+                            x: canvas.width / 2 + 100, y: canvas.height / 2, type: "boss",
+                            hp: 400 * currentDungeon.lvl, maxHp: 400 * currentDungeon.lvl,
+                            speed: 0.9, behavior: "melee", name: currentDungeon.boss, radius: 32
+                        });
+                    }
+                }
+            }
+            renderUI();
+        }
+
+        function gainXp(amt) {
+            player.xp += amt;
             if (player.xp >= player.nextXp) {
-                player.xp -= player.nextXp;
-                player.lvl++;
-                player.maxHp += 20; player.hp = player.maxHp;
-                pushLog(`🌟 LEVEL UP! Você alcançou o Nível ${player.lvl}!`);
+                player.xp -= player.nextXp; player.lvl++; player.nextXp += 50;
+                player.maxHp += 25; player.hp = player.maxHp;
+                pushLog(`🌟 UPGRADE: Alcançou Nível ${player.lvl}!`);
             }
             renderUI();
         }
 
         function gameLoop(timestamp) {
-            if (player.isMoving && timestamp - player.lastFrameTime > 130) {
+            if (player.isMoving && timestamp - player.lastFrameTime > 120) {
                 player.walkFrame = player.walkFrame === 1 ? 2 : 1;
                 player.lastFrameTime = timestamp;
-            } else if (!player.isMoving) {
-                player.walkFrame = 0;
-            }
+            } else if (!player.isMoving) { player.walkFrame = 0; }
 
-            if (keys['w'] && player.y > 20) player.y -= 2.5;
-            if (keys['s'] && player.y < canvas.height - 20) player.y += 2.5;
-            if (keys['a'] && player.x > 20) player.x -= 2.5;
-            if (keys['d'] && player.x < canvas.width - 20) player.x += 2.5;
+            // Movimentação fluida por mapa
+            if (keys['w'] && player.y > 25) player.y -= 3;
+            if (keys['s'] && player.y < canvas.height - 25) player.y += 3;
+            if (keys['a'] && player.x > 25) player.x -= 3;
+            if (keys['d'] && player.x < canvas.width - 25) player.x += 3;
 
-            // COMPORTAMENTO DAS VARIANTES DE IA DOS MONSTROS
+            // Update de IA dos monstros
             mapMonsters.forEach(mob => {
                 let dist = Math.hypot(player.x - mob.x, player.y - mob.y);
 
                 if (mob.behavior === "flee") {
-                    // SE FOR RANGED, ELE MANTÉM DISTÂNCIA RECUANDO DE VOCÊ
-                    if (dist < 130) {
+                    if (dist < 150) {
                         let dx = mob.x - player.x; let dy = mob.y - player.y;
-                        let len = Math.sqrt(dx*dx + dy*dy) || 1;
-                        mob.x += (dx / len) * mob.speed; mob.y += (dy / len) * mob.speed;
-                    } else if (dist > 220) {
-                        let dx = player.x - mob.x; let dy = player.y - mob.y;
-                        let len = Math.sqrt(dx*dx + dy*dy) || 1;
+                        let len = Math.hypot(dx, dy) || 1;
                         mob.x += (dx / len) * mob.speed; mob.y += (dy / len) * mob.speed;
                     }
-                    if (!mob.lastShot || timestamp - mob.lastShot > 1800) {
+                    if (!mob.lastShot || timestamp - mob.lastShot > 1600) {
                         mob.lastShot = timestamp;
-                        projectiles.push({ x: mob.x, y: mob.y, target: player, speed: 4, damage: 5, isEnemy: true, color: "#e67e22" });
+                        projectiles.push({ x: mob.x, y: mob.y, target: player, speed: 4.5, damage: 4 + player.lvl, isEnemy: true, color: "#e67e22" });
                     }
                 } else {
-                    // SE FOR TANK OU NORMAL, AVANÇA DIRETAMENTE
                     let dx = player.x - mob.x; let dy = player.y - mob.y;
-                    let len = Math.sqrt(dx*dx + dy*dy) || 1;
-                    if (dist > 20) {
+                    let len = Math.hypot(dx, dy) || 1;
+                    if (dist > 30) {
                         mob.x += (dx / len) * mob.speed; mob.y += (dy / len) * mob.speed;
                     } else {
-                        if (!mob.lastHit || timestamp - mob.lastHit > 1500) {
+                        if (!mob.lastHit || timestamp - mob.lastHit > 1200) {
                             mob.lastHit = timestamp;
-                            player.hp -= mob.type === "tank" ? 12 : 6;
-                            visualEffects.push({ x: player.x, y: player.y - 12, text: mob.type === "tank" ? "-12" : "-6", color: "#e74c3c", life: 20 });
+                            player.hp -= mob.type === "boss" ? 25 : (mob.type === "tank" ? 14 : 7);
+                            visualEffects.push({ x: player.x, y: player.y - 15, text: `-${mob.type === "boss" ? 25 : 7}`, color: "#e74c3c", life: 20 });
+                            if(player.hp <= 0) { pushLog("💀 Você desmaiou! Teletransportando à Vila..."); buildLobby(); }
                             renderUI();
                         }
                     }
                 }
             });
 
-            // GESTÃO DOS TIROS
+            // Update de Projéteis com checagem rigorosa de acerto (Collision Box)
             projectiles.forEach((proj, idx) => {
                 let dx = proj.target.x - proj.x; let dy = proj.target.y - proj.y;
                 let dist = Math.hypot(dx, dy);
-                if (dist < 16) {
+
+                if (dist < (proj.target.radius || 16)) {
                     if (proj.isEnemy) {
                         player.hp -= proj.damage;
-                        visualEffects.push({ x: player.x, y: player.y - 10, text: `-${proj.damage}`, color: "#ff3b30", life: 20 });
+                        visualEffects.push({ x: player.x, y: player.y - 12, text: `-${proj.damage}`, color: "#ff3b30", life: 25 });
                         renderUI();
                     } else {
-                        proj.target.hp -= proj.damage;
-                        visualEffects.push({ x: proj.target.x, y: proj.target.y - 10, text: `-${proj.damage}`, color: "#f1c40f", life: 20 });
-                        if (proj.target.hp <= 0) {
-                            mapMonsters = mapMonsters.filter(m => m !== proj.target);
-                            gainXp(50);
-                        }
+                        // Aplica o dano real corrigido
+                        applyDamageToMonster(proj.target, proj.damage);
                     }
                     projectiles.splice(idx, 1);
                 } else {
@@ -392,83 +446,77 @@
                 }
             });
 
-            // RENDERIZAÇÃO GRÁFICA NO CANVAS
+            // Render do Canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // JOGADOR EM PIXEL ART
-            drawPixelSprite(HERO_SPRITES[player.currentClass][player.walkFrame], player.x - 20, player.y - 20, 5);
+            // DESENHO DE PLAYER 16x16 HD TEXTURIZADO
+            drawAdvancedPixel(RAW_SPRITE_PACK[player.currentClass][player.walkFrame], player.x - 24, player.y - 24, 3);
 
-            // MONSTROS EM PIXEL ART
+            // DESENHO DOS MONSTROS VARIANTES
             mapMonsters.forEach(mob => {
-                let scale = mob.type === "tank" ? 7 : 5;
-                drawPixelSprite(MOB_SPRITES[mob.type], mob.x - 16, mob.y - 16, scale);
-                ctx.fillStyle = "#ff3b30";
-                ctx.fillRect(mob.x - 20, mob.y - 26, (mob.hp / mob.maxHp) * 40, 4);
+                let mScale = mob.type === "boss" ? 5 : (mob.type === "tank" ? 4 : 3);
+                drawAdvancedPixel(MOB_PACK[mob.type], mob.x - 24, mob.y - 24, mScale);
+                
+                // Barra de vida superior do mob
+                ctx.fillStyle = "#222"; ctx.fillRect(mob.x - 25, mob.y - 32, 50, 5);
+                ctx.fillStyle = mob.isGuard ? "#9b59b6" : "#e74c3c";
+                ctx.fillRect(mob.x - 25, mob.y - 32, (mob.hp / mob.maxHp) * 50, 5);
             });
 
-            // PROJÉTEIS
-            projectiles.forEach(proj => {
-                ctx.fillStyle = proj.color || "#fff";
-                ctx.fillRect(proj.x - 3, proj.y - 3, 6, 6);
-            });
+            // Tiros ativos
+            projectiles.forEach(p => { ctx.fillStyle = p.color || "#fff"; ctx.fillRect(p.x - 4, p.y - 4, 8, 8); });
 
-            // POPUPS DE DANOS
+            // Efeitos textuais flutuantes
             visualEffects.forEach((eff, idx) => {
-                ctx.fillStyle = eff.color; ctx.font = "bold 13px Courier New";
-                ctx.fillText(eff.text, eff.x, eff.y);
-                eff.life--; eff.y -= 0.6;
-                if (eff.life <= 0) visualEffects.splice(idx, 1);
+                ctx.fillStyle = eff.color; ctx.font = "bold 14px Courier New";
+                ctx.fillText(eff.text, eff.x, eff.y); eff.life--; eff.y -= 0.7;
+                if(eff.life <= 0) visualEffects.splice(idx, 1);
             });
 
             requestAnimationFrame(gameLoop);
         }
 
-        function drawPixelSprite(matrix, startX, startY, size) {
-            for (let r = 0; r < 8; r++) {
-                for (let c = 0; c < 8; c++) {
-                    let color = PALETTE[matrix[r][c]];
+        // MOTOR RENDERIZADOR COMPLETO DE MATRIZES EM ALTA DEFINIÇÃO DE CORES
+        function drawAdvancedPixel(matrix, startX, startY, pxSize) {
+            for (let r = 0; r < matrix.length; r++) {
+                for (let c = 0; c < matrix[r].length; c++) {
+                    let color = COLOR_MAP[matrix[r][c]];
                     if (color) {
                         ctx.fillStyle = color;
-                        ctx.fillRect(startX + (c * size), startY + (r * size), size, size);
+                        ctx.fillRect(startX + (c * pxSize), startY + (r * pxSize), pxSize, pxSize);
                     }
                 }
             }
         }
 
-        function changeClass(c) { player.currentClass = c; renderSkills(); updateHotbarNames(); renderUI(); pushLog(`Mudou para: ${c}`); }
+        function changeClass(c) { player.currentClass = c; renderSkills(); renderUI(); pushLog(`Mudou para: ${c}`); }
         function renderPortals() {
             const div = document.getElementById('portal-triggers'); div.innerHTML = "";
             dungeons.forEach(d => {
-                div.innerHTML += `<button class="action-btn" onclick="startInstance(${d.id})" style="text-align:left;">🌌 ${d.name} (Nv.${d.lvl})</button>`;
+                div.innerHTML += `<button class="action-btn" onclick="startInstance(${d.id})">🌌 Portal: ${d.name} (Nv.${d.lvl})</button>`;
             });
         }
         function renderInventory() {
             const div = document.getElementById('inventory-container'); div.innerHTML = "";
-            inventory.forEach(i => {
-                div.innerHTML += `<div class="inv-item"><div>${i.icon}</div>div>${i.name}</div><div>x${i.qty}</div></div>`;
-            });
+            inventory.forEach(i => { div.innerHTML += `<div class="inv-item"><div>${i.icon}</div><div>${i.name}</div><b>x${i.qty}</b></div>`; });
         }
         function renderSkills() {
             const div = document.getElementById('box-talents'); div.innerHTML = "";
-            SKILL_DATA[player.currentClass].forEach((sk, idx) => {
-                div.innerHTML += `<div style="background:#2b1d16; padding:8px; border:1px solid #4a3525;">🔥 [Slot ${idx+1}] ${sk}</div>`;
+            SKILL_DATA[player.currentClass].forEach((sk, i) => {
+                div.innerHTML += `<div style="background:#2d1b14; padding:8px; border:1px solid #523725;">⚔️ Slot [${i+1}] - ${sk}</div>`;
+                if(i < 3) document.getElementById(`hb-name-${i}`).innerText = sk.split(" ")[0];
             });
-            updateHotbarNames();
-        }
-        function updateHotbarNames() {
-            for(let i=0; i<3; i++) {
-                document.getElementById(`hb-name-${i}`).innerText = SKILL_DATA[player.currentClass][i].split(" ")[0];
-            }
         }
         function renderUI() {
             document.getElementById('lbl-class').innerText = player.currentClass;
             document.getElementById('lbl-lvl').innerText = player.lvl;
+            document.getElementById('lbl-gold').innerText = player.gold + "g";
             document.getElementById('fill-hp').style.width = `${(player.hp/player.maxHp)*100}%`;
             document.getElementById('txt-hp').innerText = `HP: ${player.hp}/${player.maxHp}`;
             document.getElementById('fill-xp').style.width = `${(player.xp/player.nextXp)*100}%`;
             document.getElementById('txt-xp').innerText = `XP: ${player.xp}/${player.nextXp}`;
         }
-        function pushLog(m) { const t = document.getElementById('terminal-logs'); t.innerHTML += `<p style='margin:2px 0;'>&gt; ${m}</p>`; t.scrollTop = t.scrollHeight; }
+        function pushLog(m) { const t = document.getElementById('terminal-logs'); t.innerHTML += `<p style='margin:1px 0;'>&gt; ${m}</p>`; t.scrollTop = t.scrollHeight; }
 
         window.onload = initGame;
     </script>
