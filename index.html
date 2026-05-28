@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omni MMORPG: Mega Visual Engine v5</title>
+    <title>Omni MMORPG: Pure Retro Engine v6</title>
     <style>
-        * { box-sizing: border-box; font-family: 'Courier New', Courier, monospace; image-rendering: pixelated; }
+        * { box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
         body { background-color: #0d0807; color: #fdf6e2; margin: 0; padding: 10px; user-select: none; }
         h1, h2, h3, h4 { color: #ff3b30; text-shadow: 2px 2px #000; margin: 4px 0; text-transform: uppercase; font-size: 13px; }
         h1 { font-size: 22px; text-align: center; color: #ffcc00; margin-bottom: 8px; text-shadow: 3px 3px #000; }
@@ -53,7 +53,7 @@
 </head>
 <body>
 
-    <h1>⚔️ OMNI MMORPG: MEGA VISUAL ENGINE v5 ⚔️</h1>
+    <h1>⚔️ OMNI MMORPG: PURE RETRO STYLE v6 ⚔️</h1>
 
     <div class="grid-layout">
         
@@ -79,13 +79,13 @@
 
                 <h4 style="margin-top:10px; color:#ffcc00;">Seleção de Classes:</h4>
                 <div class="class-selector">
-                    <button class="class-btn" style="background:#5c1e16;" onclick="changeClass('Guerreiro')">🛡️ Guerreiro</button>
-                    <button class="class-btn" style="background:#162e5c;" onclick="changeClass('Mago')">🧙 Mago</button>
-                    <button class="class-btn" style="background:#1e5c16;" onclick="changeClass('Arqueiro')">🏹 Arqueiro</button>
-                    <button class="class-btn" style="background:#524912;" onclick="changeClass('Paladino')">☀️ Paladino</button>
-                    <button class="class-btn" style="background:#3b134a;" onclick="changeClass('Necromante')">💀 Necro</button>
-                    <button class="class-btn" style="background:#134a44;" onclick="changeClass('Assassino')">🥷 Assassino</button>
-                    <button class="class-btn" style="background:#333; grid-column: span 2;" onclick="changeClass('Admin GM')">⚙️ Admin GM</button>
+                    <button class="class-btn" style="background:#5c1e16;" onclick="changeClass('Guerreiro', '🛡️')">🛡️ Guerreiro</button>
+                    <button class="class-btn" style="background:#162e5c;" onclick="changeClass('Mago', '🧙')">🧙 Mago</button>
+                    <button class="class-btn" style="background:#1e5c16;" onclick="changeClass('Arqueiro', '🏹')">🏹 Arqueiro</button>
+                    <button class="class-btn" style="background:#524912;" onclick="changeClass('Paladino', '☀️')">☀️ Paladino</button>
+                    <button class="class-btn" style="background:#3b134a;" onclick="changeClass('Necromante', '💀')">💀 Necro</button>
+                    <button class="class-btn" style="background:#134a44;" onclick="changeClass('Assassino', '🥷')">🥷 Assassino</button>
+                    <button class="class-btn" style="background:#333; grid-column: span 2;" onclick="changeClass('Admin GM', '⚙️')">⚙️ Admin GM</button>
                 </div>
                 <button class="action-btn" onclick="buildLobby()" style="margin-top:12px; background:#3a291d;">Retornar para a Vila 🌆</button>
             </div>
@@ -139,48 +139,6 @@
     </div>
 
     <script>
-        // PALETA REFORÇADA PARA RECONSTRUÇÃO RETRÔ
-        const COLOR_MAP = {
-            0: null, k: "#111111", w: "#ffffff", c: "#7f8c8d", d: "#95a5a6", a: "#2c3e50",
-            v: "#e74c3c", r: "#c0392b", m: "#9b59b6", p: "#8e44ad", b: "#2980b9",
-            o: "#f1c40f", y: "#f39c12", g: "#27ae60", e: "#2ecc71", t: "#d35400"
-        };
-
-        // MATRIZES EM SUCESSÃO 16x16 HD
-        const RAW_SPRITE_PACK = {
-            "Guerreiro": [
-                [
-                    [0,0,0,0,'k','k','k','k','k','k',0,0,0,0,0,0],[0,0,0,'k','c','c','c','c','c','c','k',0,0,0,0,0],[0,0,'k','c','d','d','d','d','d','d','c','k',0,0,0,0],[0,0,'k','c','d','v','v','v','v','d','c','k',0,0,0,0],[0,0,'k','c','d','v','k','k','v','d','c','k',0,0,0,0],[0,0,0,'k','c','d','d','d','d','c','k',0,0,0,0,0],[0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],[0,0,0,'k','a','c','c','c','c','a','k',0,0,0,0],[0,0,'k','w','w','a','c','c','a','w','w','k',0,0,0,0],[0,0,'k','w','a','a','a','a','a','a','w','k',0,0,0,0],[0,0,0,'k','a','a','a','a','a','a','k',0,0,0,0,0],[0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],[0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],[0,0,0,0,'k','k','0','0','k','k',0,0,0,0,0,0],[0,0,0,0,'k','c',0,0,'c','k',0,0,0,0,0,0],[0,0,0,0,'k','k',0,0,'k','k',0,0,0,0,0,0]
-                ],
-                [
-                    [0,0,0,0,'k','k','k','k','k','k',0,0,0,0,0,0],[0,0,0,'k','c','c','c','c','c','c','k',0,0,0,0,0],[0,0,'k','c','d','d','d','d','d','d','c','k',0,0,0,0],[0,0,'k','c','d','v','v','v','v','d','c','k',0,0,0,0],[0,0,'k','c','d','v','k','k','v','d','c','k',0,0,0,0],[0,0,0,'k','c','d','d','d','d','c','k',0,0,0,0,0],[0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],[0,0,0,'k','a','c','c','c','c','a','k',0,0,0,0],[0,0,'k','w','w','a','c','c','a','w','w','k',0,0,0,0],[0,0,'k','w','a','a','a','a','a','a','w','k',0,0,0,0],[0,0,0,'k','a','a','a','a','a','a','k',0,0,0,0,0],[0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],[0,0,0,0,0,'k','a','a','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k','0','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','c',0,'k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,'k',0,0,0,0,0,0,0]
-                ],
-                [
-                    [0,0,0,0,'k','k','k','k','k','k',0,0,0,0,0,0],[0,0,0,'k','c','c','c','c','c','c','k',0,0,0,0,0],[0,0,'k','c','d','d','d','d','d','d','c','k',0,0,0,0],[0,0,'k','c','d','v','v','v','v','d','c','k',0,0,0,0],[0,0,'k','c','d','v','k','k','v','d','c','k',0,0,0,0],[0,0,0,'k','c','d','d','d','d','c','k',0,0,0,0,0],[0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],[0,0,0,'k','a','c','c','c','c','a','k',0,0,0,0],[0,0,'k','w','w','a','c','c','a','w','w','k',0,0,0,0],[0,0,'k','w','a','a','a','a','a','a','w','k',0,0,0,0],[0,0,0,'k','a','a','a','a','a','a','k',0,0,0,0,0],[0,0,0,0,'k','a','a','a','a','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k','a','a','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k','0','k','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k',0,'c','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k',0,'k','k',0,0,0,0,0,0]
-                ]
-            ],
-            "Mago": [
-                [
-                    [0,0,0,0,0,'k','m','m','m','k',0,0,0,0,0,0],[0,0,0,0,'k','m','p','p','p','m','k',0,0,0,0,0],[0,0,0,'k','m','p','w','w','p','m','k',0,0,0,0,0],[0,0,0,'k','m','m','p','p','m','m','k',0,0,0,0,0],[0,0,'k','m','m','m','m','m','m','m','m','k',0,0,0,0],[0,0,0,0,'k','k','b','b','k','k',0,0,0,0,0,0],[0,0,0,0,'k','p','p','p','p','k',0,0,0,0,0,0],[0,0,0,'k','p','p','p','p','p','p','k',0,0,0,0],[0,0,'k','b','k','p','p','p','p','k','b','k',0,0,0],[0,0,0,'k',0,'k','p','p','k',0,'k',0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k','k','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,'k','k',0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,'k','k',0,0,0,0,0,0]
-                ],
-                [
-                    [0,0,0,0,0,'k','m','m','m','k',0,0,0,0,0,0],[0,0,0,0,'k','m','p','p','p','m','k',0,0,0,0,0],[0,0,0,'k','m','p','w','w','p','m','k',0,0,0,0,0],[0,0,0,'k','m','m','p','p','m','m','k',0,0,0,0,0],[0,0,'k','m','m','m','m','m','m','m','m','k',0,0,0,0],[0,0,0,0,'k','k','b','b','k','k',0,0,0,0,0,0],[0,0,0,0,'k','p','p','p','p','k',0,0,0,0,0,0],[0,0,0,'k','p','p','p','p','p','p','k',0,0,0,0],[0,0,'k','b','k','p','p','p','p','k','b','k',0,0,0],[0,0,0,'k',0,'k','p','p','k',0,'k',0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','p',0,'k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,'k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,'k','k',0,0,0,0,0,0],[0,0,0,0,0,'k','k',0,0,'k',0,0,0,0,0,0]
-                ],
-                [
-                    [0,0,0,0,0,'k','m','m','m','k',0,0,0,0,0,0],[0,0,0,0,'k','m','p','p','p','m','k',0,0,0,0,0],[0,0,0,'k','m','p','w','w','p','m','k',0,0,0,0,0],[0,0,0,'k','m','m','p','p','m','m','k',0,0,0,0,0],[0,0,'k','m','m','m','m','m','m','m','m','k',0,0,0,0],[0,0,0,0,'k','k','b','b','k','k',0,0,0,0,0,0],[0,0,0,0,'k','p','p','p','p','k',0,0,0,0,0,0],[0,0,0,'k','p','p','p','p','p','p','k',0,0,0,0],[0,0,'k','b','k','p','p','p','p','k','b','k',0,0,0],[0,0,0,'k',0,'k','p','p','k',0,'k',0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','p','p','k',0,0,0,0,0,0,0],[0,0,0,0,0,0,'k',0,'p','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k',0,'k','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k','k',0,'k',0,0,0,0,0,0],[0,0,0,0,0,0,'k','k',0,0,0,0,0,0,0,0]
-                ]
-            ]
-        };
-
-        ["Arqueiro", "Paladino", "Necromante", "Assassino", "Admin GM"].forEach(c => { RAW_SPRITE_PACK[c] = RAW_SPRITE_PACK["Mago"]; });
-
-        const MOB_PACK = {
-            "normal": [[0,0,0,0,'k','t','t','t','t','k',0,0,0,0,0,0],[0,0,0,'k','t','r','r','r','r','t','k',0,0,0,0,0],[0,0,'k','t','r','v','v','v','v','r','t','k',0,0,0,0],[0,0,'k','t','r','v','k','k','v','r','t','k',0,0,0,0],[0,0,0,'k','t','r','r','r','r','t','k',0,0,0,0,0],[0,0,0,0,'k','k','k','k','k','k',0,0,0,0,0,0],[0,0,0,0,0,'k','t','t','k',0,0,0,0,0,0,0],[0,0,0,0,0,'k','t','t','k',0,0,0,0,0,0,0]],
-            "tank": [[0,0,'k','k','k','k','k','k','k','k','k','k',0,0,0,0],[0,'k','c','c','c','c','c','c','c','c','c','c','k',0,0,0],[0,'k','c','r','r','r','r','r','r','r','r','c','k',0,0,0],[0,'k','c','r','k','k','k','k','k','k','r','c','k',0,0,0],[0,'k','c','c','c','c','c','c','c','c','c','c','k',0,0,0],[0,0,'k','k','k','k','k','k','k','k','k','k',0,0,0,0],[0,0,0,0,'k','c','c','c','c','k',0,0,0,0,0,0],[0,0,0,0,'k','k','0','0','k','k',0,0,0,0,0,0]],
-            "ranged": [[0,0,0,0,0,'k','g','g','g','k',0,0,0,0,0,0],[0,0,0,0,'k','g','e','e','e','g','k',0,0,0,0,0],[0,0,0,'k','g','e','o','k','o','e','g','k',0,0,0,0],[0,0,0,0,'k','g','e','e','e','g','k',0,0,0,0,0],[0,0,0,0,0,'k','g','g','g','k',0,0,0,0,0,0],[0,0,0,0,0,0,'k','k','k',0,0,0,0,0,0,0],[0,0,0,0,0,0,'k','g','k',0,0,0,0,0,0,0],[0,0,0,0,0,0,'k','k','k',0,0,0,0,0,0,0]],
-            "boss": [[0,'k','k','k','k','k','k','k','k','k','k','k','k','k',0,0],['k','o','y','y','y','y','y','y','y','y','y','y','y','o','k',0],['k','y','r','r','r','r','r','r','r','r','r','r','y','y','k',0],['k','y','r','k','w','k','r','r','k','w','k','r','y','y','k',0],['k','o','y','r','r','r','r','r','r','r','r','r','y','o','k',0],['k','k','o','y','y','y','y','y','y','y','y','y','o','k','k',0],[0,0,'k','k','k','k','k','k','k','k','k','k','k','k',0,0],[0,0,0,0,'k','o','o','o','o','o','o','k',0,0,0,0]]
-        };
-
         const dungeons = [
             { id: 1, name: "Esgotos de Cobre 🐀", lvl: 1, boss: "Rato Rei Mega 🐀", color: "#241d13" },
             { id: 2, name: "Ninho Aracnídeo 🕷️", lvl: 5, boss: "Viúva Suprema 🕷️", color: "#19111c" },
@@ -190,14 +148,13 @@
             { id: 6, name: "Templo Espectral 👻", lvl: 25, boss: "Ceifador Eterno 👻", color: "#121b16" }
         ];
 
-        // RETORNO COMPLETO DOS EMOJIS NAS SKILLS DO PROJETO ORIGINAL
         const SKILL_DATA = {
             "Guerreiro": ["Golpe Devastador ⚔️", "Escudo de Ferro 🛡️", "Frenesi Brutal 🔥"],
             "Mago": ["Míssil Arcano 🔮", "Barreira de Mana 🌀", "Tormenta de Gelo ❄️"],
             "Arqueiro": ["Flecha Precisa 🏹", "Disparo Venenoso 🤢", "Chuva de Flechas 🌧️"],
             "Paladino": ["Martelo Sagrado 🔨", "Luz Curativa ✨", "Julgamento Divino ⚡"],
             "Necromante": ["Invocar Esqueleto 💀", "Explosão de Cadáver 💥", "Suga-Almas 🩸"],
-            "Assassino": ["Ataque Furtivo 🥷", "Lâminas Envenenadas 🧪", "Passo das Sombras 👥"],
+            "Assassino": ["Ataque Furtivo 🥷", "Lâminas Venenadas 🧪", "Passo das Sombras 👥"],
             "Admin GM": ["Ban Hammer 🔨", "Modo Deus 🌟", "Resetar Universo 🌌"]
         };
 
@@ -208,9 +165,8 @@
         };
 
         let player = {
-            x: 200, y: 250, currentClass: "Guerreiro", lvl: 1, xp: 0, nextXp: 100,
-            hp: 120, maxHp: 120, mp: 60, maxMp: 60, gold: 50,
-            isMoving: false, walkFrame: 0, lastFrameTime: 0, radius: 18
+            x: 200, y: 250, currentClass: "Guerreiro", avatar: "🛡️", lvl: 1, xp: 0, nextXp: 100,
+            hp: 120, maxHp: 120, mp: 60, maxMp: 60, gold: 50, radius: 20
         };
 
         let mapMonsters = []; let projectiles = []; let visualEffects = []; let particles = [];
@@ -222,11 +178,8 @@
             canvas = document.getElementById('gameCanvas'); ctx = canvas.getContext('2d');
             window.addEventListener('resize', resizeCanvas); resizeCanvas();
 
-            window.addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; player.isMoving = true; });
-            window.addEventListener('keyup', e => { 
-                keys[e.key.toLowerCase()] = false;
-                if(!keys['w'] && !keys['s'] && !keys['a'] && !keys['d']) player.isMoving = false;
-            });
+            window.addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; });
+            window.addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
 
             buildLobby(); renderPortals(); renderInventory(); renderSkills(); renderUI();
             requestAnimationFrame(gameLoop);
@@ -266,9 +219,9 @@
                 document.getElementById('lbl-current-floor').innerText = `Fase ${currentDungeonLevel} [SALA DO BOSS 🚨]`;
                 pushLog("⚠️ ALERTA DE CHEFE: Derrote os 2 Mini-Bosses lentos e gigantes para abrir o selo do Boss!");
                 
-                // MINI-BOSS COMPACTADO COMO MONSTRO LENTO E GIGANTE (SPEED REDUZIDO, RAD ALTO)
-                mapMonsters.push({ x: 380, y: 140, type: "tank", hp: 160 * currentDungeon.lvl, maxHp: 160 * currentDungeon.lvl, speed: 0.5, behavior: "melee", name: "Guardião Blindado 🛡️ [Mini-Boss]", isGuard: true, radius: 28 });
-                mapMonsters.push({ x: 380, y: 360, type: "tank", hp: 160 * currentDungeon.lvl, maxHp: 160 * currentDungeon.lvl, speed: 0.5, behavior: "melee", name: "Guardião de Elite ⚔️ [Mini-Boss]", isGuard: true, radius: 28 });
+                // MINI-BOSS RETRÔ (GIGANTE, LENTO, PROXIMIDADE)
+                mapMonsters.push({ x: 400, y: 130, avatar: "👹", hp: 160 * currentDungeon.lvl, maxHp: 160 * currentDungeon.lvl, speed: 0.4, behavior: "melee", name: "Guardião Blindado 🛡️ [Mini-Boss]", isGuard: true, radius: 35, fontSize: "42px" });
+                mapMonsters.push({ x: 400, y: 370, avatar: "👿", hp: 160 * currentDungeon.lvl, maxHp: 160 * currentDungeon.lvl, speed: 0.4, behavior: "melee", name: "Guardião de Elite ⚔️ [Mini-Boss]", isGuard: true, radius: 35, fontSize: "42px" });
                 bossSpawned = false;
             } else {
                 document.getElementById('lbl-current-floor').innerText = `Fase de Caça ${currentDungeonLevel} 🌲`;
@@ -278,13 +231,14 @@
                 for(let i=0; i<count; i++) {
                     let rx = 220 + Math.random() * (canvas.width - 320);
                     let ry = 90 + Math.random() * (canvas.height - 180);
-                    let rType = Math.random() > 0.5 ? "normal" : "ranged";
+                    let isRanged = Math.random() > 0.5;
                     mapMonsters.push({
-                        x: rx, y: ry, type: rType, 
+                        x: rx, y: ry,
+                        avatar: isRanged ? "👻" : "👾",
                         hp: 40 * currentDungeon.lvl, maxHp: 40 * currentDungeon.lvl, 
-                        speed: rType === "ranged" ? 1.5 : 1.1, 
-                        behavior: rType === "ranged" ? "flee" : "melee",
-                        name: rType === "ranged" ? "Atirador Veloz 🎯" : "Lacaio das Sombras 👹", radius: 16
+                        speed: isRanged ? 1.4 : 1.0, 
+                        behavior: isRanged ? "flee" : "melee",
+                        name: isRanged ? "Atirador Veloz 🎯" : "Lacaio das Sombras 👹", radius: 20, fontSize: "24px"
                     });
                 }
             }
@@ -301,7 +255,6 @@
                 return;
             }
 
-            // Mira instantânea no alvo mais próximo
             let target = null; let minDist = Infinity;
             mapMonsters.forEach(m => {
                 let d = Math.hypot(m.x - player.x, m.y - player.y);
@@ -312,7 +265,6 @@
             let rawDmg = (30 + (player.lvl * 6));
             let icon = SKILL_ICONS[player.currentClass][idx];
 
-            // CRIAÇÃO DE PARTICULAS EXPLOSIVAS DE CONTEXTO VISUAL
             createVisualExplosion(player.x, player.y, "#00ecff", 8);
 
             if (player.currentClass === "Arqueiro" || player.currentClass === "Mago" || player.currentClass === "Admin GM") {
@@ -323,7 +275,7 @@
                 });
                 pushLog(`${icon} Lançou: ${skillName}`);
             } else {
-                if (minDist <= 100) {
+                if (minDist <= 110) {
                     applyDamageToMonster(target, rawDmg);
                     pushLog(`${icon} Golpeou com: ${skillName}`);
                 } else {
@@ -345,7 +297,7 @@
         function applyDamageToMonster(mob, dmg) {
             mob.hp -= dmg;
             createVisualExplosion(mob.x, mob.y, "#ffd700", 12);
-            visualEffects.push({ x: mob.x, y: mob.y - 25, text: `💥 -${dmg}`, color: "#ffcc00", life: 30 });
+            visualEffects.push({ x: mob.x, y: mob.y - 35, text: `💥 -${dmg}`, color: "#ffcc00", life: 30 });
             
             if (mob.hp <= 0) {
                 pushLog(`💀 Destruído: ${mob.name}!`);
@@ -358,9 +310,9 @@
                         bossSpawned = true;
                         pushLog(`🚨 ALERTA: Os dois guardiões caíram! O Líder Supremo ${currentDungeon.boss} emergiu!`);
                         mapMonsters.push({
-                            x: canvas.width - 150, y: canvas.height / 2, type: "boss",
+                            x: canvas.width - 150, y: canvas.height / 2, avatar: "🐉",
                             hp: 450 * currentDungeon.lvl, maxHp: 450 * currentDungeon.lvl,
-                            speed: 0.8, behavior: "melee", name: currentDungeon.boss, radius: 36
+                            speed: 0.7, behavior: "melee", name: currentDungeon.boss, radius: 45, fontSize: "56px"
                         });
                     }
                 }
@@ -379,17 +331,11 @@
         }
 
         function gameLoop(timestamp) {
-            if (player.isMoving && timestamp - player.lastFrameTime > 110) {
-                player.walkFrame = player.walkFrame === 1 ? 2 : 1;
-                player.lastFrameTime = timestamp;
-            } else if (!player.isMoving) { player.walkFrame = 0; }
-
             if (keys['w'] && player.y > 25) player.y -= 3.2;
             if (keys['s'] && player.y < canvas.height - 25) player.y += 3.2;
             if (keys['a'] && player.x > 25) player.x -= 3.2;
             if (keys['d'] && player.x < canvas.width - 25) player.x += 3.2;
 
-            // Loop de IA dos monstros
             mapMonsters.forEach(mob => {
                 let dist = Math.hypot(player.x - mob.x, player.y - mob.y);
 
@@ -401,7 +347,7 @@
                     }
                     if (!mob.lastShot || timestamp - mob.lastShot > 1500) {
                         mob.lastShot = timestamp;
-                        projectiles.push({ x: mob.x, y: mob.y, target: player, speed: 5, damage: 5 + player.lvl, isEnemy: true, color: "#e67e22", icon: "🔸" });
+                        projectiles.push({ x: mob.x, y: mob.y, target: player, speed: 5, damage: 5 + player.lvl, isEnemy: true, icon: "🔸" });
                     }
                 } else {
                     let dx = player.x - mob.x; let dy = player.y - mob.y;
@@ -411,30 +357,28 @@
                     } else {
                         if (!mob.lastHit || timestamp - mob.lastHit > 1100) {
                             mob.lastHit = timestamp;
-                            player.hp -= mob.type === "boss" ? 22 : (mob.isGuard ? 14 : 6);
-                            visualEffects.push({ x: player.x, y: player.y - 15, text: `💔 -${mob.type === "boss" ? 22 : 6}`, color: "#ff3b30", life: 22 });
-                            if(player.hp <= 0) { pushLog("💀 Você caiu em combate! Retornando para o reordenamento..."); buildLobby(); }
+                            player.hp -= mob.avatar === "🐉" ? 22 : (mob.isGuard ? 14 : 6);
+                            visualEffects.push({ x: player.x, y: player.y - 25, text: `💔 -${mob.avatar === "🐉" ? 22 : 6}`, color: "#ff3b30", life: 22 });
+                            if(player.hp <= 0) { pushLog("💀 Você caiu em combate! Retornando..."); buildLobby(); }
                             renderUI();
                         }
                     }
                 }
             });
 
-            // Update das partículas visuais das magias
             particles.forEach((p, idx) => {
                 p.x += p.vx; p.y += p.vy; p.life--;
                 if(p.life <= 0) particles.splice(idx, 1);
             });
 
-            // Update dos Tiros com verificação
             projectiles.forEach((proj, idx) => {
                 let dx = proj.target.x - proj.x; let dy = proj.target.y - proj.y;
                 let dist = Math.hypot(dx, dy);
 
-                if (dist < (proj.target.radius || 18)) {
+                if (dist < proj.target.radius) {
                     if (proj.isEnemy) {
                         player.hp -= proj.damage;
-                        visualEffects.push({ x: player.x, y: player.y - 12, text: `💥 -${proj.damage}`, color: "#ff2a1a", life: 25 });
+                        visualEffects.push({ x: player.x, y: player.y - 25, text: `💥 -${proj.damage}`, color: "#ff2a1a", life: 25 });
                         renderUI();
                     } else {
                         applyDamageToMonster(proj.target, proj.damage);
@@ -445,41 +389,42 @@
                 }
             });
 
-            // COR DO CHÃO ADAPTÁVEL DINÂMICA
             ctx.fillStyle = currentDungeon ? currentDungeon.color : "#120d0b";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Grelha discreta de ambientação
             ctx.strokeStyle = "rgba(255,255,255,0.03)";
             for(let g=0; g<canvas.width; g+=40) { ctx.beginPath(); ctx.moveTo(g,0); ctx.lineTo(g,canvas.height); ctx.stroke(); }
 
-            // Desenhar partículas de impacto
             particles.forEach(p => { ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, 4, 4); });
 
-            // Render Player
-            drawAdvancedPixel(RAW_SPRITE_PACK[player.currentClass][player.walkFrame], player.x - 24, player.y - 24, 3);
+            // RENDER HERÓI (ESTILO RETRÔ - EMOJI DIRETO NO CANVAS)
+            ctx.font = "32px Courier New";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(player.avatar, player.x, player.y);
 
-            // Render Monstros com Diferença Clara de Escala para os Mini-Bosses lentos
+            // RENDER MONSTROS (ESTILO RETRÔ COM ADAPTAÇÃO DE TAMANHO VIA FONT-SIZE)
             mapMonsters.forEach(mob => {
-                let mScale = mob.type === "boss" ? 5.5 : (mob.isGuard ? 4.5 : 3.0);
-                drawAdvancedPixel(MOB_PACK[mob.type || "normal"], mob.x - 24, mob.y - 24, mScale);
+                ctx.font = `${mob.fontSize || "24px"} Courier New`;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(mob.avatar, mob.x, mob.y);
                 
-                ctx.fillStyle = "#222"; ctx.fillRect(mob.x - 25, mob.y - 35, 50, 5);
-                ctx.fillStyle = mob.isGuard ? "#9b59b6" : (mob.type === "boss" ? "#ffcc00" : "#e74c3c");
-                ctx.fillRect(mob.x - 25, mob.y - 35, (mob.hp / mob.maxHp) * 50, 5);
+                // Barra de HP sobre o caractere
+                ctx.fillStyle = "#222"; ctx.fillRect(mob.x - 25, mob.y - mob.radius - 10, 50, 5);
+                ctx.fillStyle = mob.isGuard ? "#9b59b6" : (mob.avatar === "🐉" ? "#ffcc00" : "#e74c3c");
+                ctx.fillRect(mob.x - 25, mob.y - mob.radius - 10, (mob.hp / mob.maxHp) * 50, 5);
             });
 
-            // Ícones de Magias/Tiros Projetados
+            // RENDER PROJÉTEIS RETRÔ
             projectiles.forEach(p => {
-                if(p.icon) {
-                    ctx.font = "18px Courier New";
-                    ctx.fillText(p.icon, p.x - 8, p.y + 6);
-                } else {
-                    ctx.fillStyle = p.color || "#fff"; ctx.fillRect(p.x - 4, p.y - 4, 8, 8);
-                }
+                ctx.font = "20px Courier New";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(p.icon || "🔸", p.x, p.y);
             });
 
-            // Popups flutuantes de texto de dano
+            // POPUPS DE TEXTO
             visualEffects.forEach((eff, idx) => {
                 ctx.fillStyle = eff.color; ctx.font = "bold 14px Courier New";
                 ctx.fillText(eff.text, eff.x, eff.y); eff.life--; eff.y -= 0.6;
@@ -489,19 +434,7 @@
             requestAnimationFrame(gameLoop);
         }
 
-        function drawAdvancedPixel(matrix, startX, startY, pxSize) {
-            for (let r = 0; r < matrix.length; r++) {
-                for (let c = 0; c < matrix[r].length; c++) {
-                    let color = COLOR_MAP[matrix[r][c]];
-                    if (color) {
-                        ctx.fillStyle = color;
-                        ctx.fillRect(startX + (c * pxSize), startY + (r * pxSize), pxSize, pxSize);
-                    }
-                }
-            }
-        }
-
-        function changeClass(c) { player.currentClass = c; renderSkills(); renderUI(); pushLog(`Mudou de vocação para: ${c} 👤`); }
+        function changeClass(c, avatar) { player.currentClass = c; player.avatar = avatar; renderSkills(); renderUI(); pushLog(`Mudou de vocação para: ${c} ${avatar}`); }
         function renderPortals() {
             const div = document.getElementById('portal-triggers'); div.innerHTML = "";
             dungeons.forEach(d => {
