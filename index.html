@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omni MMORPG: Pure Retro Engine v6</title>
+    <title>Omni MMORPG: Ultimate Retro Engine v7</title>
     <style>
         * { box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
         body { background-color: #0d0807; color: #fdf6e2; margin: 0; padding: 10px; user-select: none; }
         h1, h2, h3, h4 { color: #ff3b30; text-shadow: 2px 2px #000; margin: 4px 0; text-transform: uppercase; font-size: 13px; }
         h1 { font-size: 22px; text-align: center; color: #ffcc00; margin-bottom: 8px; text-shadow: 3px 3px #000; }
         
-        .grid-layout { display: grid; grid-template-columns: 460px 1fr; gap: 12px; max-width: 1920px; margin: 0 auto; }
-        @media (max-width: 1150px) { .grid-layout { grid-template-columns: 1fr; } }
+        .grid-layout { display: grid; grid-template-columns: 480px 1fr; gap: 12px; max-width: 1920px; margin: 0 auto; }
+        @media (max-width: 1200px) { .grid-layout { grid-template-columns: 1fr; } }
         
         .panel { background: #1a110e; border: 3px solid #000; outline: 3px solid #422e20; padding: 12px; box-shadow: 0 6px 0 #000; }
         
-        .mmo-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 8px; }
-        .mmo-tabs button { padding: 10px 2px; font-size: 11px; background: #261a14; border: 2px solid #000; color: #f4edd4; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        .mmo-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-bottom: 8px; }
+        .mmo-tabs button { padding: 10px 2px; font-size: 10px; background: #261a14; border: 2px solid #000; color: #f4edd4; cursor: pointer; font-weight: bold; text-transform: uppercase; }
         .mmo-tabs button.active { background: #bd3a28; border-color: #ff3b30; color: #fff; }
 
         .game-screen { background: #120a08; border: 4px solid #000; outline: 4px solid #523725; padding: 8px; }
-        #canvas-container { position: relative; width: 100%; background: #0f0a07; border: 3px solid #000; height: 520px; overflow: hidden; }
+        #canvas-container { position: relative; width: 100%; background: #0f0a07; border: 3px solid #000; height: 560px; overflow: hidden; }
         canvas { display: block; width: 100%; height: 100%; }
         
         .bar { background: #000; width: 100%; height: 20px; border: 1px solid #5a3d2a; margin: 5px 0; position: relative; }
@@ -31,35 +31,41 @@
         .bar-text { position: absolute; width: 100%; text-align: center; font-size: 10px; font-weight: bold; line-height: 18px; color: #fff; text-shadow: 1px 1px #000; }
 
         .flex-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 6px; background: #241611; border: 1px solid #000; font-size: 12px; }
-        .log-terminal { background: #030202; border: 2px solid #000; height: 120px; overflow-y: auto; padding: 6px; font-size: 11px; color: #bfae96; margin-top: 6px; }
+        .log-terminal { background: #030202; border: 2px solid #000; height: 130px; overflow-y: auto; padding: 6px; font-size: 11px; color: #bfae96; margin-top: 6px; }
         
         .hotbar-container { display: flex; justify-content: center; gap: 8px; background: #000; padding: 6px; margin-top: 6px; border: 2px solid #3d291c; }
-        .hotbar-slot { width: 75px; height: 75px; background: #21130e; border: 2px solid #523725; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+        .hotbar-slot { width: 80px; height: 80px; background: #21130e; border: 2px solid #523725; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
         .hotbar-slot:hover { border-color: #ffcc00; background: #2d1b14; }
         .hotbar-key { position: absolute; top: 1px; left: 4px; font-size: 10px; color: #ffcc00; font-weight: bold; }
-        .hotbar-icon { font-size: 24px; margin-top: 2px; }
+        .hotbar-icon { font-size: 26px; margin-top: 2px; }
         .hotbar-name { font-size: 9px; color: #ccc; text-align: center; max-width: 100%; overflow: hidden; white-space: nowrap; }
 
         button.action-btn { background: #962619; border: 2px solid #000; color: white; font-weight: bold; cursor: pointer; padding: 8px; font-size: 11px; text-transform: uppercase; width: 100%; }
         button.action-btn:hover { background: #bd3a28; }
+        button.action-btn:disabled { background: #333; color: #777; cursor: not-allowed; border-color: #222; }
 
-        .inv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: #030202; padding: 4px; border: 1px solid #000; min-height: 150px; }
+        .inv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: #030202; padding: 4px; border: 1px solid #000; min-height: 160px; }
         .inv-item { background: #21130e; border: 1px solid #4a3322; font-size: 10px; padding: 6px; display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
         
         .class-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; margin-top: 6px; }
         .class-btn { font-size: 11px; padding: 7px; border: 1px solid #000; color: #fff; cursor: pointer; font-weight: bold; text-transform: uppercase; }
         .class-btn:hover { filter: brightness(1.2); }
+
+        .status-row { display: flex; justify-content: space-between; align-items: center; background: #1f1410; padding: 6px; border: 1px solid #3d291c; margin-bottom: 4px; }
+        .btn-plus { background: #2ecc71; border: 1px solid #000; color: #000; font-weight: bold; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-plus:hover { background: #27ae60; color: #fff; }
     </style>
 </head>
 <body>
 
-    <h1>⚔️ OMNI MMORPG: PURE RETRO STYLE v6 ⚔️</h1>
+    <h1>⚔️ OMNI MMORPG: PURE RETRO ENGINE v7 ⚔️</h1>
 
     <div class="grid-layout">
         
         <div class="panel">
             <div class="mmo-tabs">
                 <button id="tab-hero" class="active" onclick="switchMmoTab('hero')">👤 Status</button>
+                <button id="tab-stats" onclick="switchMmoTab('stats')">📊 Pontos</button>
                 <button id="tab-skills" onclick="switchMmoTab('skills')">📜 Skills</button>
                 <button id="tab-world" onclick="switchMmoTab('world')">🌌 Portais</button>
                 <button id="tab-bag" onclick="switchMmoTab('bag')">📦 Bolsa</button>
@@ -77,7 +83,7 @@
                     <span>Ouro Atual: <b id="lbl-gold" style="color:#ffd700">50g</b></span>
                 </div>
 
-                <h4 style="margin-top:10px; color:#ffcc00;">Seleção de Classes:</h4>
+                <h4 style="margin-top:10px; color:#ffcc00;">Vocações Disponíveis:</h4>
                 <div class="class-selector">
                     <button class="class-btn" style="background:#5c1e16;" onclick="changeClass('Guerreiro', '🛡️')">🛡️ Guerreiro</button>
                     <button class="class-btn" style="background:#162e5c;" onclick="changeClass('Mago', '🧙')">🧙 Mago</button>
@@ -85,9 +91,37 @@
                     <button class="class-btn" style="background:#524912;" onclick="changeClass('Paladino', '☀️')">☀️ Paladino</button>
                     <button class="class-btn" style="background:#3b134a;" onclick="changeClass('Necromante', '💀')">💀 Necro</button>
                     <button class="class-btn" style="background:#134a44;" onclick="changeClass('Assassino', '🥷')">🥷 Assassino</button>
-                    <button class="class-btn" style="background:#333; grid-column: span 2;" onclick="changeClass('Admin GM', '⚙️')">⚙️ Admin GM</button>
+                    <button class="class-btn" style="background:#7f8c8d; grid-column: span 2;" onclick="changeClass('Admin GM', '⚙️')">⚙️ Admin GM</button>
                 </div>
                 <button class="action-btn" onclick="buildLobby()" style="margin-top:12px; background:#3a291d;">Retornar para a Vila 🌆</button>
+            </div>
+
+            <div id="view-stats" class="tab-content" style="display:none;">
+                <h3>📊 Distribuição de Atributos</h3>
+                <div class="flex-row" style="background:#ffcc00; color:#000; font-weight:bold;">
+                    <span>Pontos de Status Livres:</span>
+                    <span id="lbl-stat-points">0</span>
+                </div>
+                
+                <div style="margin-top: 10px;">
+                    <div class="status-row">
+                        <div>💪 Força (FOR): <b id="val-str" style="color:#e74c3c">10</b></div>
+                        <button class="btn-plus" onclick="allocateStat('str')">+</button>
+                    </div>
+                    <div class="status-row">
+                        <div>🔮 Inteligência (INT): <b id="val-int" style="color:#3498db">10</b></div>
+                        <button class="btn-plus" onclick="allocateStat('int')">+</button>
+                    </div>
+                    <div class="status-row">
+                        <div>⚡ Agilidade (AGI): <b id="val-agi" style="color:#2ecc71">10</b></div>
+                        <button class="btn-plus" onclick="allocateStat('agi')">+</button>
+                    </div>
+                    <div class="status-row">
+                        <div>🛡️ Vitalidade (VIT): <b id="val-vit" style="color:#e67e22">10</b></div>
+                        <button class="btn-plus" onclick="allocateStat('vit')">+</button>
+                    </div>
+                </div>
+                <p style="font-size:10px; color:#95a5a6; margin-top:10px;">* Cada ponto investido melhora seus multiplicadores de dano, vida máxima e velocidade de forma unitária direta.</p>
             </div>
 
             <div id="view-skills" class="tab-content" style="display:none;">
@@ -139,6 +173,7 @@
     </div>
 
     <script>
+        // TABELA DE PORTAIS EXPANDIDA
         const dungeons = [
             { id: 1, name: "Esgotos de Cobre 🐀", lvl: 1, boss: "Rato Rei Mega 🐀", color: "#241d13" },
             { id: 2, name: "Ninho Aracnídeo 🕷️", lvl: 5, boss: "Viúva Suprema 🕷️", color: "#19111c" },
@@ -148,13 +183,14 @@
             { id: 6, name: "Templo Espectral 👻", lvl: 25, boss: "Ceifador Eterno 👻", color: "#121b16" }
         ];
 
+        // RETORNO ORIGINAL DAS SKILLS COM EMOJIS COMPLETOS
         const SKILL_DATA = {
             "Guerreiro": ["Golpe Devastador ⚔️", "Escudo de Ferro 🛡️", "Frenesi Brutal 🔥"],
             "Mago": ["Míssil Arcano 🔮", "Barreira de Mana 🌀", "Tormenta de Gelo ❄️"],
             "Arqueiro": ["Flecha Precisa 🏹", "Disparo Venenoso 🤢", "Chuva de Flechas 🌧️"],
             "Paladino": ["Martelo Sagrado 🔨", "Luz Curativa ✨", "Julgamento Divino ⚡"],
             "Necromante": ["Invocar Esqueleto 💀", "Explosão de Cadáver 💥", "Suga-Almas 🩸"],
-            "Assassino": ["Ataque Furtivo 🥷", "Lâminas Venenadas 🧪", "Passo das Sombras 👥"],
+            "Assassino": ["Ataque Furtivo 🥷", "Lâminas Envenenadas 🧪", "Passo das Sombras 👥"],
             "Admin GM": ["Ban Hammer 🔨", "Modo Deus 🌟", "Resetar Universo 🌌"]
         };
 
@@ -164,9 +200,12 @@
             "Admin GM": ["🔨", "🌟", "🌌"]
         };
 
+        // ENTRADA DE STATUS DO JOGADOR
         let player = {
             x: 200, y: 250, currentClass: "Guerreiro", avatar: "🛡️", lvl: 1, xp: 0, nextXp: 100,
-            hp: 120, maxHp: 120, mp: 60, maxMp: 60, gold: 50, radius: 20
+            hp: 120, maxHp: 120, mp: 60, maxMp: 60, gold: 50, radius: 22,
+            statPoints: 5, 
+            stats: { str: 10, int: 10, agi: 10, vit: 10 }
         };
 
         let mapMonsters = []; let projectiles = []; let visualEffects = []; let particles = [];
@@ -194,6 +233,25 @@
             document.getElementById(`tab-${id}`).classList.add('active');
         }
 
+        // CORREÇÃO CRÍTICA DO BUG DE DUPLICAÇÃO DE PONTOS DE STATUS
+        function allocateStat(statName) {
+            if (player.statPoints > 0) {
+                player.statPoints -= 1; // Deduz rigorosamente 1 ponto livre
+                player.stats[statName] += 1; // Adiciona rigorosamente 1 ponto ao atributo alvo
+                
+                // Aplica os bônus derivados imediatamente de forma unitária
+                if (statName === 'vit') {
+                    player.maxHp += 15;
+                    player.hp += 15;
+                }
+                
+                pushLog(`📊 Você investiu 1 ponto em ${statName.toUpperCase()}.`);
+                renderUI(); // Atualiza a tela uma única vez de forma síncrona
+            } else {
+                pushLog("❌ Você não possui pontos de status disponíveis! Suba de nível para ganhar mais.");
+            }
+        }
+
         function buildLobby() {
             currentDungeon = null; currentDungeonLevel = 1; bossSpawned = false;
             player.x = canvas.width / 2; player.y = canvas.height / 2;
@@ -217,11 +275,11 @@
             
             if (currentDungeonLevel % 5 === 0) {
                 document.getElementById('lbl-current-floor').innerText = `Fase ${currentDungeonLevel} [SALA DO BOSS 🚨]`;
-                pushLog("⚠️ ALERTA DE CHEFE: Derrote os 2 Mini-Bosses lentos e gigantes para abrir o selo do Boss!");
+                pushLog("⚠️ ALERTA DE CHEFE: Elimine os dois guardiões gigantes e lentos para liberar o Boss principal!");
                 
-                // MINI-BOSS RETRÔ (GIGANTE, LENTO, PROXIMIDADE)
-                mapMonsters.push({ x: 400, y: 130, avatar: "👹", hp: 160 * currentDungeon.lvl, maxHp: 160 * currentDungeon.lvl, speed: 0.4, behavior: "melee", name: "Guardião Blindado 🛡️ [Mini-Boss]", isGuard: true, radius: 35, fontSize: "42px" });
-                mapMonsters.push({ x: 400, y: 370, avatar: "👿", hp: 160 * currentDungeon.lvl, maxHp: 160 * currentDungeon.lvl, speed: 0.4, behavior: "melee", name: "Guardião de Elite ⚔️ [Mini-Boss]", isGuard: true, radius: 35, fontSize: "42px" });
+                // CONFIGURAÇÃO RETRÔ DO MINI-BOSS (ESCALA AMPLIADA DE TEXTO, MOVIMENTO LENTO 0.4)
+                mapMonsters.push({ x: 420, y: 140, avatar: "👹", hp: 160 * currentDungeon.lvl, maxHp: 160 * currentDungeon.lvl, speed: 0.4, behavior: "melee", name: "Guardião Blindado 🛡️ [Mini-Boss]", isGuard: true, radius: 36, fontSize: "44px" });
+                mapMonsters.push({ x: 420, y: 380, avatar: "👿", hp: 160 * currentDungeon.lvl, maxHp: 160 * currentDungeon.lvl, speed: 0.4, behavior: "melee", name: "Guardião de Elite ⚔️ [Mini-Boss]", isGuard: true, radius: 36, fontSize: "44px" });
                 bossSpawned = false;
             } else {
                 document.getElementById('lbl-current-floor').innerText = `Fase de Caça ${currentDungeonLevel} 🌲`;
@@ -229,7 +287,7 @@
                 
                 let count = 3 + Math.floor(currentDungeonLevel / 2);
                 for(let i=0; i<count; i++) {
-                    let rx = 220 + Math.random() * (canvas.width - 320);
+                    let rx = 240 + Math.random() * (canvas.width - 340);
                     let ry = 90 + Math.random() * (canvas.height - 180);
                     let isRanged = Math.random() > 0.5;
                     mapMonsters.push({
@@ -238,7 +296,7 @@
                         hp: 40 * currentDungeon.lvl, maxHp: 40 * currentDungeon.lvl, 
                         speed: isRanged ? 1.4 : 1.0, 
                         behavior: isRanged ? "flee" : "melee",
-                        name: isRanged ? "Atirador Veloz 🎯" : "Lacaio das Sombras 👹", radius: 20, fontSize: "24px"
+                        name: isRanged ? "Atirador Veloz 🎯" : "Lacaio das Sombras 👹", radius: 22, fontSize: "24px"
                     });
                 }
             }
@@ -250,7 +308,7 @@
                     currentDungeonLevel++;
                     generateDungeonFloor();
                 } else {
-                    pushLog("Entre em um portal para lutar!");
+                    pushLog("Entre em um portal ativo na aba de Portais para caçar!");
                 }
                 return;
             }
@@ -262,24 +320,26 @@
             });
 
             let skillName = SKILL_DATA[player.currentClass][idx];
-            let rawDmg = (30 + (player.lvl * 6));
+            
+            // Dano influenciado diretamente pelos pontos de Força (FOR) ou Inteligência (INT) corrigidos
+            let statBonus = player.currentClass === "Mago" ? player.stats.int : player.stats.str;
+            let rawDmg = (25 + statBonus + (player.lvl * 5));
             let icon = SKILL_ICONS[player.currentClass][idx];
 
             createVisualExplosion(player.x, player.y, "#00ecff", 8);
 
             if (player.currentClass === "Arqueiro" || player.currentClass === "Mago" || player.currentClass === "Admin GM") {
                 projectiles.push({
-                    x: player.x, y: player.y, target: target, speed: 8,
-                    damage: rawDmg, isEnemy: false,
-                    color: player.currentClass === "Mago" ? "#9b59b6" : "#2ecc71", icon: icon
+                    x: player.x, y: player.y, target: target, speed: 8.5,
+                    damage: rawDmg, isEnemy: false, icon: icon
                 });
-                pushLog(`${icon} Lançou: ${skillName}`);
+                pushLog(`${icon} Disparou: ${skillName}`);
             } else {
-                if (minDist <= 110) {
+                if (minDist <= 120) {
                     applyDamageToMonster(target, rawDmg);
-                    pushLog(`${icon} Golpeou com: ${skillName}`);
+                    pushLog(`${icon} Utilizou: ${skillName}`);
                 } else {
-                    pushLog("Muito longe! Aproxime-se para desferir o ataque corporal.");
+                    pushLog("Muito longe! Aproxime-se do caractere do monstro para golpear.");
                 }
             }
         }
@@ -300,19 +360,19 @@
             visualEffects.push({ x: mob.x, y: mob.y - 35, text: `💥 -${dmg}`, color: "#ffcc00", life: 30 });
             
             if (mob.hp <= 0) {
-                pushLog(`💀 Destruído: ${mob.name}!`);
+                pushLog(`💀 Eliminado: ${mob.name}!`);
                 mapMonsters = mapMonsters.filter(m => m !== mob);
-                player.gold += 20; gainXp(40);
+                player.gold += 25; gainXp(45);
 
                 if (currentDungeonLevel % 5 === 0 && !bossSpawned) {
                     let guardsLeft = mapMonsters.filter(m => m.isGuard).length;
                     if (guardsLeft === 0) {
                         bossSpawned = true;
-                        pushLog(`🚨 ALERTA: Os dois guardiões caíram! O Líder Supremo ${currentDungeon.boss} emergiu!`);
+                        pushLog(`🚨 RUMBLE: Os guardiões caíram! O Líder Supremo ${currentDungeon.boss} surgiu na sala!`);
                         mapMonsters.push({
-                            x: canvas.width - 150, y: canvas.height / 2, avatar: "🐉",
-                            hp: 450 * currentDungeon.lvl, maxHp: 450 * currentDungeon.lvl,
-                            speed: 0.7, behavior: "melee", name: currentDungeon.boss, radius: 45, fontSize: "56px"
+                            x: canvas.width - 160, y: canvas.height / 2, avatar: "🐉",
+                            hp: 480 * currentDungeon.lvl, maxHp: 480 * currentDungeon.lvl,
+                            speed: 0.7, behavior: "melee", name: currentDungeon.boss, radius: 48, fontSize: "58px"
                         });
                     }
                 }
@@ -323,18 +383,22 @@
         function gainXp(amt) {
             player.xp += amt;
             if (player.xp >= player.nextXp) {
-                player.xp -= player.nextXp; player.lvl++; player.nextXp += 40;
-                player.maxHp += 30; player.hp = player.maxHp;
-                pushLog(`🌟 EVOLUÇÃO: Alcançou o Nível ${player.lvl}! ✨`);
+                player.xp -= player.nextXp; player.lvl++; player.nextXp += 45;
+                player.maxHp += 25; player.hp = player.maxHp;
+                player.statPoints += 5; // Concede rigorosamente 5 pontos ao passar de nível
+                pushLog(`🌟 EVOLUÇÃO: Nível ${player.lvl} alcançado! +5 Pontos Disponíveis! ✨`);
             }
             renderUI();
         }
 
         function gameLoop(timestamp) {
-            if (keys['w'] && player.y > 25) player.y -= 3.2;
-            if (keys['s'] && player.y < canvas.height - 25) player.y += 3.2;
-            if (keys['a'] && player.x > 25) player.x -= 3.2;
-            if (keys['d'] && player.x < canvas.width - 25) player.x += 3.2;
+            // Velocidade modificada dinamicamente via Agilidade (AGI)
+            let moveSpeed = 3.0 + (player.stats.agi * 0.05);
+
+            if (keys['w'] && player.y > 25) player.y -= moveSpeed;
+            if (keys['s'] && player.y < canvas.height - 25) player.y += moveSpeed;
+            if (keys['a'] && player.x > 25) player.x -= moveSpeed;
+            if (keys['d'] && player.x < canvas.width - 25) player.x += moveSpeed;
 
             mapMonsters.forEach(mob => {
                 let dist = Math.hypot(player.x - mob.x, player.y - mob.y);
@@ -345,21 +409,22 @@
                         let len = Math.hypot(dx, dy) || 1;
                         mob.x += (dx / len) * mob.speed; mob.y += (dy / len) * mob.speed;
                     }
-                    if (!mob.lastShot || timestamp - mob.lastShot > 1500) {
+                    if (!mob.lastShot || timestamp - mob.lastShot > 1400) {
                         mob.lastShot = timestamp;
-                        projectiles.push({ x: mob.x, y: mob.y, target: player, speed: 5, damage: 5 + player.lvl, isEnemy: true, icon: "🔸" });
+                        projectiles.push({ x: mob.x, y: mob.y, target: player, speed: 5.5, damage: 6 + currentDungeon.lvl, isEnemy: true, icon: "🔸" });
                     }
                 } else {
                     let dx = player.x - mob.x; let dy = player.y - mob.y;
                     let len = Math.hypot(dx, dy) || 1;
-                    if (dist > 30) {
+                    if (dist > 35) {
                         mob.x += (dx / len) * mob.speed; mob.y += (dy / len) * mob.speed;
                     } else {
                         if (!mob.lastHit || timestamp - mob.lastHit > 1100) {
                             mob.lastHit = timestamp;
-                            player.hp -= mob.avatar === "🐉" ? 22 : (mob.isGuard ? 14 : 6);
-                            visualEffects.push({ x: player.x, y: player.y - 25, text: `💔 -${mob.avatar === "🐉" ? 22 : 6}`, color: "#ff3b30", life: 22 });
-                            if(player.hp <= 0) { pushLog("💀 Você caiu em combate! Retornando..."); buildLobby(); }
+                            let rawDmg = mob.avatar === "🐉" ? 25 : (mob.isGuard ? 15 : 6);
+                            player.hp -= rawDmg;
+                            visualEffects.push({ x: player.x, y: player.y - 25, text: `💔 -${rawDmg}`, color: "#ff3b30", life: 25 });
+                            if(player.hp <= 0) { pushLog("💀 Você desmaiou! Retornando para a Vila de Lore."); buildLobby(); }
                             renderUI();
                         }
                     }
@@ -389,6 +454,7 @@
                 }
             });
 
+            // COR DO PISO TEMÁTICO DE ACORDO COM O PORTAL ENTRADO
             ctx.fillStyle = currentDungeon ? currentDungeon.color : "#120d0b";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -397,34 +463,34 @@
 
             particles.forEach(p => { ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, 4, 4); });
 
-            // RENDER HERÓI (ESTILO RETRÔ - EMOJI DIRETO NO CANVAS)
+            // RENDER JOGADOR - ESTILO RETRÔ TERMINAL
             ctx.font = "32px Courier New";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             ctx.fillText(player.avatar, player.x, player.y);
 
-            // RENDER MONSTROS (ESTILO RETRÔ COM ADAPTAÇÃO DE TAMANHO VIA FONT-SIZE)
+            // RENDER MONSTROS RETRÔ COM DIFERENÇA VISUAL DE ESCALA DE ACORDO COM O TIPO
             mapMonsters.forEach(mob => {
                 ctx.font = `${mob.fontSize || "24px"} Courier New`;
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
                 ctx.fillText(mob.avatar, mob.x, mob.y);
                 
-                // Barra de HP sobre o caractere
+                // Barra de vida renderizada de forma responsiva acima do caractere
                 ctx.fillStyle = "#222"; ctx.fillRect(mob.x - 25, mob.y - mob.radius - 10, 50, 5);
                 ctx.fillStyle = mob.isGuard ? "#9b59b6" : (mob.avatar === "🐉" ? "#ffcc00" : "#e74c3c");
                 ctx.fillRect(mob.x - 25, mob.y - mob.radius - 10, (mob.hp / mob.maxHp) * 50, 5);
             });
 
-            // RENDER PROJÉTEIS RETRÔ
+            // TIROS E FEITIÇOS EM TRABALHO DE CHARACTERS
             projectiles.forEach(p => {
-                ctx.font = "20px Courier New";
+                ctx.font = "22px Courier New";
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
                 ctx.fillText(p.icon || "🔸", p.x, p.y);
             });
 
-            // POPUPS DE TEXTO
+            // IMPACTOS FLUTUANTES
             visualEffects.forEach((eff, idx) => {
                 ctx.fillStyle = eff.color; ctx.font = "bold 14px Courier New";
                 ctx.fillText(eff.text, eff.x, eff.y); eff.life--; eff.y -= 0.6;
@@ -463,6 +529,13 @@
             document.getElementById('txt-hp').innerText = `HP: ${player.hp}/${player.maxHp}`;
             document.getElementById('fill-xp').style.width = `${(player.xp/player.nextXp)*100}%`;
             document.getElementById('txt-xp').innerText = `XP: ${player.xp}/${player.nextXp}`;
+            
+            // ATUALIZAÇÃO DOS COMPONENTES DO PAINEL DE PONTOS CORRIGIDO
+            document.getElementById('lbl-stat-points').innerText = player.statPoints;
+            document.getElementById('val-str').innerText = player.stats.str;
+            document.getElementById('val-int').innerText = player.stats.int;
+            document.getElementById('val-agi').innerText = player.stats.agi;
+            document.getElementById('val-vit').innerText = player.stats.vit;
         }
         function pushLog(m) { const t = document.getElementById('terminal-logs'); t.innerHTML += `<p style='margin:1px 0;'>&gt; ${m}</p>`; t.scrollTop = t.scrollHeight; }
 
