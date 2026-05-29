@@ -5,666 +5,910 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OMNI MMORPG: ABSOLUTE COMBAT ENGINE</title>
     <style>
-        * { box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
-        body { background-color: #080504; color: #f4edd4; margin: 0; padding: 10px; user-select: none; }
-        h1, h2, h3, h4 { color: #ff3b30; text-shadow: 2px 2px #000; margin: 4px 0; text-transform: uppercase; }
-        h1 { font-size: 24px; text-align: center; color: #ffcc00; margin-bottom: 12px; text-shadow: 3px 3px #000; letter-spacing: 1px; }
-        h3 { font-size: 14px; color: #ffcc00; border-bottom: 1px dashed #422e20; padding-bottom: 4px; margin-bottom: 8px; }
+        /* RESET E CORES BASE FIÉIS AO PRINT */
+        * { box-sizing: border-box; font-family: 'Courier New', Courier, monospace; margin: 0; padding: 0; }
+        body { background-color: #000000; color: #d4a373; padding: 15px; user-select: none; overflow-x: hidden; }
         
-        .grid-layout { display: grid; grid-template-columns: 490px 1fr; gap: 14px; max-width: 1920px; margin: 0 auto; }
-        @media (max-width: 1250px) { .grid-layout { grid-template-columns: 1fr; } }
-        
-        .panel { background: #140d0b; border: 3px solid #000; outline: 3px solid #3d291c; padding: 12px; box-shadow: 0 6px 0 #000; }
-        
-        .mmo-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin-bottom: 10px; }
-        .mmo-tabs button { padding: 12px 2px; font-size: 11px; background: #211511; border: 2px solid #000; color: #bfae96; cursor: pointer; font-weight: bold; text-transform: uppercase; }
-        .mmo-tabs button.active { background: #962619; border-color: #ff3b30; color: #fff; box-shadow: inset 0 0 5px #000; }
+        /* TÍTULO PRINCIPAL RETRÔ */
+        .main-title { text-align: center; color: #ffcc00; font-size: 20px; font-weight: bold; margin-bottom: 15px; text-shadow: 2px 2px #000; letter-spacing: 1px; }
 
-        .game-screen { background: #0f0a08; border: 4px solid #000; outline: 4px solid #4a3222; padding: 10px; }
-        #canvas-container { position: relative; width: 100%; background: #050303; border: 3px solid #000; height: 580px; overflow: hidden; }
+        /* GRID PRINCIPAL DO JOGO */
+        .grid-engine { display: grid; grid-template-columns: 460px 1fr; gap: 15px; max-width: 1920px; margin: 0 auto; }
+        @media (max-width: 1200px) { .grid-engine { grid-template-columns: 1fr; } }
+
+        /* PAINÉIS DE INTERFACE COM BORDAS MARRONS */
+        .panel { background-color: #0b0503; border: 2px solid #54341e; padding: 12px; position: relative; }
+        
+        /* ABAS SUPERIORES ESTILO RETRÔ QUADRADO */
+        .top-tabs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 12px; }
+        .top-tabs button { background: #1f110a; border: 1px solid #54341e; color: #aaaaaa; padding: 6px 2px; font-size: 11px; font-weight: bold; cursor: pointer; text-transform: capitalize; }
+        .top-tabs button.active { background: #802019; border-color: #ff3b30; color: #ffffff; }
+        .top-tabs button#tab-adm.active { background: #831d4c; border-color: #e02883; }
+
+        /* DADOS DA CLASSE E RECURSOS */
+        .hero-meta { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px; font-weight: bold; }
+        .class-highlight { color: #ffcc00; }
+        .gold-highlight { color: #ffd700; }
+        .lvl-highlight { color: #ff3b30; }
+
+        /* BARRAS DE STATUS INDIVIDUAIS (FIÉIS AO LEIAUTE) */
+        .bar-container { background: #000000; border: 1px solid #3d2212; height: 16px; margin-bottom: 6px; position: relative; }
+        .bar-fill { height: 100%; width: 100%; transition: width 0.1s; }
+        .hp-fill { background: #bd2a1e; }
+        .mp-fill { background: #1e60bd; }
+        .xp-fill { background: #171717; border-top: 1px solid #333; } /* Barra escura de XP abaixo */
+        .bar-text { position: absolute; width: 100%; text-align: center; font-size: 10px; font-weight: bold; line-height: 14px; color: #ffffff; text-shadow: 1px 1px #000; }
+        .xp-text { font-size: 9px; color: #888888; text-align: left; padding-left: 5px; line-height: 14px; }
+
+        /* SEÇÕES DE EQUIPAMENTOS */
+        .section-title { font-size: 11px; color: #ff3b30; font-weight: bold; margin: 12px 0 6px 0; text-transform: uppercase; display: flex; align-items: center; gap: 4px; }
+        .equip-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 10px; }
+        .equip-slot { background: #000000; border: 1px dashed #422817; height: 42px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; color: #575757; text-align: center; padding: 2px; }
+        .equip-slot.filled { border-style: solid; border-color: #a86439; color: #d4a373; }
+        .equip-slot b { font-size: 16px; display: block; }
+
+        /* BOLSA SEPARADA POR ABAS */
+        .bag-subtabs { display: flex; gap: 2px; margin-bottom: 4px; }
+        .bag-subtabs button { background: #140a06; border: 1px solid #3d2212; color: #888; font-size: 10px; padding: 3px 6px; cursor: pointer; }
+        .bag-subtabs button.active { background: #422313; color: #fff; border-bottom: none; }
+        .bag-content-box { background: #000000; border: 1px solid #3d2212; min-height: 115px; max-height: 115px; overflow-y: auto; padding: 4px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+        .bag-item { background: #0b0503; border: 1px solid #24140b; font-size: 10px; padding: 4px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 50px; }
+
+        /* SEÇÃO DE MUDAR DE CLASSE DINAMICAMENTE */
+        .class-change-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 12px; }
+        .class-change-grid button { border: 1px solid #333; color: #ffffff; font-size: 10px; padding: 5px 0; font-weight: bold; cursor: pointer; text-transform: capitalize; }
+        .class-change-grid button:hover { filter: brightness(1.2); }
+        .btn-class-guerreiro { background: #5c1e16; border-color: #7d291e !important; }
+        .btn-class-mago { background: #16365c; border-color: #1e4a7d !important; }
+        .btn-class-arqueiro { background: #165c21; border-color: #1e7d2d !important; }
+        .btn-class-paladino { background: #565c16; border-color: #747d1e !important; }
+        .btn-class-necro { background: #3c165c; border-color: #511e7d !important; }
+        .btn-class-assassino { background: #262626; border-color: #3b3b3b !important; }
+        .btn-class-gm { background: #e02883; border-color: #ff5eb4 !important; color: #000 !important; grid-column: span 2; }
+
+        /* TABELA DE ATRIBUTOS EM 3 COLUNAS PERFEITA */
+        .attributes-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .attr-cell { background: #0f0704; border: 1px solid #2b180d; padding: 5px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: bold; }
+        .attr-cell span { display: flex; align-items: center; gap: 3px; }
+        .attr-cell button { background: #ffffff; color: #000000; border: 1px solid #000; width: 18px; height: 18px; font-weight: bold; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+        .attr-cell button:hover { background: #ffcc00; }
+
+        /* TELA DIREITA DO MAPA E CANVAS */
+        .screen-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; font-weight: bold; }
+        .map-title { color: #ffcc00; text-transform: uppercase; }
+        .floor-counter { color: #aaaaaa; }
+        
+        .canvas-wrapper { width: 100%; background: #000000; border: 1px solid #3d2212; height: 490px; position: relative; }
         canvas { display: block; width: 100%; height: 100%; }
-        
-        .bar { background: #000; width: 100%; height: 22px; border: 1px solid #4a3222; margin: 6px 0; position: relative; box-shadow: inset 0 0 4px rgba(0,0,0,0.8); }
-        .bar-fill { height: 100%; width: 100%; transition: width 0.1s ease-in-out; }
-        .hp-fill { background: #c0392b; }
-        .mp-fill { background: #2980b9; }
-        .xp-fill { background: #27ae60; }
-        .bar-text { position: absolute; width: 100%; text-align: center; font-size: 11px; font-weight: bold; line-height: 20px; color: #fff; text-shadow: 1px 1px 2px #000; }
 
-        .flex-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 6px; background: #1c120f; border: 1px solid #2d1b14; font-size: 12px; }
-        .log-terminal { background: #020101; border: 2px solid #000; height: 140px; overflow-y: auto; padding: 8px; font-size: 11px; color: #a6937c; margin-top: 8px; line-height: 14px; }
-        
-        .hotbar-container { display: flex; justify-content: center; gap: 8px; background: #000; padding: 8px; margin-top: 8px; border: 2px solid #2d1b14; }
-        .hotbar-slot { width: 85px; height: 85px; background: #1a0f0c; border: 2px solid #422e20; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-        .hotbar-slot:hover { border-color: #ffcc00; background: #241611; }
-        .hotbar-key { position: absolute; top: 2px; left: 5px; font-size: 11px; color: #ffcc00; font-weight: bold; }
-        .hotbar-icon { font-size: 28px; margin-top: 4px; }
-        .hotbar-name { font-size: 9px; color: #a1907e; text-align: center; max-width: 100%; overflow: hidden; white-space: nowrap; margin-top: 2px; }
+        /* HOTBAR INFERIOR FIEL AO PRINT */
+        .bottom-action-bar { display: flex; justify-content: center; gap: 6px; background: #000000; border: 1px solid #1f110a; padding: 6px; margin-top: 10px; }
+        .action-slot { width: 52px; height: 56px; background: #000; border: 1px solid #54341e; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+        .action-slot.locked { border-color: #2b180d; background: #050201; }
+        .slot-key { position: absolute; top: 1px; left: 3px; font-size: 9px; color: #ffcc00; font-weight: bold; }
+        .slot-graphic { font-size: 18px; margin-top: 2px; }
+        .slot-lbl { font-size: 8px; color: #736151; text-align: center; margin-top: 1px; white-space: nowrap; max-width: 100%; overflow: hidden; }
 
-        button.action-btn { background: #822015; border: 2px solid #000; color: white; font-weight: bold; cursor: pointer; padding: 9px; font-size: 11px; text-transform: uppercase; width: 100%; margin-bottom: 4px; box-shadow: 0 2px 0 #000; }
-        button.action-btn:hover { background: #962619; border-color: #ff3b30; }
-        
-        .gm-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; background: #0a0605; padding: 8px; border: 2px dashed #ff3b30; margin-top: 6px; }
-        .gm-title { grid-column: span 2; color: #ff3b30; font-weight: bold; font-size: 11px; text-align: center; background: #260d0a; padding: 4px; border: 1px solid #ff3b30; }
+        /* CONSOLE DE LOGS TERMINAL */
+        .terminal-box { background: #000000; border: 1px solid #1f110a; height: 95px; overflow-y: auto; padding: 6px; font-size: 11px; color: #8c7664; margin-top: 8px; line-height: 14px; }
 
-        .inv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: #020101; padding: 4px; border: 1px solid #000; min-height: 180px; }
-        .inv-item { background: #170d0a; border: 1px solid #382417; font-size: 10px; padding: 6px; display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
-        
-        .class-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; margin-top: 6px; }
-        .class-btn { font-size: 11px; padding: 8px; border: 1px solid #000; color: #fff; cursor: pointer; font-weight: bold; text-transform: uppercase; }
-        .class-btn:hover { filter: brightness(1.2); outline: 1px solid #fff; }
+        /* CONTEÚDO ALTERNÁVEL DAS ABAS ESQUERDAS */
+        .tab-view { display: none; }
+        .tab-view.active { display: block; }
 
-        .status-row { display: flex; justify-content: space-between; align-items: center; background: #1a100d; padding: 7px; border: 1px solid #2d1b14; margin-bottom: 5px; }
-        .btn-plus { background: #2ecc71; border: 1px solid #000; color: #000; font-weight: bold; width: 26px; height: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-        .btn-plus:hover { background: #27ae60; color: #fff; }
+        /* LISTAS INTERNAS DE PORTAIS E OUTROS CORES */
+        .scroll-list { max-height: 410px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; padding-right: 2px; }
+        .portal-item { background: #0f0704; border: 1px solid #3d2212; padding: 8px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .portal-item:hover { background: #1c0e08; border-color: #ffcc00; }
+        
+        /* LAYOUT DA ABA DE TALENTOS / SKILLS */
+        .skill-tree-node { background: #0e0704; border: 1px solid #3d2212; padding: 8px; margin-bottom: 4px; display: flex; gap: 10px; align-items: center; }
+        .skill-node-icon { font-size: 24px; background: #000; border: 1px solid #54341e; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+
+        /* SUB-PAINEL DO DESENVOLVEDOR (ADM GM) */
+        .adm-panel-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; background: #0b0205; border: 1px dashed #e02883; padding: 8px; }
+        .adm-section-header { grid-column: span 2; font-size: 10px; color: #e02883; font-weight: bold; text-align: center; background: #240514; padding: 3px; border: 1px solid #e02883; text-transform: uppercase; }
+        .adm-btn { background: #3b0720; border: 1px solid #e02883; color: #ffffff; font-size: 10px; padding: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .adm-btn:hover { background: #e02883; color: #000000; }
     </style>
 </head>
 <body>
 
-    <h1>⚔️ OMNI MMORPG: ABSOLUTE COMBAT ENGINE ⚔️</h1>
+    <div class="main-title">⚔️ OMNI MMORPG: ABSOLUTE COMBAT ENGINE ⚔️</div>
 
-    <div class="grid-layout">
+    <div class="grid-engine">
         
         <div class="panel">
-            <div class="mmo-tabs">
-                <button id="tab-hero" class="active" onclick="switchMmoTab('hero')">👤 Herói</button>
-                <button id="tab-stats" onclick="switchMmoTab('stats')">📊 Status</button>
-                <button id="tab-skills" onclick="switchMmoTab('skills')">📜 Árvore</button>
-                <button id="tab-world" onclick="switchMmoTab('world')">🌌 Portais</button>
-                <button id="tab-bag" onclick="switchMmoTab('bag')">📦 Bolsa</button>
+            
+            <div class="top-tabs">
+                <button id="btn-tab-hero" class="active" onclick="toggleMainTab('hero')">Herói</button>
+                <button id="btn-tab-skills" onclick="toggleMainTab('skills')">Skills</button>
+                <button id="btn-tab-forge" onclick="toggleMainTab('forge')">Forja</button>
+                <button id="btn-tab-store" onclick="toggleMainTab('store')">Loja</button>
+                <button id="btn-tab-portals" onclick="toggleMainTab('portals')">Portais</button>
+                <button id="btn-tab-adm" onclick="toggleMainTab('adm')" style="color:#ff5eb4;">⚙️ ADM</button>
             </div>
 
-            <div id="view-hero" class="tab-content">
-                <div class="flex-row">
-                    <span>Classe Atual: <b id="lbl-class" style="color:#ffcc00">Guerreiro</b></span>
-                    <span>Nível: <b id="lbl-lvl" style="color:#ff3b30">1</b></span>
-                </div>
-                <div class="bar"><div id="fill-hp" class="bar-fill hp-fill"></div><div id="txt-hp" class="bar-text">HP: 120/120</div></div>
-                <div class="bar"><div id="fill-mp" class="bar-fill mp-fill"></div><div id="txt-mp" class="bar-text">MP: 60/60</div></div>
-                <div class="bar"><div id="fill-xp" class="bar-fill xp-fill"></div><div id="txt-xp" class="bar-text">XP: 0/100</div></div>
-                <div class="flex-row" style="margin-top: 5px;">
-                    <span>Moedas de Ouro: <b id="lbl-gold" style="color:#ffd700">50g</b></span>
+            <div id="view-hero" class="tab-view active">
+                <div class="hero-meta">
+                    <div>Classe: <span id="lbl-class" class="class-highlight">Guerreiro</span></div>
+                    <div>💰 Ouro: <span id="lbl-gold" class="gold-highlight">500</span></div>
+                    <div>Nível: <span id="lbl-lvl" class="lvl-highlight">1</span></div>
                 </div>
 
-                <h3 style="margin-top:12px;">Troca de Vocações Clássicas</h3>
-                <div class="class-selector">
-                    <button class="class-btn" style="background:#5c1e16;" onclick="changeClass('Guerreiro', '🛡️')">🛡️ Guerreiro</button>
-                    <button class="class-btn" style="background:#162e5c;" onclick="changeClass('Mago', '🧙')">🧙 Mago</button>
-                    <button class="class-btn" style="background:#1e5c16;" onclick="changeClass('Arqueiro', '🏹')">🏹 Arqueiro</button>
-                    <button class="class-btn" style="background:#524912;" onclick="changeClass('Paladino', '☀️')">☀️ Paladino</button>
-                    <button class="class-btn" style="background:#3b134a;" onclick="changeClass('Necromante', '💀')">💀 Necro</button>
-                    <button class="class-btn" style="background:#134a44;" onclick="changeClass('Assassino', '🥷')">🥷 Assassino</button>
-                    <button class="class-btn" style="background:#7f8c8d; grid-column: span 2;" onclick="changeClass('Admin GM', '⚙️')">⚙️ Admin GM</button>
+                <div class="bar-container"><div id="fill-hp" class="bar-fill hp-fill"></div><div id="txt-hp" class="bar-text">HP: 120/120</div></div>
+                <div class="bar-container"><div id="fill-mp" class="bar-fill mp-fill"></div><div id="txt-mp" class="bar-text">MP: 60/60</div></div>
+                <div class="bar-container xp-fill"><div id="txt-xp" class="xp-text">XP: 0/100</div></div>
+
+                <div class="section-title">🛡️ Armaduras e Armas Equipadas</div>
+                <div class="equip-grid">
+                    <div class="equip-slot" id="slot-helm">helm</div>
+                    <div class="equip-slot" id="slot-armor">armor</div>
+                    <div class="equip-slot" id="slot-boots1">boots1</div>
+                    <div class="equip-slot" id="slot-boots2">boots2</div>
+                    <div class="equip-slot" id="slot-weapon">weapon</div>
                 </div>
-                <button class="action-btn" onclick="buildLobby()" style="margin-top:14px; background:#291a13; border-color:#422e20;">Retornar para Cidade de Lore 🌆</button>
+
+                <div class="section-title">👑 Acessórios Exclusivos de Chefes (5 Espaços)</div>
+                <div class="equip-grid">
+                    <div class="equip-slot" id="slot-joia-head">joia head</div>
+                    <div class="equip-slot" id="slot-joia-neck">joia neck</div>
+                    <div class="equip-slot" id="slot-joia-ring">joia ring</div>
+                    <div class="equip-slot" id="slot-joia-amulet">joia amulet</div>
+                    <div class="equip-slot" id="slot-joia-relic">joia relic</div>
+                </div>
+
+                <div class="section-title">📦 Bolsa Separada por Abas</div>
+                <div class="bag-subtabs">
+                    <button id="btn-bag-equip" class="active" onclick="toggleBagSubtab('equip')">Equipamentos</button>
+                    <button id="btn-bag-mat" onclick="toggleBagSubtab('mat')">Materiais</button>
+                    <button id="btn-bag-pot" onclick="toggleBagSubtab('pot')">Poções</button>
+                </div>
+                <div id="bag-content" class="bag-content-box"></div>
+
+                <div class="section-title">Mudar de Classe Dinamicamente</div>
+                <div class="class-change-grid">
+                    <button class="btn-class-guerreiro" onclick="selectClass('Guerreiro', '🛡️')">Guerreiro</button>
+                    <button class="btn-class-mago" onclick="selectClass('Mago', '🧙')">Mago</button>
+                    <button class="btn-class-arqueiro" onclick="selectClass('Arqueiro', '🏹')">Arqueiro</button>
+                    <button class="btn-class-paladino" onclick="selectClass('Paladino', '☀️')">Paladino</button>
+                    <button class="btn-class-necro" onclick="selectClass('Necro', '💀')">Necro</button>
+                    <button class="btn-class-assassino" onclick="selectClass('Assassino', '🥷')">Assassino</button>
+                    <button class="btn-class-gm" onclick="selectClass('Admin GM', '⚙️')">GM ADM</button>
+                </div>
+
+                <div class="attributes-matrix">
+                    <div class="attr-cell"><span>💪 FOR: <b id="val-str" style="color:#fff;">10</b></span><button onclick="addStatPoint('str')">+</button></div>
+                    <div class="attr-cell"><span>⚡ AGI: <b id="val-agi" style="color:#fff;">10</b></span><button onclick="addStatPoint('agi')">+</button></div>
+                    <div class="attr-cell"><span>🔮 MAG: <b id="val-mag" style="color:#fff;">10</b></span><button onclick="addStatPoint('mag')">+</button></div>
+                    <div class="attr-cell"><span>🧠 INT: <b id="val-int" style="color:#fff;">10</b></span><button onclick="addStatPoint('int')">+</button></div>
+                    <div class="attr-cell"><span>🛡️ DEF: <b id="val-def" style="color:#fff;">10</b></span><button onclick="addStatPoint('def')">+</button></div>
+                    <div class="attr-cell" style="background:#24150b; border-color:#ffcc00;"><span>✨ PTS: <b id="val-pts" style="color:#ffcc00;">0</b></span></div>
+                </div>
             </div>
 
-            <div id="view-stats" class="tab-content" style="display:none;">
-                <h3>📊 Painel de Atributos do Herói</h3>
-                <div class="flex-row" style="background:#ffcc00; color:#000; font-weight:bold; border:1px solid #000;">
-                    <span>Pontos Livres Disponíveis:</span>
-                    <span id="lbl-stat-points">0</span>
-                </div>
-                
-                <div style="margin-top: 10px;">
-                    <div class="status-row">
-                        <div>💪 Força (FOR): <b id="val-str" style="color:#e74c3c">10</b></div>
-                        <button class="btn-plus" onclick="allocateStat('str')">+</button>
+            <div id="view-skills" class="tab-view">
+                <div class="section-title" style="color:#ffcc00;">📜 Árvore de Habilidades Ativas</div>
+                <div id="skills-tree-list" class="scroll-list"></div>
+            </div>
+
+            <div id="view-forge" class="tab-view">
+                <div class="section-title" style="color:#ffcc00;">🔨 Estação de Forjamento Ancestral</div>
+                <div class="scroll-list" style="gap:10px;">
+                    <div style="background:#0a0503; border:1px solid #3d2212; padding:10px; text-align:center;">
+                        <p style="font-size:12px; margin-bottom:8px;">Combine Fragmentos de Chefes para criar Joias Únicas</p>
+                        <button class="adm-btn" style="border-color:#ffcc00; color:#ffcc00; background:#1c110a; width:80%;" onclick="craftBossJewel()">Forjar Joia do Chefe (Custo: 500g)</button>
                     </div>
-                    <div class="status-row">
-                        <div>🔮 Inteligência (INT): <b id="val-int" style="color:#3498db">10</b></div>
-                        <button class="btn-plus" onclick="allocateStat('int')">+</button>
-                    </div>
-                    <div class="status-row">
-                        <div>⚡ Agilidade (AGI): <b id="val-agi" style="color:#2ecc71">10</b></div>
-                        <button class="btn-plus" onclick="allocateStat('agi')">+</button>
-                    </div>
-                    <div class="status-row">
-                        <div>🛡️ Vitalidade (VIT): <b id="val-vit" style="color:#e67e22">10</b></div>
-                        <button class="btn-plus" onclick="allocateStat('vit')">+</button>
-                    </div>
-                </div>
-
-                <h3 style="margin-top:15px; color:#ff3b30;">🛠️ Painel Admin GM & Sandbox de Testes</h3>
-                <div class="gm-grid">
-                    <div class="gm-title">Comandos de Atributos e Economia</div>
-                    <button class="action-btn" style="background:#27ae60;" onclick="gmAddLevel(1)">+1 Nível</button>
-                    <button class="action-btn" style="background:#2ecc71; color:#000;" onclick="gmAddLevel(10)">+10 Níveis</button>
-                    <button class="action-btn" style="background:#f1c40f; color:#000;" onclick="gmAddGold(10000)">+10k Gold</button>
-                    <button class="action-btn" style="background:#9b59b6;" onclick="gmToggleGodMode()">God Mode: <span id="gm-god-status">OFF</span></button>
-                    
-                    <div class="gm-title">Controle de Instância & Spawns</div>
-                    <button class="action-btn" style="background:#c0392b;" onclick="gmKillAllMonsters()">Kill All Mobs</button>
-                    <button class="action-btn" style="background:#d35400;" onclick="gmSpawnVariant('elite')">+1 Elite Aura 🔵</button>
-                    <button class="action-btn" style="background:#e67e22;" onclick="gmSpawnVariant('champion')">+1 Camp. Aura 🟡</button>
-                    <button class="action-btn" style="background:#7f8c8d;" onclick="gmSpawnVariant('normal')">+1 Monstro Comum</button>
                 </div>
             </div>
 
-            <div id="view-skills" class="tab-content" style="display:none;">
-                <h3>📜 Habilidades da Linhagem Ativa</h3>
-                <div id="box-talents" style="display:flex; flex-direction:column; gap:5px;"></div>
+            <div id="view-store" class="tab-view">
+                <div class="section-title" style="color:#ffcc00;">🏪 Mercador da Vila de Lore</div>
+                <div class="scroll-list" style="gap:6px;">
+                    <div class="portal-item" onclick="buyPotion('hp')"><span>🧪 Comprar Poção de HP (Recupera 50)</span><b>25 Ouro</b></div>
+                    <div class="portal-item" onclick="buyPotion('mp')"><span>🧪 Comprar Poção de MP (Recupera 30)</span><b>25 Ouro</b></div>
+                    <div class="portal-item" onclick="buyBasicWeapon()"><span>⚔️ Comprar Espada de Bronze (+5 FOR)</span><b>150 Ouro</b></div>
+                </div>
             </div>
 
-            <div id="view-world" class="tab-content" style="display:none;">
-                <h3>🌌 Portais Dimensionais (Intervalo de 15 Níveis)</h3>
-                <div id="portal-triggers" style="display:grid; gap:6px;"></div>
+            <div id="view-portals" class="tab-view">
+                <div class="section-title" style="color:#ffcc00;">🌌 Portais Dimensionais (Intervalo de 15 Níveis)</div>
+                <div id="portals-container-list" class="scroll-list"></div>
             </div>
 
-            <div id="view-bag" class="tab-content" style="display:none;">
-                <h3>📦 Inventário de Pertences</h3>
-                <div id="inventory-container" class="inv-grid"></div>
+            <div id="view-adm" class="tab-view">
+                <div class="section-title" style="color:#e02883;">⚙️ Painel de Controle Avançado Sandbox GM</div>
+                <div class="adm-panel-grid">
+                    <div class="adm-section-header">Modificadores de Atributos</div>
+                    <button class="adm-btn" onclick="gmAction('lvl1')">+1 Nível</button>
+                    <button class="adm-btn" onclick="gmAction('lvl15')">+15 Níveis</button>
+                    <button class="adm-btn" onclick="gmAction('gold')">+5.000 Gold</button>
+                    <button class="adm-btn" onclick="gmAction('pts')">+50 PTS Livres</button>
+
+                    <div class="adm-section-header">Spawn Automatizado de Variantes</div>
+                    <button class="adm-btn" style="border-color:#3498db;" onclick="gmAction('spawn-elite')">Spawn Elite 🔵</button>
+                    <button class="adm-btn" style="border-color:#f1c40f;" onclick="gmAction('spawn-champion')">Spawn Campeão 🟡</button>
+                    <button class="adm-btn" style="border-color:#9b59b6;" onclick="gmAction('spawn-ancestral')">Spawn Ancestral 🟣</button>
+                    <button class="adm-btn" style="border-color:#aaa;" onclick="gmAction('spawn-normal')">Spawn Comum</button>
+
+                    <div class="adm-section-header">Controles Ambientais de Sala</div>
+                    <button class="adm-btn" style="grid-column: span 2; background:#5c0c1b; border-color:#e74c3c;" onclick="gmAction('kill-all')">🚨 Instakill: Limpar Sala (Pular de Fase)</button>
+                    <button class="adm-btn" style="grid-column: span 2; background:#113c19; border-color:#2ecc71;" onclick="gmAction('god-mode')">Modo Deus (HP Infinito): <b id="gm-god-status">OFF</b></button>
+                </div>
             </div>
         </div>
 
-        <div class="panel game-screen">
-            <div class="flex-row" style="background:transparent; border:none; padding:0;">
-                <h3 id="txt-map-title" style="margin:0; color:#ffcc00; font-size:16px;">Cidade de Lore 🌆</h3>
-                <span>Zona: <b id="lbl-current-floor" style="color:#ffcc00;">Vila Segura</b></span>
+        <div class="panel">
+            <div class="screen-header">
+                <div id="lbl-map-title" class="map-title">CIDADE DE LORE (LOBBY VILA) 🌆</div>
+                <div class="floor-counter">Andar Boss: <b id="lbl-boss-counter" style="color:#ffcc00;">0/25</b></div>
             </div>
 
-            <div id="canvas-container">
+            <div class="canvas-wrapper">
                 <canvas id="gameCanvas"></canvas>
             </div>
 
-            <div class="hotbar-container">
-                <div class="hotbar-slot" onclick="triggerSkillSlot(0)">
-                    <span class="hotbar-key">1</span>
-                    <span class="hotbar-icon" id="hb-icon-0">⚔️</span>
-                    <div class="hotbar-name" id="hb-name-0">Ataque 1</div>
+            <div class="bottom-action-bar">
+                <div class="action-slot locked" id="hotbar-slot-0" onclick="useHotbarSkill(0)">
+                    <span class="slot-key">1</span>
+                    <span class="slot-graphic" id="hotbar-ico-0">🔒</span>
+                    <div class="slot-lbl" id="hotbar-txt-0">Bloqueado</div>
                 </div>
-                <div class="hotbar-slot" onclick="triggerSkillSlot(1)">
-                    <span class="hotbar-key">2</span>
-                    <span class="hotbar-icon" id="hb-icon-1">🔮</span>
-                    <div class="hotbar-name" id="hb-name-1">Ataque 2</div>
+                <div class="action-slot locked" id="hotbar-slot-1" onclick="useHotbarSkill(1)">
+                    <span class="slot-key">2</span>
+                    <span class="slot-graphic" id="hotbar-ico-1">🔒</span>
+                    <div class="slot-lbl" id="hotbar-txt-1">Bloqueado</div>
                 </div>
-                <div class="hotbar-slot" onclick="triggerSkillSlot(2)">
-                    <span class="hotbar-key">3</span>
-                    <span class="hotbar-icon" id="hb-icon-2">🛡️</span>
-                    <div class="hotbar-name" id="hb-name-2">Ataque 3</div>
+                <div class="action-slot locked" id="hotbar-slot-2" onclick="useHotbarSkill(2)">
+                    <span class="slot-key">3</span>
+                    <span class="slot-graphic" id="hotbar-ico-2">🔒</span>
+                    <div class="slot-lbl" id="hotbar-txt-2">Bloqueado</div>
+                </div>
+                <div class="action-slot" id="hotbar-slot-q" onclick="useConsumable('hp')">
+                    <span class="slot-key">Q</span>
+                    <span class="slot-graphic" style="color:#e74c3c;">🧪</span>
+                    <div class="slot-lbl" id="lbl-hotbar-pot-hp">Poção HP (0)</div>
+                </div>
+                <div class="action-slot" id="hotbar-slot-e" onclick="useConsumable('mp')">
+                    <span class="slot-key">E</span>
+                    <span class="slot-graphic" style="color:#3498db;">🧪</span>
+                    <div class="slot-lbl" id="lbl-hotbar-pot-mp">Poção MP (0)</div>
                 </div>
             </div>
 
-            <div class="log-terminal" id="terminal-logs"></div>
+            <div class="terminal-box" id="terminal-log-output"></div>
         </div>
     </div>
 
     <script>
-        // CONFIGURAÇÃO DOS 8 PORTAIS DISPONÍVEIS COM DISTANCIAMENTO ESTRITO DE 15 NÍVEIS
-        const dungeons = [
-            { id: 1, name: "Esgotos de Cobre  Rats", lvl: 1, boss: "Rato Megalodonte 🐀", color: "#1c1610" },
-            { id: 2, name: "Ninho das Aranhas 🕷️", lvl: 15, boss: "Aranha Viúva Ancestral 🕷️", color: "#140f17" },
-            { id: 3, name: "Cripta Necrótica 💀", lvl: 30, boss: "Lich Eterno do Caos 💀", color: "#0e1715" },
-            { id: 4, name: "Pico Vulcânico 🌋", lvl: 45, boss: "Dragão Vermelho Ancião 🐉", color: "#240e0a" },
-            { id: 5, name: "Fenda Cósmica 🌌", lvl: 60, boss: "Abominável do Vazio 🌌", color: "#0a0a14" },
-            { id: 6, name: "Santuário Espectral 👻", lvl: 75, boss: "Ceifador da Alma Imortal 👻", color: "#0d1411" },
-            { id: 7, name: "Ruínas de Atlântida 🔱", lvl: 90, boss: "Kraken Devorador de Naus 🐙", color: "#09141c" },
-            { id: 8, name: "Trono dos Deuses ⚡", lvl: 105, boss: "Avatar de Zeus Corrompido ⚡", color: "#241f0a" }
+        // DATA DOS 18 PORTAIS ESCALONADOS DE 15 EM 15 NÍVEIS
+        const portalDatabase = [
+            { id: 1, name: "Esgotos de Bronze 🐀", minLvl: 1, bossName: "Rato Mutante Gigante 🐀", baseColor: "#0a0503" },
+            { id: 2, name: "Caverna do Eco 🦇", minLvl: 15, bossName: "Morcego Vampiríco Rei 🦇", baseColor: "#0a0a0f" },
+            { id: 3, name: "Ninho dos Aracnídeos 🕷️", minLvl: 30, bossName: "Mãe da Ninhada Macabra 🕷️", baseColor: "#0f0814" },
+            { id: 4, name: "Cripta dos Crânios 💀", minLvl: 45, bossName: "Lich Necromante Supremo 💀", baseColor: "#06120e" },
+            { id: 5, name: "Ruínas Desérticas 🦂", minLvl: 60, bossName: "Escorpião Imperador do Deserto 🦂", baseColor: "#171408" },
+            { id: 6, name: "Vale dos Orcs 🐗", minLvl: 75, bossName: "Warlord Orc do Machado Duplo 🐗", baseColor: "#0e1708" },
+            { id: 7, name: "Pico de Magma 🔥", minLvl: 90, bossName: "Gargula de Fogo Vulcânica 🔥", baseColor: "#1f0905" },
+            { id: 8, name: "Fenda do Vazio 🌌", minLvl: 105, bossName: "Devorador de Almas Cósmicas 🌌", baseColor: "#07071c" },
+            { id: 9, name: "Catedral Maldita ⛪", minLvl: 120, bossName: "Anjo Caído das Sombras ⛪", baseColor: "#120714" },
+            { id: 10, name: "Mina de Cristais Arcanos 💎", minLvl: 135, bossName: "Golem de Cristal Titânico 💎", baseColor: "#04141a" },
+            { id: 11, name: "Pântano Tóxico 🐸", minLvl: 150, bossName: "Hydra de Sete Cabeças Venenosa 🐸", baseColor: "#041209" },
+            { id: 12, name: "Labirinto do Minotauro 🐂", minLvl: 165, bossName: "Minotauro Ancestral de Puro Aço 🐂", minLvl: 165, bossName: "Minotauro Ancestral de Puro Aço 🐂", baseColor: "#140e06" },
+            { id: 13, name: "Geleira Eterna ❄️", minLvl: 180, bossName: "Mamute de Gelo Blindado ❄️", baseColor: "#0f171c" },
+            { id: 14, name: "Fortaleza de Ferro ⚔️", minLvl: 195, bossName: "General Autômato Mecânico ⚔️", baseColor: "#121212" },
+            { id: 15, name: "Abismo Marinho 🐙", minLvl: 210, bossName: "Leviatã das Profundezas Ocultas 🐙", baseColor: "#030c17" },
+            { id: 16, name: "Bosque dos Elfos Caídos 🏹", minLvl: 225, bossName: "Espírito da Floresta Corrompido 🏹", baseColor: "#03140b" },
+            { id: 17, name: "Trono Dracônico 🔥", minLvl: 240, bossName: "Imperador Dragão Vermelho 🐉", baseColor: "#210303" },
+            { id: 18, name: "Dimensão Alfa & Ômega ⚡", minLvl: 255, bossName: "Deus da Guerra Omni Supremo ⚡", baseColor: "#211c03" }
         ];
 
-        const SKILL_DATA = {
-            "Guerreiro": ["Golpe Devastador ⚔️", "Escudo de Ferro 🛡️", "Frenesi Brutal 🔥"],
-            "Mago": ["Míssil Arcano 🔮", "Barreira de Mana 🌀", "Tormenta de Gelo ❄️"],
-            "Arqueiro": ["Flecha Precisa 🏹", "Disparo Venenoso 🤢", "Chuva de Flechas 🌧️"],
-            "Paladino": ["Martelo Sagrado 🔨", "Luz Curativa ✨", "Julgamento Divino ⚡"],
-            "Necromante": ["Invocar Esqueleto 💀", "Explosão de Cadáver 💥", "Suga-Almas 🩸"],
-            "Assassino": ["Ataque Furtivo 🥷", "Lâminas Venenadas 🧪", "Passo das Sombras 👥"],
-            "Admin GM": ["Ban Hammer 🔨", "Modo Deus 🌟", "Resetar Universo 🌌"]
+        // CONFIGURAÇÃO RETRÔ DAS SKILLS DISPONÍVEIS POR VOCAÇÃO
+        const skillDictionary = {
+            "Guerreiro": [ { name: "Corte Rápido ⚔️", mp: 10, dmgMult: 1.5 }, { name: "Escudo Divino 🛡️", mp: 15, dmgMult: 2.0 }, { name: "Frenesi do Caos 🔥", mp: 25, dmgMult: 3.5 } ],
+            "Mago": [ { name: "Bola de Fogo 🔮", mp: 12, dmgMult: 1.8 }, { name: "Raio Arcano 🌀", mp: 20, dmgMult: 2.5 }, { name: "Meteoro Alpha ☄️", mp: 35, dmgMult: 4.2 } ],
+            "Arqueiro": [ { name: "Tiro Certeiro 🏹", mp: 8, dmgMult: 1.4 }, { name: "Flecha de Veneno 🧪", mp: 14, dmgMult: 2.1 }, { name: "Chuva de Aço 🌧️", mp: 22, dmgMult: 3.2 } ],
+            "Paladino": [ { name: "Luz de Alva ✨", mp: 15, dmgMult: 1.6 }, { name: "Martelada Celta 🔨", mp: 18, dmgMult: 2.4 }, { name: "Ira dos Céus ⚡", mp: 30, dmgMult: 3.8 } ],
+            "Necro": [ { name: "Seta de Osso 🦴", mp: 10, dmgMult: 1.5 }, { name: "Invocação Real 💀", mp: 20, dmgMult: 2.6 }, { name: "Praga da Morte 🩸", mp: 32, dmgMult: 4.0 } ],
+            "Assassino": [ { name: "Punhalada Oculta 🥷", mp: 12, dmgMult: 1.9 }, { name: "Corte de Tendão 🗡️", mp: 16, dmgMult: 2.3 }, { name: "Lâmina Fantasma 👥", mp: 26, dmgMult: 3.9 } ],
+            "Admin GM": [ { name: "Comando Ban 🔨", mp: 0, dmgMult: 10.0 }, { name: "Apagar Matrix 🌟", mp: 0, dmgMult: 25.0 }, { name: "Reset Cósmico 🌌", mp: 0, dmgMult: 100.0 } ]
         };
 
-        const SKILL_ICONS = {
-            "Guerreiro": ["⚔️", "🛡️", "🔥"], "Mago": ["🔮", "🌀", "❄️"], "Arqueiro": ["🏹", "🤢", "🌧️"],
-            "Paladino": ["🔨", "✨", "⚡"], "Necromante": ["💀", "💥", "🩸"], "Assassino": ["🥷", "🧪", "👥"],
-            "Admin GM": ["🔨", "🌟", "🌌"]
+        // VARIANTES DE MONSTROS COM CORES DE AURAS E MULTIPLICADORES VISUAIS
+        const variantModifiers = {
+            normal: { tag: "Comum", hp: 1.0, speed: 1.0, dmg: 1.0, gold: 1.0, aura: null, size: "24px", rad: 20 },
+            elite: { tag: "Elite", hp: 2.0, speed: 1.3, dmg: 1.5, gold: 2.5, aura: "#3498db", size: "28px", rad: 24 },
+            champion: { tag: "Campeão", hp: 3.5, speed: 1.1, dmg: 2.2, gold: 5.0, aura: "#f1c40f", size: "34px", rad: 28 },
+            ancestral: { tag: "Ancestral", hp: 6.0, speed: 1.5, dmg: 3.5, gold: 10.0, aura: "#9b59b6", size: "42px", rad: 34 }
         };
 
-        // ESTADO GLOBAL DO HERÓI
+        // ESTADO CENTRAL DO JOGADOR (STATUS INICIAIS UNITÁRIOS FIÉIS AO LEIAUTE)
         let player = {
-            x: 200, y: 250, currentClass: "Guerreiro", avatar: "🛡️", lvl: 1, xp: 0, nextXp: 100,
-            hp: 120, maxHp: 120, mp: 60, maxMp: 60, gold: 50, radius: 22,
-            statPoints: 5,
-            stats: { str: 10, int: 10, agi: 10, vit: 10 }
+            x: 230, y: 245,
+            currentClass: "Guerreiro", icon: "🛡️",
+            lvl: 1, xp: 0, nextXp: 100,
+            hp: 120, maxHp: 120,
+            mp: 60, maxMp: 60,
+            gold: 500,
+            stats: { str: 10, agi: 10, mag: 10, int: 10, def: 10 },
+            freePoints: 0,
+            equipment: { helm: null, armor: null, boots1: null, boots2: null, weapon: null },
+            exclusiveJewels: { joiaHead: null, joiaNeck: null, joiaRing: null, joiaAmulet: null, joiaRelic: null }
         };
 
-        // CONFIGURAÇÃO DOS CORES E MULTIPLICADORES DE VARIANTES
-        const VARIANT_TYPES = {
-            normal: { label: "Comum", hpMult: 1.0, speedMult: 1.0, damageMult: 1.0, auraColor: null, rewardMult: 1.0 },
-            elite: { label: "Elite", hpMult: 1.8, speedMult: 1.4, damageMult: 1.5, auraColor: "#00bcff", rewardMult: 2.0 },
-            champion: { label: "Campeão", hpMult: 3.0, speedMult: 1.1, damageMult: 2.2, auraColor: "#ffd700", rewardMult: 4.5 }
+        // ESTRUTURA DO INVENTÁRIO SEPARADO POR SUB-ABAS FIEL AO SEU PRINT
+        let inventorySystem = {
+            equip: [ { id: 'w1', name: "Espada Velha", type: "weapon", icon: "🗡️", statBonus: 2 } ],
+            mat: [ { name: "Minério de Ferro", icon: "🪨", qty: 3 }, { name: "Essência de Chefe", icon: "🔥", qty: 0 } ],
+            pot: [ { id: 'p_hp', name: "Poção de HP", type: "hp", icon: "🧪", qty: 5 }, { id: 'p_mp', name: "Poção de MP", type: "mp", icon: "🧪", qty: 3 } ]
         };
 
-        let mapMonsters = []; let projectiles = []; let visualEffects = []; let particles = [];
-        let inventory = [{ name: "Lâmina Básica", icon: "⚔️", qty: 1 }, { name: "Poção de HP", icon: "🧪", qty: 5 }];
-        let keys = {}; let canvas, ctx;
-        let currentDungeon = null; let currentDungeonLevel = 1; let bossSpawned = false;
-        let godModeActive = false;
+        let activeBagTab = 'equip';
+        let entities = []; let customProjectiles = []; let floatTexts = []; let environmentParticles = [];
+        let keyBindState = {}; let canvasInstance, canvasContext;
+        let activeDungeon = null; let currentDungeonFloor = 1; let isBossPresent = false;
+        let isGodModeActive = false;
 
-        function initGame() {
-            canvas = document.getElementById('gameCanvas'); ctx = canvas.getContext('2d');
-            window.addEventListener('resize', resizeCanvas); resizeCanvas();
-
-            window.addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; });
-            window.addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
-
-            buildLobby(); renderPortals(); renderInventory(); renderSkills(); renderUI();
-            requestAnimationFrame(gameLoop);
-        }
-
-        function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = canvas.parentElement.clientHeight; }
-        
-        function switchMmoTab(id) {
-            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.mmo-tabs button').forEach(el => el.classList.remove('active'));
-            document.getElementById(`view-${id}`).style.display = 'block';
-            document.getElementById(`tab-${id}`).classList.add('active');
-        }
-
-        // SISTEMA DE STATUS UNITÁRIO CORRIGIDO E BLINDADO
-        function allocateStat(statName) {
-            if (player.statPoints > 0) {
-                player.statPoints -= 1;
-                player.stats[statName] += 1;
-                
-                if (statName === 'vit') {
-                    player.maxHp += 15;
-                    player.hp += 15;
-                }
-                pushLog(`Atributo: +1 ponto em ${statName.toUpperCase()}.`);
-                renderUI();
-            } else {
-                pushLog("Sem pontos de status livres restantes.");
-            }
-        }
-
-        // SISTEMAS DE COMANDOS DO PAINEL ADMIN GM / SANDBOX
-        function gmAddLevel(amount) {
-            for(let i=0; i<amount; i++) {
-                player.lvl++;
-                player.maxHp += 25;
-                player.hp = player.maxHp;
-                player.statPoints += 5;
-                player.nextXp += 45;
-            }
-            pushLog(`⚙️ GM: Adicionado +${amount} Nível(is).`);
-            renderUI();
-        }
-
-        function gmAddGold(amount) {
-            player.gold += amount;
-            pushLog(`⚙️ GM: Injetado +${amount} moedas de ouro.`);
-            renderUI();
-        }
-
-        function gmToggleGodMode() {
-            godModeActive = !godModeActive;
-            document.getElementById('gm-god-status').innerText = godModeActive ? "ON" : "OFF";
-            document.getElementById('gm-god-status').style.color = godModeActive ? "#2ecc71" : "#ff3b30";
-            if(godModeActive) player.hp = player.maxHp;
-            pushLog(`⚙️ GM: Modo Deus alternado para ${godModeActive ? 'ATIVADO' : 'DESATIVADO'}.`);
-            renderUI();
-        }
-
-        function gmKillAllMonsters() {
-            if (mapMonsters.length === 0) {
-                pushLog("⚙️ GM: Não há monstros na sala para eliminar.");
-                return;
-            }
-            pushLog(`⚙️ GM: Executou comando Kill All. Removido ${mapMonsters.length} monstros.`);
-            mapMonsters = [];
-            checkRoomClearance();
-            renderUI();
-        }
-
-        function gmSpawnVariant(type) {
-            let rx = 200 + Math.random() * (canvas.width - 300);
-            let ry = 100 + Math.random() * (canvas.height - 200);
-            let cfg = VARIANT_TYPES[type];
-            let levelRef = currentDungeon ? currentDungeon.lvl : player.lvl;
-
-            mapMonsters.push({
-                x: rx, y: ry,
-                avatar: type === 'elite' ? "👻" : (type === 'champion' ? "👹" : "👾"),
-                hp: Math.floor(40 * levelRef * cfg.hpMult),
-                maxHp: Math.floor(40 * levelRef * cfg.hpMult),
-                speed: (type === 'elite' ? 1.8 : 1.0) * cfg.speedMult,
-                behavior: type === 'elite' ? "flee" : "melee",
-                name: `[${cfg.label}] Invasor Gerado`,
-                radius: type === 'champion' ? 28 : 22,
-                fontSize: type === 'champion' ? "32px" : "24px",
-                variant: type,
-                cfg: cfg
-            });
-            pushLog(`⚙️ GM: Spawnou variante [${cfg.label}] na coordenada atual.`);
-        }
-
-        function buildLobby() {
-            currentDungeon = null; currentDungeonLevel = 1; bossSpawned = false;
-            player.x = canvas.width / 2; player.y = canvas.height / 2;
-            mapMonsters = []; projectiles = []; visualEffects = []; particles = [];
-            document.getElementById('txt-map-title').innerText = "Cidade de Lore 🌆";
-            document.getElementById('lbl-current-floor').innerText = "Vila Principal";
-            pushLog("Seja bem-vindo de volta à Cidade de Lore.");
-        }
-
-        function startInstance(id) {
-            let selected = dungeons.find(x => x.id === id);
-            if (player.lvl < selected.lvl) {
-                pushLog(`❌ NÍVEL INSUFICIENTE: Você precisa estar no mínimo nível ${selected.lvl} para adentrar este portal.`);
-                return;
-            }
-            currentDungeon = selected;
-            currentDungeonLevel = 1; bossSpawned = false;
-            generateDungeonFloor();
-            switchMmoTab('hero');
-        }
-
-        function generateDungeonFloor() {
-            mapMonsters = []; projectiles = []; visualEffects = []; particles = [];
-            player.x = 80; player.y = canvas.height / 2;
-            document.getElementById('txt-map-title').innerText = `${currentDungeon.name}`;
+        function init() {
+            canvasInstance = document.getElementById('gameCanvas');
+            canvasContext = canvasInstance.getContext('2d');
             
-            if (currentDungeonLevel % 5 === 0) {
-                document.getElementById('lbl-current-floor').innerText = `Fase ${currentDungeonLevel} [SALA DO CHEFE 🚨]`;
-                pushLog("🚨 SALA DO CHEFE: Derrote os Guardiões Gigantes para quebrar o selo magnético!");
-                
-                // MINI-BOSSES RETRÔ GIGANTES E LENTOS
-                mapMonsters.push({ x: 440, y: 150, avatar: "👹", hp: 180 * currentDungeon.lvl, maxHp: 180 * currentDungeon.lvl, speed: 0.4, behavior: "melee", name: "Guardião de Ferro [Mini-Boss]", isGuard: true, radius: 38, fontSize: "46px", variant: "normal", cfg: VARIANT_TYPES.normal });
-                mapMonsters.push({ x: 440, y: 400, avatar: "👿", hp: 180 * currentDungeon.lvl, maxHp: 180 * currentDungeon.lvl, speed: 0.4, behavior: "melee", name: "Guardião Dracônico [Mini-Boss]", isGuard: true, radius: 38, fontSize: "46px", variant: "normal", cfg: VARIANT_TYPES.normal });
-                bossSpawned = false;
+            window.addEventListener('resize', adaptCanvasResolution);
+            adaptCanvasResolution();
+
+            window.addEventListener('keydown', event => { keyBindState[event.key.toLowerCase()] = true; handleDirectHotkeys(event.key.toLowerCase()); });
+            window.addEventListener('keyup', event => { keyBindState[event.key.toLowerCase()] = false; });
+
+            buildTownCenter();
+            renderPortalList();
+            renderInventoryGrid();
+            refreshInterfaceUI();
+            
+            requestAnimationFrame(engineUpdateLoop);
+        }
+
+        function adaptCanvasResolution() {
+            canvasInstance.width = canvasInstance.parentElement.clientWidth;
+            canvasInstance.height = canvasInstance.parentElement.clientHeight;
+        }
+
+        function toggleMainTab(tabId) {
+            document.querySelectorAll('.tab-view').forEach(view => view.classList.remove('active'));
+            document.querySelectorAll('.top-tabs button').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(`view-${tabId}`).classList.add('active');
+            document.getElementById(`btn-tab-${tabId}`).classList.add('active');
+        }
+
+        function toggleBagSubtab(subTabId) {
+            activeBagTab = subTabId;
+            document.querySelectorAll('.bag-subtabs button').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-bag-${subTabId}`).classList.add('active');
+            renderInventoryGrid();
+        }
+
+        // CORREÇÃO CRÍTICA UNITÁRIA CONTRA DUPLICAÇÃO DE PONTOS DE STATUS
+        function addStatPoint(statKey) {
+            if (player.freePoints > 0) {
+                player.freePoints -= 1; // Deduz estritamente 1 ponto livre
+                player.stats[statKey] += 1; // Soma estritamente 1 ponto no atributo
+
+                if (statKey === 'def') {
+                    player.maxHp += 12;
+                    player.hp += 12;
+                }
+                writeConsoleLog(`Atributos: Investido 1 ponto em ${statKey.toUpperCase()}.`);
+                refreshInterfaceUI();
             } else {
-                document.getElementById('lbl-current-floor').innerText = `Fase de Exploração ${currentDungeonLevel} 🌲`;
-                pushLog(`Sala de Caça ${currentDungeonLevel} iniciada.`);
+                writeConsoleLog("❌ Você não tem pontos livres! Suba de nível para ganhar.");
+            }
+        }
+
+        function selectClass(className, glyph) {
+            player.currentClass = className;
+            player.icon = glyph;
+            
+            // Habilita as habilidades na barra dinamicamente se não for Admin GM
+            const slotsCount = className === "Admin GM" ? 3 : 3;
+            for(let i=0; i<3; i++) {
+                let slotEl = document.getElementById(`hotbar-slot-${i}`);
+                if(className) {
+                    slotEl.classList.remove('locked');
+                    document.getElementById(`hotbar-ico-${i}`).innerText = skillDictionary[className][i].name.split(" ").pop();
+                    document.getElementById(`hotbar-txt-${i}`).innerText = skillDictionary[className][i].name.split(" ")[0];
+                }
+            }
+            
+            // Preenche a árvore de habilidades na aba correspondente
+            const treeContainer = document.getElementById('skills-tree-list');
+            treeContainer.innerHTML = "";
+            skillDictionary[className].forEach(sk => {
+                treeContainer.innerHTML += `
+                    <div class="skill-tree-node">
+                        <div class="skill-node-icon">${sk.name.split(" ").pop()}</div>
+                        <div>
+                            <div style="font-weight:bold; color:#fff; font-size:12px;">${sk.name}</div>
+                            <div style="font-size:10px; color:#888;">Custo: ${sk.mp} MP | Multiplicador de Dano: x${sk.dmgMult}</div>
+                        </div>
+                    </div>`;
+            });
+
+            writeConsoleLog(`Linhagem alterada com sucesso para: ${className} ${glyph}`);
+            refreshInterfaceUI();
+        }
+
+        function renderPortalList() {
+            const listEl = document.getElementById('portals-container-list');
+            listEl.innerHTML = "";
+            portalDatabase.forEach(p => {
+                listEl.innerHTML += `
+                    <div class="portal-item" onclick="enterPortalInstance(${p.id})">
+                        <span>🌌 <b>${p.name}</b></span>
+                        <span style="color:#ffcc00;">Requisito Nv.${p.minLvl}</span>
+                    </div>`;
+            });
+        }
+
+        function renderInventoryGrid() {
+            const container = document.getElementById('bag-content');
+            container.innerHTML = "";
+            let currentList = inventorySystem[activeBagTab];
+            
+            currentList.forEach((item, index) => {
+                let displayQty = item.qty !== undefined ? `<b style="color:#ffcc00">x${item.qty}</b>` : `Bonus: +${item.statBonus}`;
+                container.innerHTML += `
+                    <div class="bag-item" onclick="interactWithInventoryItem('${activeBagTab}', ${index})">
+                        <span style="font-size:14px;">${item.icon}</span>
+                        <div style="font-size:8px; overflow:hidden;">${item.name}</div>
+                        <div>${displayQty}</div>
+                    </div>`;
+            });
+            
+            // Atualiza contadores rápidos da Hotbar Inferior
+            let hpPotItem = inventorySystem.pot.find(p => p.id === 'p_hp');
+            let mpPotItem = inventorySystem.pot.find(p => p.id === 'p_mp');
+            document.getElementById('lbl-hotbar-pot-hp').innerText = `Poção HP (${hpPotItem ? hpPotItem.qty : 0})`;
+            document.getElementById('lbl-hotbar-pot-mp').innerText = `Poção MP (${mpPotItem ? mpPotItem.qty : 0})`;
+        }
+
+        function interactWithInventoryItem(tab, idx) {
+            let item = inventorySystem[tab][idx];
+            if(!item) return;
+
+            if (tab === 'equip') {
+                if (item.type === 'weapon') {
+                    player.equipment.weapon = item;
+                    writeConsoleLog(`Equipado: ${item.name} no slot de Arma.`);
+                    document.getElementById('slot-weapon').innerHTML = `<b>${item.icon}</b><span style="font-size:8px;color:#a86439;">Weapon</span>`;
+                    document.getElementById('slot-weapon').classList.add('filled');
+                }
+            } else if (tab === 'pot') {
+                useConsumable(item.type);
+            }
+        }
+
+        function buyPotion(type) {
+            if (player.gold >= 25) {
+                player.gold -= 25;
+                let item = inventorySystem.pot.find(p => p.type === type);
+                if (item) item.qty++;
+                writeConsoleLog(`Loja: Adquirido 1x Poção de ${type.toUpperCase()}.`);
+                renderInventoryGrid();
+                refreshInterfaceUI();
+            } else {
+                writeConsoleLog("❌ Ouro insuficiente para realizar a compra na loja.");
+            }
+        }
+
+        function buyBasicWeapon() {
+            if (player.gold >= 150) {
+                player.gold -= 150;
+                inventorySystem.equip.push({ id: 'w_bronze', name: "Espada Bronze", type: "weapon", icon: "⚔️", statBonus: 5 });
+                writeConsoleLog("Loja: Adquirido 1x Espada de Bronze (+5 FOR).");
+                renderInventoryGrid();
+                refreshInterfaceUI();
+            } else {
+                writeConsoleLog("❌ Ouro insuficiente.");
+            }
+        }
+
+        function craftBossJewel() {
+            let essence = inventorySystem.mat.find(m => m.name === "Essência de Chefe");
+            if (player.gold >= 500 && essence && essence.qty >= 1) {
+                player.gold -= 500;
+                essence.qty -= 1;
+                player.exclusiveJewels.joiaRing = { name: "Anel do Soberano", icon: "💍" };
+                document.getElementById('slot-joia-ring').innerHTML = `<b>💍</b><span style="font-size:8px;color:#ffcc00;">Anel</span>`;
+                document.getElementById('slot-joia-ring').classList.add('filled');
+                writeConsoleLog("👑 FORJA: Você forjou o artefato lendário Anel do Soberano!");
+                renderInventoryGrid();
+                refreshInterfaceUI();
+            } else {
+                writeConsoleLog("❌ Requisitos de Forja Insuficientes (Requer 500g e 1 Essência de Chefe).");
+            }
+        }
+
+        function useConsumable(type) {
+            let potItem = inventorySystem.pot.find(p => p.type === type);
+            if (potItem && potItem.qty > 0) {
+                potItem.qty--;
+                if (type === 'hp') {
+                    player.hp = Math.min(player.maxHp, player.hp + 50);
+                    createExplosionVfx(player.x, player.y, "#bd2a1e", 5);
+                } else {
+                    player.mp = Math.min(player.maxMp, player.mp + 30);
+                    createExplosionVfx(player.x, player.y, "#1e60bd", 5);
+                }
+                writeConsoleLog(`Consumiu elixir: Poção Pequena de ${type.toUpperCase()}`);
+                renderInventoryGrid();
+                refreshInterfaceUI();
+            } else {
+                writeConsoleLog(`❌ Você não possui frascos de Poção de ${type.toUpperCase()} na Bolsa.`);
+            }
+        }
+
+        function buildTownCenter() {
+            activeDungeon = null; currentDungeonFloor = 1; isBossPresent = false;
+            player.x = canvasInstance.width / 2 || 230;
+            player.y = canvasInstance.height / 2 || 245;
+            entities = []; customProjectiles = []; floatTexts = []; environmentParticles = [];
+            document.getElementById('lbl-map-title').innerText = "CIDADE DE LORE (LOBBY VILA) 🌆";
+            document.getElementById('lbl-boss-counter').innerText = "Fase Segura";
+            writeConsoleLog("Você entrou na zona neutra da Cidade de Lore 🌆.");
+        }
+
+        function enterPortalInstance(id) {
+            let port = portalDatabase.find(x => x.id === id);
+            if (player.lvl < port.minLvl) {
+                writeConsoleLog(`❌ NÍVEL INSUFICIENTE: Requer nível ${port.minLvl} para romper o selo deste portal.`);
+                return;
+            }
+            activeDungeon = port;
+            currentDungeonFloor = 1;
+            isBossPresent = false;
+            generateDungeonFloorLayout();
+            toggleMainTab('hero');
+        }
+
+        function generateDungeonFloorLayout() {
+            entities = []; customProjectiles = []; floatTexts = []; environmentParticles = [];
+            player.x = 60; player.y = canvasInstance.height / 2;
+            document.getElementById('lbl-map-title').innerText = `${activeDungeon.name.toUpperCase()}`;
+            
+            if (currentDungeonFloor % 5 === 0) {
+                document.getElementById('lbl-boss-counter').innerText = `${currentDungeonFloor} [CHEFE 🚨]`;
+                writeConsoleLog(`🚨 ENTRADA DO CHEFE: Derrote os generais de guarda para invocar o Boss!`);
                 
-                let count = 3 + Math.floor(currentDungeonLevel / 2);
-                for(let i=0; i<count; i++) {
-                    let rx = 240 + Math.random() * (canvas.width - 340);
-                    let ry = 90 + Math.random() * (canvas.height - 180);
+                spawnMonsterEntity(canvasInstance.width - 200, 130, "normal", true, "Guardião Alpha");
+                spawnMonsterEntity(canvasInstance.width - 200, 360, "normal", true, "Guardião Ômega");
+            } else {
+                document.getElementById('lbl-boss-counter').innerText = `${currentDungeonFloor}/25`;
+                writeConsoleLog(`Fase de Combate ${currentDungeonFloor} iniciada.`);
+                
+                let spawns = 2 + Math.floor(currentDungeonFloor * 0.5);
+                for(let i=0; i < spawns; i++) {
+                    let rx = 200 + Math.random() * (canvasInstance.width - 260);
+                    let ry = 80 + Math.random() * (canvasInstance.height - 160);
                     
-                    // CHANCE DE SPAWN DE VARIANTES (70% Comum, 20% Elite, 10% Campeão)
                     let rng = Math.random();
-                    let vType = "normal";
-                    if(rng > 0.7 && rng <= 0.9) vType = "elite";
-                    else if(rng > 0.9) vType = "champion";
+                    let variantSelected = "normal";
+                    if (rng > 0.5 && rng <= 0.75) variantSelected = "elite";
+                    else if (rng > 0.75 && rng <= 0.93) variantSelected = "champion";
+                    else if (rng > 0.93) variantSelected = "ancestral";
 
-                    let cfg = VARIANT_TYPES[vType];
-                    let isRanged = Math.random() > 0.5;
-
-                    mapMonsters.push({
-                        x: rx, y: ry,
-                        avatar: vType === 'champion' ? "🐲" : (isRanged ? "👻" : "👾"),
-                        hp: Math.floor(45 * currentDungeon.lvl * cfg.hpMult),
-                        maxHp: Math.floor(45 * currentDungeon.lvl * cfg.hpMult), 
-                        speed: (isRanged ? 1.4 : 1.0) * cfg.speedMult, 
-                        behavior: isRanged ? "flee" : "melee",
-                        name: `[${cfg.label}] Lacaio Abissal`, 
-                        radius: vType === 'champion' ? 28 : 22, 
-                        fontSize: vType === 'champion' ? "32px" : "24px",
-                        variant: vType,
-                        cfg: cfg
-                    });
+                    spawnMonsterEntity(rx, ry, variantSelected, false, "Invasor");
                 }
             }
         }
 
-        function triggerSkillSlot(idx) {
-            if (mapMonsters.length === 0) {
-                if (currentDungeon) {
-                    currentDungeonLevel++;
-                    generateDungeonFloor();
+        function spawnMonsterEntity(x, y, variantType, isGuard, customName) {
+            let mod = variantModifiers[variantType];
+            let dungeonLevelFactor = activeDungeon ? activeDungeon.minLvl : player.lvl;
+            let finalHp = Math.floor(40 * dungeonLevelFactor * mod.hp);
+            
+            let isRangedMob = Math.random() > 0.6 && !isGuard;
+
+            entities.push({
+                x: x, y: y,
+                avatar: isGuard ? "👺" : (isRangedMob ? "👻" : "👾"),
+                hp: isGuard ? 200 * activeDungeon.id : finalHp,
+                maxHp: isGuard ? 200 * activeDungeon.id : finalHp,
+                speed: (isRangedMob ? 1.3 : 0.9) * mod.speed,
+                behavior: isRangedMob ? "flee" : "melee",
+                name: isGuard ? customName : `[${mod.tag}] ${customName}`,
+                isGuard: isGuard,
+                variant: variantType,
+                mod: mod,
+                radius: mod.rad,
+                fontSize: mod.size
+            });
+        }
+
+        function useHotbarSkill(idx) {
+            if (entities.length === 0) {
+                if (activeDungeon) {
+                    currentDungeonFloor++;
+                    generateDungeonFloorLayout();
                 } else {
-                    pushLog("Entre em um portal ativo na aba de portais para usar combate.");
+                    writeConsoleLog("Aproxime-se de um Portal Dimensional ativo para lutar.");
                 }
                 return;
             }
 
-            let target = null; let minDist = Infinity;
-            mapMonsters.forEach(m => {
-                let d = Math.hypot(m.x - player.x, m.y - player.y);
-                if(d < minDist) { minDist = d; target = m; }
+            let target = null; let shortestDist = Infinity;
+            entities.forEach(e => {
+                let d = Math.hypot(e.x - player.x, e.y - player.y);
+                if (d < shortestDist) { shortestDist = d; target = e; }
             });
 
-            let skillName = SKILL_DATA[player.currentClass][idx];
-            let statBonus = player.currentClass === "Mago" ? player.stats.int : player.stats.str;
-            let rawDmg = Math.floor(25 + statBonus + (player.lvl * 5.5));
-            let icon = SKILL_ICONS[player.currentClass][idx];
+            let sk = skillDictionary[player.currentClass][idx];
+            if (player.mp < sk.mp) {
+                writeConsoleLog("❌ Pontos de Mana (MP) insuficientes para desferir este ataque.");
+                return;
+            }
 
-            createVisualExplosion(player.x, player.y, "#ffcc00", 6);
+            player.mp -= sk.mp;
+            let weaponBonus = player.equipment.weapon ? player.equipment.weapon.statBonus : 0;
+            let referencePower = player.currentClass === "Mago" ? player.stats.mag : player.stats.str;
+            let netDamage = Math.floor((15 + referencePower + weaponBonus) * sk.dmgMult);
 
-            if (player.currentClass === "Arqueiro" || player.currentClass === "Mago" || player.currentClass === "Admin GM") {
-                projectiles.push({
-                    x: player.x, y: player.y, target: target, speed: 9,
-                    damage: rawDmg, isEnemy: false, icon: icon
+            createExplosionVfx(player.x, player.y, "#ffcc00", 6);
+
+            if (player.currentClass === "Mago" || player.currentClass === "Arqueiro" || player.currentClass === "Admin GM") {
+                customProjectiles.push({
+                    x: player.x, y: player.y, target: target, speed: 10,
+                    damage: netDamage, isEnemy: false, icon: sk.name.split(" ").pop()
                 });
-                pushLog(`${icon} Skill: ${skillName}`);
             } else {
-                if (minDist <= 125) {
-                    applyDamageToMonster(target, rawDmg);
-                    pushLog(`${icon} Skill Corpo-a-Corpo: ${skillName}`);
+                if (shortestDist <= 130) {
+                    executeDamageCalculation(target, netDamage);
                 } else {
-                    pushLog("Muito distante da entidade! Aproxime seu caractere do monstro.");
+                    writeConsoleLog("❌ Alvo fora de alcance corpo-a-corpo. Aproxime seu caractere.");
                 }
             }
+            refreshInterfaceUI();
         }
 
-        function createVisualExplosion(x, y, color, count) {
-            for(let i=0; i<count; i++) {
-                particles.push({
-                    x: x, y: y,
-                    vx: (Math.random() - 0.5) * 7, vy: (Math.random() - 0.5) * 7,
-                    color: color, life: 18
-                });
-            }
-        }
+        function executeDamageCalculation(mob, amount) {
+            mob.hp -= amount;
+            createExplosionVfx(mob.x, mob.y, mob.mod.aura || "#ffffff", 8);
+            floatTexts.push({ x: mob.x, y: mob.y - 30, text: `💥 -${amount}`, color: "#ffcc00", life: 30 });
 
-        function applyDamageToMonster(mob, dmg) {
-            mob.hp -= dmg;
-            createVisualExplosion(mob.x, mob.y, mob.cfg.auraColor || "#ffffff", 10);
-            visualEffects.push({ x: mob.x, y: mob.y - 35, text: `💥 -${dmg}`, color: "#ffcc00", life: 28 });
-            
             if (mob.hp <= 0) {
-                pushLog(`💀 Destruído: ${mob.name}`);
-                mapMonsters = mapMonsters.filter(m => m !== mob);
+                writeConsoleLog(`💀 Derrotado: ${mob.name}`);
+                entities = entities.filter(e => e !== mob);
                 
-                // RECOMPENSAS ADAPTADAS COM BASE NO MULTIPLICADOR DA VARIANTE
-                let goldGained = Math.floor(25 * (mob.cfg.rewardMult || 1.0));
-                let xpGained = Math.floor(45 * (mob.cfg.rewardMult || 1.0));
-                player.gold += goldGained; 
-                gainXp(xpGained);
+                let goldReward = Math.floor(30 * activeDungeon.id * mob.mod.gold);
+                let xpReward = Math.floor(40 * activeDungeon.id * mob.mod.gold);
+                
+                player.gold += goldReward;
+                processXpAcquisition(xpReward);
 
-                checkRoomClearance();
+                if (mob.isGuard && entities.filter(e => e.isGuard).length === 0 && !isBossPresent) {
+                    isBossPresent = true;
+                    writeConsoleLog(`🚨 ALERTA GERAL: O Soberano da Instância ${activeDungeon.bossName} despertou!`);
+                    entities.push({
+                        x: canvasInstance.width - 150, y: canvasInstance.height / 2,
+                        avatar: "🐉", hp: 600 * activeDungeon.id, maxHp: 600 * activeDungeon.id,
+                        speed: 0.8, behavior: "melee", name: activeDungeon.bossName,
+                        isGuard: false, variant: "ancestral", mod: variantModifiers.ancestral,
+                        radius: 45, fontSize: "52px"
+                    });
+                } else if (isBossPresent && mob.avatar === "🐉") {
+                    writeConsoleLog(`🏆 VITÓRIA EXTRAORDINÁRIA: Você limpou a instância de ${activeDungeon.name}!`);
+                    let essenceMat = inventorySystem.mat.find(m => m.name === "Essência de Chefe");
+                    if(essenceMat) essenceMat.qty++;
+                    buildTownCenter();
+                }
             }
-            renderUI();
+            refreshInterfaceUI();
         }
 
-        function checkRoomClearance() {
-            if (currentDungeonLevel % 5 === 0 && !bossSpawned && mapMonsters.length === 0) {
-                bossSpawned = true;
-                pushLog(`🚨 RUMBLE: Selo desfeito! O Chefe de Instância ${currentDungeon.boss} entrou na arena!`);
-                mapMonsters.push({
-                    x: canvas.width - 160, y: canvas.height / 2, avatar: "🐉",
-                    hp: 550 * currentDungeon.lvl, maxHp: 550 * currentDungeon.lvl,
-                    speed: 0.75, behavior: "melee", name: currentDungeon.boss, radius: 50, fontSize: "60px",
-                    variant: "champion", cfg: VARIANT_TYPES.champion
+        function processXpAcquisition(val) {
+            player.xp += val;
+            if (player.xp >= player.nextXp) {
+                player.xp -= player.nextXp;
+                player.lvl++;
+                player.nextXp += 55;
+                player.maxHp += 20;
+                player.maxMp += 10;
+                player.hp = player.maxHp;
+                player.mp = player.maxMp;
+                player.freePoints += 5; // Concede rigorosamente 5 pontos livres e unitários ao avançar de nível
+                writeConsoleLog(`🌟 EVOLUÇÃO: Nível ${player.lvl} Alcançado! Ganhou +5 PTS.`);
+            }
+        }
+
+        function createExplosionVfx(x, y, color, qty) {
+            for(let i=0; i<qty; i++) {
+                environmentParticles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * 6, vy: (Math.random() - 0.5) * 6,
+                    color: color, life: 20
                 });
             }
         }
 
-        function gainXp(amt) {
-            player.xp += amt;
-            if (player.xp >= player.nextXp) {
-                player.xp -= player.nextXp; player.lvl++; player.nextXp += 50;
-                player.maxHp += 25; player.hp = player.maxHp;
-                player.statPoints += 5;
-                pushLog(`🌟 UP: Você subiu para o Nível ${player.lvl}! +5 Pontos.`);
+        function gmAction(actionKey) {
+            if (actionKey === 'lvl1') { processXpAcquisition(player.nextXp); }
+            else if (actionKey === 'lvl15') { for(let i=0; i<15; i++) { processXpAcquisition(player.nextXp); } }
+            else if (actionKey === 'gold') { player.gold += 5000; writeConsoleLog("⚙️ GM: Adicionado 5.000 moedas de ouro."); }
+            else if (actionKey === 'pts') { player.freePoints += 50; writeConsoleLog("⚙️ GM: Adicionado 50 pontos de status unitários."); }
+            else if (actionKey === 'kill-all') { entities = []; writeConsoleLog("⚙️ GM: Todos os monstros foram obliterados."); if(activeDungeon) { currentDungeonFloor++; generateDungeonFloorLayout(); } }
+            else if (actionKey === 'god-mode') { isGodModeActive = !isGodModeActive; document.getElementById('gm-god-status').innerText = isGodModeActive ? "ON" : "OFF"; document.getElementById('gm-god-status').style.color = isGodModeActive ? "#2ecc71" : "#ff3b30"; }
+            else if (actionKey.startsWith('spawn-')) {
+                let variant = actionKey.split('-')[1];
+                let rx = 200 + Math.random() * (canvasInstance.width - 250);
+                let ry = 80 + Math.random() * (canvasInstance.height - 150);
+                spawnMonsterEntity(rx, ry, variant, false, "Invasor de Teste Sandbox");
+                writeConsoleLog(`⚙️ GM: Criou variante [${variant.toUpperCase()}] na arena gráfica.`);
             }
-            renderUI();
+            refreshInterfaceUI();
         }
 
-        function gameLoop(timestamp) {
-            if (godModeActive) player.hp = player.maxHp;
+        function handleDirectHotkeys(key) {
+            if (key === '1') useHotbarSkill(0);
+            if (key === '2') useHotbarSkill(1);
+            if (key === '3') useHotbarSkill(2);
+            if (key === 'q') useConsumable('hp');
+            if (key === 'e') useConsumable('mp');
+        }
 
-            let moveSpeed = 3.2 + (player.stats.agi * 0.05);
+        function engineUpdateLoop(timestamp) {
+            if (isGodModeActive) { player.hp = player.maxHp; player.mp = player.maxMp; }
 
-            if (keys['w'] && player.y > 25) player.y -= moveSpeed;
-            if (keys['s'] && player.y < canvas.height - 25) player.y += moveSpeed;
-            if (keys['a'] && player.x > 25) player.x -= moveSpeed;
-            if (keys['d'] && player.x < canvas.width - 25) player.x += moveSpeed;
+            // Velocidade modificada dinamicamente via Agilidade (AGI)
+            let currentStride = 3.2 + (player.stats.agi * 0.04);
 
-            mapMonsters.forEach(mob => {
-                let dist = Math.hypot(player.x - mob.x, player.y - mob.y);
+            if (keyBindState['w'] && player.y > 20) player.y -= currentStride;
+            if (keyBindState['s'] && player.y < canvasInstance.height - 20) player.y += currentStride;
+            if (keyBindState['a'] && player.x > 20) player.x -= currentStride;
+            if (keyBindState['d'] && player.x < canvasInstance.width - 20) player.x += currentStride;
+
+            entities.forEach(mob => {
+                let d = Math.hypot(player.x - mob.x, player.y - mob.y);
 
                 if (mob.behavior === "flee") {
-                    if (dist < 150) {
+                    if (d < 160) {
                         let dx = mob.x - player.x; let dy = mob.y - player.y;
-                        let len = Math.hypot(dx, dy) || 1;
-                        mob.x += (dx / len) * mob.speed; mob.y += (dy / len) * mob.speed;
+                        let normalization = Math.hypot(dx, dy) || 1;
+                        mob.x += (dx / normalization) * mob.speed;
+                        mob.y += (dy / normalization) * mob.speed;
                     }
-                    if (!mob.lastShot || timestamp - mob.lastShot > 1400) {
-                        mob.lastShot = timestamp;
-                        let bulletDmg = Math.floor((5 + (currentDungeon ? currentDungeon.lvl : 1)) * (mob.cfg.damageMult || 1.0));
-                        projectiles.push({ x: mob.x, y: mob.y, target: player, speed: 5.8, damage: bulletDmg, isEnemy: true, icon: "🔸" });
+                    if (!mob.lastTriggerShot || timestamp - mob.lastTriggerShot > 1300) {
+                        mob.lastTriggerShot = timestamp;
+                        let calculatedDmg = Math.floor((6 + activeDungeon.id) * mob.mod.dmg);
+                        customProjectiles.push({ x: mob.x, y: mob.y, target: player, speed: 6.0, damage: calculatedDmg, isEnemy: true, icon: "🔹" });
                     }
                 } else {
                     let dx = player.x - mob.x; let dy = player.y - mob.y;
-                    let len = Math.hypot(dx, dy) || 1;
-                    if (dist > 35) {
-                        mob.x += (dx / len) * mob.speed; mob.y += (dy / len) * mob.speed;
+                    let normalization = Math.hypot(dx, dy) || 1;
+                    if (d > 35) {
+                        mob.x += (dx / normalization) * mob.speed;
+                        mob.y += (dy / normalization) * mob.speed;
                     } else {
-                        if (!mob.lastHit || timestamp - mob.lastHit > 1100) {
-                            mob.lastHit = timestamp;
-                            let rawDmg = mob.avatar === "🐉" ? 30 : (mob.isGuard ? 16 : 7);
-                            rawDmg = Math.floor(rawDmg * (mob.cfg.damageMult || 1.0));
+                        if (!mob.lastMeleeStrike || timestamp - mob.lastMeleeStrike > 1000) {
+                            mob.lastMeleeStrike = timestamp;
+                            let baseStrike = mob.avatar === "🐉" ? 35 : 8;
+                            let netStrike = Math.floor((baseStrike + activeDungeon.id) * mob.mod.dmg - (player.stats.def * 0.2));
+                            netStrike = Math.max(1, netStrike);
                             
-                            if (!godModeActive) player.hp -= rawDmg;
+                            if (!isGodModeActive) player.hp -= netStrike;
+                            floatTexts.push({ x: player.x, y: player.y - 20, text: `💔 -${netStrike}`, color: "#ff3b30", life: 25 });
                             
-                            visualEffects.push({ x: player.x, y: player.y - 25, text: `💔 -${rawDmg}`, color: "#ff3b30", life: 25 });
-                            if(player.hp <= 0 && !godModeActive) { pushLog("💀 Você pereceu. Retornando para a Vila."); buildLobby(); }
-                            renderUI();
+                            if (player.hp <= 0 && !isGodModeActive) { writeConsoleLog("💀 Desmaiado! Você voltou para a Vila."); buildTownCenter(); }
+                            refreshInterfaceUI();
                         }
                     }
                 }
             });
 
-            particles.forEach((p, idx) => {
-                p.x += p.vx; p.y += p.vy; p.life--;
-                if(p.life <= 0) particles.splice(idx, 1);
-            });
-
-            projectiles.forEach((proj, idx) => {
+            customProjectiles.forEach((proj, i) => {
                 let dx = proj.target.x - proj.x; let dy = proj.target.y - proj.y;
-                let dist = Math.hypot(dx, dy);
+                let distance = Math.hypot(dx, dy);
 
-                if (dist < proj.target.radius) {
+                if (distance < 25) {
                     if (proj.isEnemy) {
-                        if (!godModeActive) player.hp -= proj.damage;
-                        visualEffects.push({ x: player.x, y: player.y - 25, text: `💥 -${proj.damage}`, color: "#ff2a1a", life: 25 });
-                        if(player.hp <= 0 && !godModeActive) { pushLog("💀 Você sucumbiu a projéteis."); buildLobby(); }
-                        renderUI();
+                        if (!isGodModeActive) player.hp -= proj.damage;
+                        floatTexts.push({ x: player.x, y: player.y - 20, text: `💥 -${proj.damage}`, color: "#ff2a1a", life: 25 });
+                        if (player.hp <= 0 && !isGodModeActive) { buildTownCenter(); }
+                        refreshInterfaceUI();
                     } else {
-                        applyDamageToMonster(proj.target, proj.damage);
+                        executeDamageCalculation(proj.target, proj.damage);
                     }
-                    projectiles.splice(idx, 1);
+                    customProjectiles.splice(i, 1);
                 } else {
-                    proj.x += (dx / dist) * proj.speed; proj.y += (dy / dist) * proj.speed;
+                    proj.x += (dx / distance) * proj.speed;
+                    proj.y += (dy / distance) * proj.speed;
                 }
             });
 
-            ctx.fillStyle = currentDungeon ? currentDungeon.color : "#0c0807";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            environmentParticles.forEach((p, i) => { p.x += p.vx; p.y += p.vy; p.life--; if(p.life <= 0) environmentParticles.splice(i, 1); });
 
-            ctx.strokeStyle = "rgba(255,255,255,0.02)";
-            for(let g=0; g<canvas.width; g+=40) { ctx.beginPath(); ctx.moveTo(g,0); ctx.lineTo(g,canvas.height); ctx.stroke(); }
+            // RENDERIZAÇÃO RETRÔ NO CANVAS COM FUNDO PRETO ABSOLUTO
+            canvasContext.fillStyle = "#000000";
+            canvasContext.fillRect(0, 0, canvasInstance.width, canvasInstance.height);
 
-            particles.forEach(p => { ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, 4, 4); });
+            // Grelha de fundo estilizada em baixa opacidade
+            canvasContext.strokeStyle = "rgba(84, 52, 30, 0.08)";
+            canvasContext.lineWidth = 1;
+            for(let g = 0; g < canvasInstance.width; g += 40) { canvasContext.beginPath(); canvasContext.moveTo(g, 0); canvasContext.lineTo(g, canvasInstance.height); canvasContext.stroke(); }
 
-            // RENDER JOGADOR RETRÔ ORIGINAL
-            ctx.font = "32px Courier New";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(player.avatar, player.x, player.y);
+            environmentParticles.forEach(p => { canvasContext.fillStyle = p.color; canvasContext.fillRect(p.x, p.y, 4, 4); });
 
-            // RENDER MONSTROS RETRÔ + AURAS VISUAIS DE VARIANTES
-            mapMonsters.forEach(mob => {
-                if (mob.cfg.auraColor) {
-                    ctx.beginPath();
-                    ctx.arc(mob.x, mob.y, mob.radius + 4, 0, Math.PI * 2);
-                    ctx.strokeStyle = mob.cfg.auraColor;
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
+            // RENDER VISUAL DO JOGADOR
+            canvasContext.font = "32px Courier New";
+            canvasContext.textAlign = "center";
+            canvasContext.textBaseline = "middle";
+            canvasContext.fillText(player.icon, player.x, player.y);
+
+            // RENDER DOS MONSTROS E SUAS AURAS VARIANTES REAIS
+            entities.forEach(mob => {
+                if (mob.mod.aura) {
+                    canvasContext.beginPath();
+                    canvasContext.arc(mob.x, mob.y, mob.radius + 2, 0, Math.PI * 2);
+                    canvasContext.strokeStyle = mob.mod.aura;
+                    canvasContext.lineWidth = 2;
+                    canvasContext.stroke();
                 }
 
-                ctx.font = `${mob.fontSize || "24px"} Courier New`;
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText(mob.avatar, mob.x, mob.y);
+                canvasContext.font = `${mob.fontSize} Courier New`;
+                canvasContext.textAlign = "center";
+                canvasContext.textBaseline = "middle";
+                canvasContext.fillText(mob.avatar, mob.x, mob.y);
                 
-                ctx.fillStyle = "#222"; ctx.fillRect(mob.x - 25, mob.y - mob.radius - 12, 50, 5);
-                ctx.fillStyle = mob.isGuard ? "#9b59b6" : (mob.avatar === "🐉" ? "#ffcc00" : "#e74c3c");
-                ctx.fillRect(mob.x - 25, mob.y - mob.radius - 12, (mob.hp / mob.maxHp) * 50, 5);
+                // Barra Retrô de Vida Flutuante
+                canvasContext.fillStyle = "#1c0a06";
+                canvasContext.fillRect(mob.x - 20, mob.y - mob.radius - 10, 40, 4);
+                canvasContext.fillStyle = mob.isGuard ? "#9b59b6" : "#e74c3c";
+                canvasContext.fillRect(mob.x - 20, mob.y - mob.radius - 10, (mob.hp / mob.maxHp) * 40, 4);
             });
 
-            projectiles.forEach(p => {
-                ctx.font = "22px Courier New";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText(p.icon || "🔸", p.x, p.y);
+            // PROJÉTEIS
+            customProjectiles.forEach(p => {
+                canvasContext.font = "20px Courier New";
+                canvasContext.textAlign = "center";
+                canvasContext.textBaseline = "middle";
+                canvasContext.fillText(p.icon, p.x, p.y);
             });
 
-            visualEffects.forEach((eff, idx) => {
-                ctx.fillStyle = eff.color; ctx.font = "bold 14px Courier New";
-                ctx.fillText(eff.text, eff.x, eff.y); eff.life--; eff.y -= 0.6;
-                if(eff.life <= 0) visualEffects.splice(idx, 1);
+            // TEXTOS FLUTUANTES (DANOS E CURAS)
+            floatTexts.forEach((f, i) => {
+                canvasContext.fillStyle = f.color; canvasContext.font = "bold 13px Courier New";
+                canvasContext.fillText(f.text, f.x, f.y); f.life--; f.y -= 0.7;
+                if(f.life <= 0) floatTexts.splice(i, 1);
             });
 
-            requestAnimationFrame(gameLoop);
+            requestAnimationFrame(engineUpdateLoop);
         }
 
-        function changeClass(c, avatar) { player.currentClass = c; player.avatar = avatar; renderSkills(); renderUI(); pushLog(`Vocação alternada para: ${c} ${avatar}`); }
-        
-        function renderPortals() {
-            const div = document.getElementById('portal-triggers'); div.innerHTML = "";
-            dungeons.forEach(d => {
-                div.innerHTML += `<button class="action-btn" style="background:${d.color}; text-align:left; border-color:#3d291c;" onclick="startInstance(${d.id})">🌌 Portal: ${d.name} <span style="color:#ffcc00;float:right;">Req. Nv.${d.lvl}</span></button>`;
-            });
-        }
-        
-        function renderInventory() {
-            const div = document.getElementById('inventory-container'); div.innerHTML = "";
-            inventory.forEach(i => { div.innerHTML += `<div class="inv-item"><div>${i.icon}</div><div>${i.name}</div><b>x${i.qty}</b></div>`; });
-        }
-        
-        function renderSkills() {
-            const div = document.getElementById('box-talents'); div.innerHTML = "";
-            SKILL_DATA[player.currentClass].forEach((sk, i) => {
-                div.innerHTML += `<div style="background:#1a0f0c; padding:10px; border:1px solid #422e20; font-size:12px;">${sk} (Atalho Slot ${i+1})</div>`;
-                if(i < 3) {
-                    document.getElementById(`hb-name-${i}`).innerText = sk.split(" ")[0];
-                    document.getElementById(`hb-icon-${i}`).innerText = SKILL_ICONS[player.currentClass][i];
-                }
-            });
-        }
-        
-        function renderUI() {
+        function refreshInterfaceUI() {
             document.getElementById('lbl-class').innerText = player.currentClass;
+            document.getElementById('lbl-gold').innerText = player.gold;
             document.getElementById('lbl-lvl').innerText = player.lvl;
-            document.getElementById('lbl-gold').innerText = player.gold + "g";
-            document.getElementById('fill-hp').style.width = `${(player.hp/player.maxHp)*100}%`;
-            document.getElementById('txt-hp').innerText = `HP: ${player.hp}/${player.maxHp}`;
-            document.getElementById('fill-mp').style.width = `${(player.mp/player.maxMp)*100}%`;
-            document.getElementById('txt-mp').innerText = `MP: ${player.mp}/${player.maxMp}`;
-            document.getElementById('fill-xp').style.width = `${(player.xp/player.nextXp)*100}%`;
-            document.getElementById('txt-xp').innerText = `XP: ${player.xp}/${player.nextXp}`;
             
-            document.getElementById('lbl-stat-points').innerText = player.statPoints;
-            document.getElementById('val-str').innerText = player.stats.str;
-            document.getElementById('val-int').innerText = player.stats.int;
-            document.getElementById('val-agi').innerText = player.stats.agi;
-            document.getElementById('val-vit').innerText = player.stats.vit;
-        }
-        
-        function pushLog(m) { const t = document.getElementById('terminal-logs'); t.innerHTML += `<p style='margin:2px 0;'>&gt; ${m}</p>`; t.scrollTop = t.scrollHeight; }
+            document.getElementById('fill-hp').style.width = `${(player.hp / player.maxHp) * 100}%`;
+            document.getElementById('txt-hp').innerText = `HP: ${player.hp}/${player.maxHp}`;
+            document.getElementById('fill-mp').style.width = `${(player.mp / player.maxMp) * 100}%`;
+            document.getElementById('txt-mp').innerText = `MP: ${player.mp}/${player.maxMp}`;
+            document.getElementById('txt-xp').innerText = `XP: ${player.xp}/${player.nextXp}`;
 
-        window.onload = initGame;
+            document.getElementById('val-str').innerText = player.stats.str;
+            document.getElementById('val-agi').innerText = player.stats.agi;
+            document.getElementById('val-mag').innerText = player.stats.mag;
+            document.getElementById('val-int').innerText = player.stats.int;
+            document.getElementById('val-def').innerText = player.stats.def;
+            document.getElementById('val-pts').innerText = player.freePoints;
+        }
+
+        function writeConsoleLog(msg) {
+            const out = document.getElementById('terminal-log-output');
+            out.innerHTML += `<p style='margin:1px 0;'>&gt; ${msg}</p>`;
+            out.scrollTop = out.scrollHeight;
+        }
+
+        // CARREGAMENTO INICIAL DA ENGINE
+        window.onload = () => { init(); selectClass('Guerreiro', '🛡️'); };
     </script>
 </body>
 </html>
