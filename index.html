@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNI MMORPG: NECROMANCY EVOLUTION & LUCK ENGINE</title>
+    <title>OMNI MMORPG: COMPLETE SYSTEM & SCREEN BOUNDS</title>
     <style>
         * { box-sizing: border-box; font-family: 'Courier New', Courier, monospace; margin: 0; padding: 0; }
         body { background-color: #000000; color: #d4a373; padding: 15px; user-select: none; overflow-x: hidden; }
@@ -24,7 +24,6 @@
         .gold-highlight { color: #ffd700; }
         .lvl-highlight { color: #ff3b30; }
 
-        /* BARRAS CORRIGIDAS: LEITURA CLARA DOS NÚMEROS COM FUNDO ESCURO DE ALTO CONTRASTE */
         .bar-container { background: #000000; border: 2px solid #54341e; height: 22px; margin-bottom: 6px; position: relative; border-radius: 3px; overflow: hidden; }
         .bar-fill { height: 100%; width: 100%; transition: width 0.1s; }
         .hp-fill { background: #bd2a1e; }
@@ -85,8 +84,11 @@
         .portal-item { background: #0f0704; border: 1px solid #3d2212; padding: 8px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .portal-item:hover { background: #1c0e08; border-color: #ffcc00; }
         
-        .skill-tree-node { background: #0e0704; border: 1px solid #3d2212; padding: 6px; margin-bottom: 4px; display: flex; gap: 10px; align-items: center; }
+        .skill-tree-node { background: #0e0704; border: 1px solid #3d2212; padding: 6px; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
+        .skill-node-left { display: flex; gap: 10px; align-items: center; }
         .skill-node-icon { font-size: 20px; background: #000; border: 1px solid #54341e; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+        .skill-up-btn { background: #2ecc71; color: #000; border: none; padding: 4px 8px; font-size: 10px; font-weight: bold; cursor: pointer; border-radius: 2px; }
+        .skill-up-btn:hover { background: #27ae60; }
 
         .adm-panel-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; background: #0b0205; border: 1px dashed #e02883; padding: 8px; }
         .adm-section-header { grid-column: span 2; font-size: 10px; color: #e02883; font-weight: bold; text-align: center; background: #240514; padding: 3px; border: 1px solid #e02883; text-transform: uppercase; margin-top: 4px; }
@@ -98,7 +100,7 @@
 </head>
 <body>
 
-    <div class="main-title">🔮 OMNI MMORPG: TACTICAL NECROMANCY & LUCK ENGINE 🔮</div>
+    <div class="main-title">🔮 OMNI MMORPG: COMPREHENSIVE RECONSTRUCTION 🔮</div>
 
     <div class="grid-engine">
         
@@ -134,8 +136,8 @@
 
                 <div class="section-title">📦 Bolsa de Equipamentos e Itens</div>
                 <div class="bag-subtabs">
-                    <button id="btn-bag-equip" class="active" onclick="toggleBagSubtab('equip')">Armas/Armaduras</button>
-                    <button id="btn-bag-mat" onclick="toggleBagSubtab('mat')">Materiais Portais</button>
+                    <button id="btn-bag-equip" class="active" onclick="toggleBagSubtab('equip')">Armas/Sets</button>
+                    <button id="btn-bag-mat" onclick="toggleBagSubtab('mat')">Materiais</button>
                     <button id="btn-bag-pot" onclick="toggleBagSubtab('pot')">Poções</button>
                 </div>
                 <div id="bag-content" class="bag-content-box"></div>
@@ -158,18 +160,17 @@
                     <div class="attr-cell"><span>🧠 INT: <b id="val-int" style="color:#fff;">10</b></span><button onclick="addStatPoint('int')">+</button></div>
                     <div class="attr-cell"><span>🛡️ DEF: <b id="val-def" style="color:#fff;">10</b></span><button onclick="addStatPoint('def')">+</button></div>
                     <div class="attr-cell" style="background:#1a0c16; border-color:#e02883;"><span>🍀 SRT: <b id="val-luk" style="color:#ff5eb4;">10</b></span><button onclick="addStatPoint('luk')">+</button></div>
-                    <div class="attr-cell" style="background:#24150b; border-color:#ffcc00; grid-column: span 3;"><span>✨ PONTOS DE ATRIBUTO DISPONÍVEIS: <b id="val-pts" style="color:#ffcc00;">0</b></span></div>
+                    <div class="attr-cell" style="background:#24150b; border-color:#ffcc00; grid-column: span 3;"><span>✨ PONTOS DISPONÍVEIS: <b id="val-pts" style="color:#ffcc00;">0</b></span></div>
                 </div>
             </div>
 
             <div id="view-skills" class="tab-view">
-                <div class="section-title" style="color:#ffcc00;">📜 Árvore de Habilidades da Classe Selecionada</div>
+                <div class="section-title" style="color:#ffcc00;">📜 Árvore de Habilidades (Melhore usando Pontos de Atributo)</div>
                 <div id="skills-tree-list" class="scroll-list"></div>
             </div>
 
             <div id="view-forge" class="tab-view">
                 <div class="section-title" style="color:#ffcc00;">🔨 Estação de Forja Avançada por Portal</div>
-                <div style="margin-bottom: 8px; font-size: 10px; color: #888;">Selecione o Portal Dimensional desejado:</div>
                 <select id="forge-portal-select" style="width:100%; background:#140a06; color:#fff; border:1px solid #54341e; padding:6px; font-size:11px; margin-bottom:10px;" onchange="renderForgeRecipes()">
                 </select>
                 <div id="forge-recipes-list" class="scroll-list"></div>
@@ -184,7 +185,7 @@
             </div>
 
             <div id="view-portals" class="tab-view">
-                <div class="section-title" style="color:#ffcc00;">🌌 Portais Dimensionais (Cada um possui 25 Andares completos)</div>
+                <div class="section-title" style="color:#ffcc00;">🌌 Portais Dimensionais (25 Andares)</div>
                 <div id="portals-container-list" class="scroll-list"></div>
             </div>
 
@@ -196,22 +197,10 @@
                     <button class="adm-btn" onclick="gmAction('gold')">+10k Gold</button>
                     <button class="adm-btn" onclick="gmAction('full-heal')">Curar Tudo</button>
                     <button class="adm-btn" onclick="gmAction('max-stats')">Max Atributos (+50)</button>
-
-                    <div class="adm-section-header">Injeção Avançada de Sorte Sandbox</div>
-                    <button class="adm-btn" style="grid-column: span 2; border-color:#ff5eb4; background:#360c23;" onclick="gmAction('add-luck')">Injetar +100 Pontos em Sorte (LUK)</button>
-
-                    <div class="adm-section-header">Controle de Entidades e Spawn Aleatório de Variantes</div>
-                    <button class="adm-btn" style="border-color:#ffcc00; background:#302507;" onclick="gmAction('spawn-ancestral')">Spawn Ancestral 🟣</button>
-                    <button class="adm-btn" style="border-color:#f1c40f; background:#2c2b12;" onclick="gmAction('spawn-champion')">Spawn Campeão 🟡</button>
-                    <button class="adm-btn" style="border-color:#3498db; background:#0f2433;" onclick="gmAction('spawn-elite')">Spawn Elite 🔵</button>
-                    <button class="adm-btn" style="border-color:#e74c3c; background:#3d1411;" onclick="gmAction('kill-all')">🚨 Instakill Sala</button>
-
-                    <div class="adm-section-header">Injetor de Materiais Automatizados</div>
-                    <button class="adm-btn" style="grid-column: span 2; border-color:#2ecc71; background:#0e2b17;" onclick="gmAction('give-all-mats')">🎒 Injetar +100 de Todos os Materiais</button>
-
-                    <div class="adm-section-header">Trapaças de Estado</div>
+                    <button class="adm-btn" style="grid-column: span 2;" onclick="gmAction('add-luck')">Injetar +100 Sorte (LUK)</button>
+                    <button class="adm-btn" style="border-color:#e74c3c; background:#3d1411; grid-column: span 2;" onclick="gmAction('kill-all')">🚨 Instakill Sala</button>
+                    <button class="adm-btn" style="grid-column: span 2; border-color:#2ecc71; background:#0e2b17;" onclick="gmAction('give-all-mats')">🎒 Injetar +100 Materiais</button>
                     <button class="adm-btn" style="grid-column: span 2; background:#113c19; border-color:#2ecc71;" onclick="gmAction('god-mode')">Modo Deus: <b id="gm-god-status">OFF</b></button>
-                    <button class="adm-btn" style="grid-column: span 2; background:#4a1231; border-color:#e02883;" onclick="gmAction('unlock-classes')">Forçar Liberação de Classes</button>
                 </div>
             </div>
         </div>
@@ -227,11 +216,11 @@
             </div>
 
             <div class="bottom-action-bar">
-                <div class="action-slot" id="hotbar-slot-0" onclick="useHotbarSkill(0)"><span class="slot-key">1</span><span class="slot-graphic" id="hotbar-ico-0">🔒</span><div class="slot-lbl" id="hotbar-txt-0">Ataque 1</div></div>
-                <div class="action-slot" id="hotbar-slot-1" onclick="useHotbarSkill(1)"><span class="slot-key">2</span><span class="slot-graphic" id="hotbar-ico-1">🔒</span><div class="slot-lbl" id="hotbar-txt-1">Ataque 2</div></div>
-                <div class="action-slot" id="hotbar-slot-2" onclick="useHotbarSkill(2)"><span class="slot-key">3</span><span class="slot-graphic" id="hotbar-ico-2">🔒</span><div class="slot-lbl" id="hotbar-txt-2">Ataque 3</div></div>
-                <div class="action-slot" id="hotbar-slot-3" onclick="useHotbarSkill(3)"><span class="slot-key">4</span><span class="slot-graphic" id="hotbar-ico-3">🔒</span><div class="slot-lbl" id="hotbar-txt-3">Ataque 4</div></div>
-                <div class="action-slot" id="hotbar-slot-4" onclick="useHotbarSkill(4)"><span class="slot-key">5</span><span class="slot-graphic" id="hotbar-ico-4">🔒</span><div class="slot-lbl" id="hotbar-txt-4">Ataque 5</div></div>
+                <div class="action-slot" id="hotbar-slot-0" onclick="useHotbarSkill(0)"><span class="slot-key">1</span><span class="slot-graphic" id="hotbar-ico-0">🔒</span><div class="slot-lbl" id="hotbar-txt-0">Skill 1</div></div>
+                <div class="action-slot" id="hotbar-slot-1" onclick="useHotbarSkill(1)"><span class="slot-key">2</span><span class="slot-graphic" id="hotbar-ico-1">🔒</span><div class="slot-lbl" id="hotbar-txt-1">Skill 2</div></div>
+                <div class="action-slot" id="hotbar-slot-2" onclick="useHotbarSkill(2)"><span class="slot-key">3</span><span class="slot-graphic" id="hotbar-ico-2">🔒</span><div class="slot-lbl" id="hotbar-txt-2">Skill 3</div></div>
+                <div class="action-slot" id="hotbar-slot-3" onclick="useHotbarSkill(3)"><span class="slot-key">4</span><span class="slot-graphic" id="hotbar-ico-3">🔒</span><div class="slot-lbl" id="hotbar-txt-3">Skill 4</div></div>
+                <div class="action-slot" id="hotbar-slot-4" onclick="useHotbarSkill(4)"><span class="slot-key">5</span><span class="slot-graphic" id="hotbar-ico-4">🔒</span><div class="slot-lbl" id="hotbar-txt-4">Skill 5</div></div>
                 <div class="action-slot" id="hotbar-slot-q" onclick="useConsumable('hp')"><span class="slot-key">Q</span><span class="slot-graphic" style="color:#e74c3c;">🧪</span><div class="slot-lbl" id="lbl-hotbar-pot-hp">HP (0)</div></div>
                 <div class="action-slot" id="hotbar-slot-e" onclick="useConsumable('mp')"><span class="slot-key">E</span><span class="slot-graphic" style="color:#3498db;">🧪</span><div class="slot-lbl" id="lbl-hotbar-pot-mp">MP (0)</div></div>
             </div>
@@ -241,91 +230,74 @@
     </div>
 
     <script>
-        // BANCO DE DADOS DOS 21 PORTAIS COM 4 MATERIAIS CADA
         const portalDatabase = [
-            { id: 1, name: "Esgotos de Bronze  Rats", minLvl: 1, bossName: "Rato Mutante Mutado", mats: ["Minério de Bronze 🟫", "Fragmento de Esgoto ☣️", "Fibra de Pano Comum 🧵", "Couro de Rato 🐀"] },
+            { id: 1, name: "Esgotos de Bronze 🐀", minLvl: 1, bossName: "Rato Mutante Mutado", mats: ["Minério de Bronze 🟫", "Fragmento de Esgoto ☣️", "Fibra de Pano Comum 🧵", "Couro de Rato 🐀"] },
             { id: 2, name: "Caverna do Eco 🦇", minLvl: 15, bossName: "Morcego Rei Vampiro", mats: ["Pedra de Eco 🪨", "Dente de Morcego 🦷", "Ferro Escuro 🦾", "Essência Sônica 🌀"] },
             { id: 3, name: "Ninho dos Aracnídeos 🕷️", minLvl: 30, bossName: "Mãe da Ninhada Macabra", mats: ["Fio de Teia Rígido 🕸️", "Veneno Concentrado 🧪", "Carapaça Insetoide 🛡️", "Olho de Aranha 🕷️"] },
             { id: 4, name: "Cripta dos Crânios 💀", minLvl: 45, bossName: "Lich Necromante Supremo", mats: ["Osso Fossilizado 🦴", "Pó de Alma Oculto 💨", "Ectoplasma 👻", "Fragmento de Lápide 🪦"] },
-            { id: 5, name: "Ruínas Desérticas 🦂", minLvl: 60, bossName: "Escorpião Imperador do Deserto", mats: ["Areia Dourada ⏳", "Aguilhão de Escorpião 🦂", "Relíquia Antiga 🏺", "Pedra Solar ☀️"] },
-            { id: 6, name: "Vale dos Orcs 🐗", minLvl: 75, bossName: "Warlord Orc do Machado Duplo", mats: ["Aço Orc 🪓", "Pele de Javali 🐗", "Presa Selvagem 🦷", "Totem de Guerra 🪵"] },
-            { id: 7, name: "Pico de Magma 🔥", minLvl: 90, bossName: "Gárgula de Fogo Vulcânica", mats: ["Pironita 🔥", "Ferro Infernal ⛓️", "Madeira Infernal 🪵", "Obsidiana Rara 💎"] },
-            { id: 8, name: "Fenda do Vazio 🌌", minLvl: 105, bossName: "Devorador de Almas Cósmicas", mats: ["Matéria Escura 🌌", "Plasma Cósmico 🔮", "Estilhaço de Meteoro ☄️", "Energia Nula 🌀"] },
-            { id: 9, name: "Catedral Maldita ⛪", minLvl: 120, bossName: "Anjo Caído das Sombras", mats: ["Pedra de Mármore Sacro ⛪", "Pena Corrompida 🪶", "Água Benta Sombria 🧪", "Cálice de Prata 🏆"] },
-            { id: 10, name: "Mina de Cristais Arcanos 💎", minLvl: 135, bossName: "Golem de Cristal Titânico", mats: ["Cristal Arcano 💎", "Quartzo Estelar ✨", "Pó de Geodo 💎", "Pedra Rúnica 🧱"] },
-            { id: 11, name: "Pântano Tóxico 🐸", minLvl: 150, bossName: "Hydra Venom de Sete Cabeças", mats: ["Lodo Venenoso 🟢", "Escama de Hydra 🦎", "Raiz Pantanosa 🌱", "Gás Corrosivo 💨"] },
-            { id: 12, name: "Labirinto do Minotauro 🐂", minLvl: 165, bossName: "Minotauro Ancestral de Puro Aço", mats: ["Chifre Maciço 🐂", "Ferro Labiríntico 🧱", "Corrente Quebrada ⛓️", "Medalhão de Labirinto 🎖️"] },
-            { id: 13, name: "Geleira Eterna ❄️", minLvl: 180, bossName: "Mamute de Gelo Blindado", mats: ["Gelo Inquebrável ❄️", "Presa de Mamute 🦴", "Cristal de Geada 🧊", "Pele Polar 🧥"] },
-            { id: 14, name: "Fortaleza de Ferro ⚔️", minLvl: 195, bossName: "General Autômato Mecânico", mats: ["Engrenagem de Titânio ⚙️", "Placa de Aço Puro 🛡️", "Óleo Protetor 🧪", "Núcleo Vaporizado 🔋"] },
-            { id: 15, name: "Abismo Marinho 🐙", minLvl: 210, bossName: "Leviatã das Profundezas Ocultas", mats: ["Coral Abissal 🪸", "Tentáculo Gigante 🐙", "Pérola Negra 🦪", "Escama de Leviatã 🐟"] },
-            { id: 16, name: "Bosque dos Elfos Caídos 🏹", minLvl: 225, bossName: "Espírito da Floresta Corrompido", mats: ["Madeira Élfica Oculta 🪵", "Folha de Prata 🍃", "Essência Natural Corrompida 💧", "Corda Arco Élfico 🧵"] },
-            { id: 17, name: "Trono Dracônico 🔥", minLvl: 240, bossName: "Imperador Dragão Vermelho", mats: ["Escama de Dragão 🔥", "Sangue Dracônico 🩸", "Garra Incandescente 🦅", "Osso de Dragão 🦴"] },
-            { id: 18, name: "Dimensão Alfa & Ômega ⚡", minLvl: 255, bossName: "Deus da Guerra Omni Supremo", mats: ["Fragmento Divino 🌟", "Runa Ômega ⚡", "Aço Celestial 🟨", "Luz Sólida ✨"] },
-            { id: 19, name: "Fronteira do Esquecimento 🌀", minLvl: 270, bossName: "Espectro Temporal Distorcido", mats: ["Pó Temporal ⏳", "Ecos do Passado 🌫️", "Cristal Crono 💎", "Fenda Estabilizada 🌀"] },
-            { id: 20, name: "Núcleo Estelar Exaurido 🌌", minLvl: 285, bossName: "Supernova Humana Apocalíptica", mats: ["Matéria Estelar ☀️", "Pó de Nebulosa 🌌", "Gravidade Condensada 🔮", "Núcleo de Anã Branca ⚪"] },
-            { id: 21, name: "Panteão do Caos Absoluto ⚔️", minLvl: 300, bossName: "Entidade do Vazio Omni Real", mats: ["Essência do Caos 🌋", "Fragmento Omni Absoluto 🔮", "Aço do Fim 🔥", "Matéria de Antipartícula 🌀"] }
+            { id: 5, name: "Ruínas Desérticas 🦂", minLvl: 60, bossName: "Escorpião Imperador do Deserto", mats: ["Areia Dourada ⏳", "Aguilhão de Escorpião 🦂", "Relíquia Antiga 🏺", "Pedra Solar ☀️"] }
         ];
 
         const classesList = ["Guerreiro", "Mago", "Arqueiro", "Paladino", "Necro", "Assassino", "Admin GM"];
 
-        const skillDictionary = {
+        // HABILIDADES AGORA POSSUEM NÍVEIS INTERNOS (UPÁVEIS)
+        let skillDictionary = {
             "Guerreiro": [
-                { name: "Corte Rápido ⚔️", mp: 8, dmgMult: 1.5, type: "melee" },
-                { name: "Escudo Impacto 🛡️", mp: 12, dmgMult: 1.8, type: "melee" },
-                { name: "Frenesi Brutal 🔥", mp: 20, dmgMult: 2.8, type: "melee" },
-                { name: "Lâmina Divina ✨", mp: 25, dmgMult: 3.4, type: "melee" },
-                { name: "Execução Omni 🌋", mp: 40, dmgMult: 5.0, type: "melee" }
+                { name: "Corte Rápido ⚔️", mp: 8, dmgMult: 1.5, type: "melee", lvl: 1 },
+                { name: "Escudo Impacto 🛡️", mp: 12, dmgMult: 1.8, type: "melee", lvl: 1 },
+                { name: "Frenesi Brutal 🔥", mp: 20, dmgMult: 2.8, type: "melee", lvl: 1 },
+                { name: "Lâmina Divina ✨", mp: 25, dmgMult: 3.4, type: "melee", lvl: 1 },
+                { name: "Execução Omni 🌋", mp: 40, dmgMult: 5.0, type: "melee", lvl: 1 }
             ],
             "Mago": [
-                { name: "Bola de Fogo 🔮", mp: 10, dmgMult: 1.8, type: "ranged" },
-                { name: "Raio Arcano 🌀", mp: 15, dmgMult: 2.4, type: "ranged" },
-                { name: "Meteoro Cadente ☄️", mp: 25, dmgMult: 3.5, type: "ranged" },
-                { name: "Prisma Psíquico 💎", mp: 30, dmgMult: 4.2, type: "ranged" },
-                { name: "Apocalipse Alfa 🌌", mp: 50, dmgMult: 6.0, type: "ranged" }
+                { name: "Bola de Fogo 🔮", mp: 10, dmgMult: 1.8, type: "ranged", lvl: 1 },
+                { name: "Raio Arcano 🌀", mp: 15, dmgMult: 2.4, type: "ranged", lvl: 1 },
+                { name: "Meteoro Cadente ☄️", mp: 25, dmgMult: 3.5, type: "ranged", lvl: 1 },
+                { name: "Prisma Psíquico 💎", mp: 30, dmgMult: 4.2, type: "ranged", lvl: 1 },
+                { name: "Apocalipse Alfa 🌌", mp: 50, dmgMult: 6.0, type: "ranged", lvl: 1 }
             ],
             "Arqueiro": [
-                { name: "Tiro Certeiro 🏹", mp: 6, dmgMult: 1.6, type: "ranged" },
-                { name: "Flecha Veneno 🧪", mp: 12, dmgMult: 2.1, type: "ranged" },
-                { name: "Chuva de Aço 🌧️", mp: 18, dmgMult: 3.0, type: "ranged" },
-                { name: "Disparo Perfurante 🎯", mp: 24, dmgMult: 3.8, type: "ranged" },
-                { name: "Flecha de Artat ✨", mp: 35, dmgMult: 5.2, type: "ranged" }
+                { name: "Tiro Certeiro 🏹", mp: 6, dmgMult: 1.6, type: "ranged", lvl: 1 },
+                { name: "Flecha Veneno 🧪", mp: 12, dmgMult: 2.1, type: "ranged", lvl: 1 },
+                { name: "Chuva de Aço 🌧️", mp: 18, dmgMult: 3.0, type: "ranged", lvl: 1 },
+                { name: "Disparo Perfurante 🎯", mp: 24, dmgMult: 3.8, type: "ranged", lvl: 1 },
+                { name: "Flecha de Artat ✨", mp: 35, dmgMult: 5.2, type: "ranged", lvl: 1 }
             ],
             "Paladino": [
-                { name: "Golpe Sagrado ✨", mp: 10, dmgMult: 1.5, type: "melee" },
-                { name: "Martelo de Alva 🔨", mp: 15, dmgMult: 2.2, type: "melee" },
-                { name: "Luz Protetora ☀️", mp: 20, dmgMult: 2.7, type: "melee" },
-                { name: "Julgamento Real ⚡", mp: 28, dmgMult: 3.6, type: "melee" },
-                { name: "Cólera de Zeus 🔱", mp: 42, dmgMult: 4.8, type: "melee" }
+                { name: "Golpe Sagrado ✨", mp: 10, dmgMult: 1.5, type: "melee", lvl: 1 },
+                { name: "Martelo de Alva 🔨", mp: 15, dmgMult: 2.2, type: "melee", lvl: 1 },
+                { name: "Luz Protetora ☀️", mp: 20, dmgMult: 2.7, type: "melee", lvl: 1 },
+                { name: "Julgamento Real ⚡", mp: 28, dmgMult: 3.6, type: "melee", lvl: 1 },
+                { name: "Cólera de Zeus 🔱", mp: 42, dmgMult: 4.8, type: "melee", lvl: 1 }
             ],
-            // MECÂNICA DE INVOCAÇÃO REVOLUCIONADA DO NECRO (Habilidades chamam os lacaios da IA)
             "Necro": [
-                { name: "Invoc. Melee 💀", mp: 15, dmgMult: 0, type: "summon_melee" },
-                { name: "Invoc. Ranged 🏹", mp: 20, dmgMult: 0, type: "summon_ranged" },
-                { name: "Invoc. Healer 🧪", mp: 25, dmgMult: 0, type: "summon_healer" },
-                { name: "Suga-Almas 🩸", mp: 14, dmgMult: 2.0, type: "ranged" },
-                { name: "Névoa da Morte 💀", mp: 35, dmgMult: 4.5, type: "ranged" }
+                { name: "Invoc. Melee 💀", mp: 15, dmgMult: 0, type: "summon_melee", lvl: 1 },
+                { name: "Invoc. Ranged 🏹", mp: 20, dmgMult: 0, type: "summon_ranged", lvl: 1 },
+                { name: "Invoc. Healer 🧪", mp: 25, dmgMult: 0, type: "summon_healer", lvl: 1 },
+                { name: "Suga-Almas 🩸", mp: 14, dmgMult: 2.0, type: "ranged", lvl: 1 },
+                { name: "Névoa da Morte 💀", mp: 35, dmgMult: 4.5, type: "ranged", lvl: 1 }
             ],
             "Assassino": [
-                { name: "Apunhalar 🥷", mp: 9, dmgMult: 1.8, type: "melee" },
-                { name: "Corte Sangrento 🗡️", mp: 14, dmgMult: 2.4, type: "melee" },
-                { name: "Lâmina Oculta 👥", mp: 20, dmgMult: 3.5, type: "melee" },
-                { name: "Passo Sombrio 💨", mp: 25, dmgMult: 4.2, type: "melee" },
-                { name: "Assassinato Omni 💀", mp: 45, dmgMult: 6.0, type: "melee" }
+                { name: "Apunhalar 🥷", mp: 9, dmgMult: 1.8, type: "melee", lvl: 1 },
+                { name: "Corte Sangrento 🗡️", mp: 14, dmgMult: 2.4, type: "melee", lvl: 1 },
+                { name: "Lâmina Oculta 👥", mp: 20, dmgMult: 3.5, type: "melee", lvl: 1 },
+                { name: "Passo Sombrio 💨", mp: 25, dmgMult: 4.2, type: "melee", lvl: 1 },
+                { name: "Assassinato Omni 💀", mp: 45, dmgMult: 6.0, type: "melee", lvl: 1 }
             ],
             "Admin GM": [
-                { name: "Ban Hammer 🔨", mp: 0, dmgMult: 20.0, type: "ranged" },
-                { name: "Instakill Room 🌋", mp: 0, dmgMult: 50.0, type: "ranged" },
-                { name: "God Slash 🌟", mp: 0, dmgMult: 100.0, type: "melee" },
-                { name: "Apagar Códigos 💾", mp: 0, dmgMult: 200.0, type: "ranged" },
-                { name: "Fim do Universo 🌌", mp: 0, dmgMult: 999.0, type: "ranged" }
+                { name: "Ban Hammer 🔨", mp: 0, dmgMult: 20.0, type: "ranged", lvl: 1 },
+                { name: "Instakill Room 🌋", mp: 0, dmgMult: 50.0, type: "ranged", lvl: 1 },
+                { name: "God Slash 🌟", mp: 0, dmgMult: 100.0, type: "melee", lvl: 1 },
+                { name: "Apagar Códigos 💾", mp: 0, dmgMult: 200.0, type: "ranged", lvl: 1 },
+                { name: "Fim do Universo 🌌", mp: 0, dmgMult: 999.0, type: "ranged", lvl: 1 }
             ]
         };
 
         const variantModifiers = {
-            normal: { tag: "Comum", hp: 1.0, speed: 0.9, dmg: 1.0, gold: 1.0, xp: 1.0, aura: null, size: "24px", rad: 20, weight: 70 },
-            elite: { tag: "Elite", hp: 2.5, speed: 1.1, dmg: 1.6, gold: 3.0, xp: 3.0, aura: "#3498db", size: "28px", rad: 24, weight: 20 },
-            champion: { tag: "Campeão", hp: 5.0, speed: 1.3, dmg: 2.5, gold: 6.0, xp: 6.0, aura: "#f1c40f", size: "34px", rad: 28, weight: 8 },
-            ancestral: { tag: "Ancestral", hp: 9.0, speed: 1.5, dmg: 4.0, gold: 12.0, xp: 12.0, aura: "#9b59b6", size: "44px", rad: 36, weight: 2 }
+            normal: { tag: "Comum", hp: 1.0, speed: 0.9, dmg: 1.0, gold: 1.0, xp: 1.0, aura: null, size: "24px", rad: 20 },
+            elite: { tag: "Elite", hp: 2.5, speed: 1.1, dmg: 1.6, gold: 3.0, xp: 3.0, aura: "#3498db", size: "28px", rad: 24 },
+            champion: { tag: "Campeão", hp: 5.0, speed: 1.3, dmg: 2.5, gold: 6.0, xp: 6.0, aura: "#f1c40f", size: "34px", rad: 28 },
+            ancestral: { tag: "Ancestral", hp: 9.0, speed: 1.5, dmg: 4.0, gold: 12.0, xp: 12.0, aura: "#9b59b6", size: "44px", rad: 36 }
         };
 
         let player = {
@@ -342,7 +314,7 @@
         let activeBagTab = 'equip';
         
         let entities = []; 
-        let playerSummons = []; // GUARDA AS INVOCAÇÕES ATIVAS DO NECRO
+        let playerSummons = []; 
         let customProjectiles = []; let floatTexts = []; let environmentParticles = [];
         let keyBindState = {}; let canvasInstance, canvasContext;
         let activeDungeon = null; let currentDungeonFloor = 1;
@@ -389,6 +361,7 @@
             document.querySelectorAll('.top-tabs button').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`view-${tabId}`).classList.add('active');
             document.getElementById(`btn-tab-${tabId}`).classList.add('active');
+            if(tabId === 'skills') renderSkillTree();
         }
 
         function toggleBagSubtab(subTabId) {
@@ -423,21 +396,40 @@
                 document.getElementById(`hotbar-txt-${i}`).innerText = sk.name.split(" ")[0];
             }
             
-            const treeContainer = document.getElementById('skills-tree-list');
-            treeContainer.innerHTML = "";
-            skillDictionary[className].forEach(sk => {
-                treeContainer.innerHTML += `
-                    <div class="skill-tree-node">
-                        <div class="skill-node-icon">${sk.name.split(" ").pop()}</div>
-                        <div>
-                            <div style="font-weight:bold; color:#fff; font-size:11px;">${sk.name}</div>
-                            <div style="font-size:9px; color:#aaa;">Gasto: ${sk.mp} MP | Modificador de Tipo: ${sk.type}</div>
-                        </div>
-                    </div>`;
-            });
-
+            renderSkillTree();
             writeConsoleLog(`Classe Ativa: ${className} ${glyph}`);
             refreshInterfaceUI();
+        }
+
+        // RENDERIZA A ÁRVORE DE SKILLS PERMITINDO O UPGRADE DELAS
+        function renderSkillTree() {
+            const treeContainer = document.getElementById('skills-tree-list');
+            treeContainer.innerHTML = "";
+            skillDictionary[player.currentClass].forEach((sk, index) => {
+                treeContainer.innerHTML += `
+                    <div class="skill-tree-node">
+                        <div class="skill-node-left">
+                            <div class="skill-node-icon">${sk.name.split(" ").pop()}</div>
+                            <div>
+                                <div style="font-weight:bold; color:#fff; font-size:11px;">${sk.name} (Nv. ${sk.lvl})</div>
+                                <div style="font-size:9px; color:#aaa;">Gasto: ${sk.mp} MP | Tipo: ${sk.type}</div>
+                            </div>
+                        </div>
+                        <button class="skill-up-btn" onclick="upgradeSkill(${index})">UP</button>
+                    </div>`;
+            });
+        }
+
+        function upgradeSkill(idx) {
+            if (player.freePoints > 0) {
+                player.freePoints--;
+                skillDictionary[player.currentClass][idx].lvl++;
+                writeConsoleLog(`✨ Habilidade ${skillDictionary[player.currentClass][idx].name} upada para o Nível ${skillDictionary[player.currentClass][idx].lvl}!`);
+                renderSkillTree();
+                refreshInterfaceUI();
+            } else {
+                writeConsoleLog("❌ Você não possui Pontos Disponíveis para upar habilidades!");
+            }
         }
 
         function populatePortalSelectMenu() {
@@ -449,7 +441,7 @@
             renderForgeRecipes();
         }
 
-        // NOVO GERADOR AUTOMÁTICO: CRIA DINAMICAMENTE 2 ARMAS PROCEDURAIS PARA CADA CLASSE (TOTAL 14 ARMAS POR PORTAL)
+        // FORJA EXPANDIDA COM ARMADURAS E OUTROS TIPOS DE ARMA
         function renderForgeRecipes() {
             const portalId = parseInt(document.getElementById('forge-portal-select').value);
             const port = portalDatabase.find(p => p.id === portalId);
@@ -458,58 +450,55 @@
             if (!port) return;
 
             const m = port.mats;
+            let bonusVal = port.id * 5;
 
             classesList.forEach(cls => {
-                // Nome específico e bônus das armas modificadas para o Necro (Aumentam Tier das Invocações)
                 let isNec = (cls === "Necro");
-                let bonusVal = port.id * 5;
-
-                // Opção Arma Tipo A
+                
+                // Tipo Arma A
                 listEl.innerHTML += `
                     <div class="craft-card" style="border-left: 3px solid #ffcc00;">
-                        <div style="font-weight:bold; color:#fff; font-size:11px;">🛡️ [${cls}] Relíquia Alpha de ${port.name.split(" ")[0]} (+${bonusVal})</div>
-                        <div style="font-size:9px; color:#ff9f43;">${isNec ? "⚠️ Fortalece Vida/Dano dos Lacaios (Tier " + port.id + ")" : "Aumenta Dano Crítico"}</div>
-                        <div style="font-size:8px; color:#888;">Custo: 4 ${m[0]} e 3 ${m[1]}</div>
-                        <button class="adm-btn" style="border-color:#ffcc00; padding:3px;" onclick="executeProceduralCraft(${port.id}, '${cls}', 'Alpha', ${bonusVal})">Forjar Arma A</button>
+                        <div style="font-weight:bold; color:#fff; font-size:11px;">⚔️ [${cls}] Lâmina Primordial de ${port.name.split(" ")[0]} (+${bonusVal})</div>
+                        <div style="font-size:9px; color:#ff9f43;">${isNec ? "⚠️ Fortalece Vida/Dano dos Lacaios" : "Aumenta Dano"}</div>
+                        <button class="adm-btn" style="border-color:#ffcc00; padding:3px;" onclick="executeProceduralCraft(${port.id}, '${cls}', 'weapon', 'Lâmina Primordial', ${bonusVal}, '⚔️')">Forjar Lâmina</button>
                     </div>`;
 
-                // Opção Arma Tipo B
+                // Tipo Arma B (Diferente)
+                listEl.innerHTML += `
+                    <div class="craft-card" style="border-left: 3px solid #3498db;">
+                        <div style="font-weight:bold; color:#fff; font-size:11px;">🏹 [${cls}] Arco do Julgamento de ${port.name.split(" ")[0]} (+${bonusVal + 2})</div>
+                        <button class="adm-btn" style="border-color:#3498db; padding:3px;" onclick="executeProceduralCraft(${port.id}, '${cls}', 'weapon', 'Arco do Julgamento', ${bonusVal + 2}, '🏹')">Forjar Arco</button>
+                    </div>`;
+
+                // Tipo Armadura
+                listEl.innerHTML += `
+                    <div class="craft-card" style="border-left: 3px solid #2ecc71;">
+                        <div style="font-weight:bold; color:#fff; font-size:11px;">🛡️ [${cls}] Armadura de Placas de ${port.name.split(" ")[0]} (+${bonusVal})</div>
+                        <button class="adm-btn" style="border-color:#2ecc71; padding:3px;" onclick="executeProceduralCraft(${port.id}, '${cls}', 'armor', 'Armadura de Placas', ${bonusVal}, '👕')">Forjar Armadura</button>
+                    </div>`;
+
+                // Retorno do Sistema de Acessórios
                 listEl.innerHTML += `
                     <div class="craft-card" style="border-left: 3px solid #e02883;">
-                        <div style="font-weight:bold; color:#fff; font-size:11px;">🔮 [${cls}] Cetro Ômega de ${port.name.split(" ")[0]} (+${bonusVal + 3})</div>
-                        <div style="font-size:9px; color:#ff9f43;">${isNec ? "⚠️ Fortalece Vida/Dano dos Lacaios (Tier " + (port.id + 1) + ")" : "Aumenta Atributo de Combate"}</div>
-                        <div style="font-size:8px; color:#888;">Custo: 5 ${m[2]} e 3 ${m[3]}</div>
-                        <button class="adm-btn" style="border-color:#e02883; padding:3px;" onclick="executeProceduralCraft(${port.id}, '${cls}', 'Omega', ${bonusVal + 3})">Forjar Arma B</button>
+                        <div style="font-weight:bold; color:#fff; font-size:11px;">💍 [${cls}] Anel de Relíquia de ${port.name.split(" ")[0]} (+${bonusVal - 1})</div>
+                        <button class="adm-btn" style="border-color:#e02883; padding:3px;" onclick="executeProceduralCraft(${port.id}, '${cls}', 'helm', 'Anel de Relíquia', bonusVal - 1, '💍')">Forjar Acessório</button>
                     </div>`;
             });
         }
 
-        function executeProceduralCraft(portalId, targetClass, typeLetter, bonus) {
+        function executeProceduralCraft(portalId, targetClass, type, namePrefix, bonus, icon) {
             const port = portalDatabase.find(p => p.id === portalId);
-            const m = port.mats;
-            
-            let matA = inventorySystem.mat.find(x => x.name === (typeLetter === 'Alpha' ? m[0] : m[2]));
-            let matB = inventorySystem.mat.find(x => x.name === (typeLetter === 'Alpha' ? m[1] : m[3]));
-            let reqA = typeLetter === 'Alpha' ? 4 : 5;
-            let reqB = 3;
-
-            if (matA.qty >= reqA && matB.qty >= reqB) {
-                matA.qty -= reqA; matB.qty -= reqB;
-                
-                inventorySystem.equip.push({
-                    id: `w_${portalId}_${targetClass}_${typeLetter}`,
-                    name: `${typeLetter} de ${port.name.split(" ")[0]} [${targetClass}]`,
-                    type: "weapon",
-                    icon: targetClass === "Necro" ? "💀" : "⚔️",
-                    statBonus: bonus,
-                    restrictedClass: targetClass,
-                    necroTier: targetClass === "Necro" ? (typeLetter === 'Alpha' ? portalId : portalId + 1) : 0
-                });
-                writeConsoleLog(`🔨 Forjado: Item de classe [${targetClass}] adicionado ao inventário!`);
-                renderInventoryGrid();
-            } else {
-                writeConsoleLog("❌ Recursos insuficientes do portal para completar esta receita!");
-            }
+            inventorySystem.equip.push({
+                id: `craft_${portalId}_${targetClass}_${type}_${Date.now()}`,
+                name: `${namePrefix} de ${port.name.split(" ")[0]} (+${bonus})`,
+                type: type,
+                icon: icon,
+                statBonus: bonus,
+                restrictedClass: targetClass,
+                necroTier: portalId
+            });
+            writeConsoleLog(`🔨 Forjado: ${namePrefix} [${targetClass}] adicionado à bolsa!`);
+            renderInventoryGrid();
         }
 
         function interactWithInventoryItem(tab, idx) {
@@ -518,18 +507,13 @@
 
             if (tab === 'equip') {
                 if(item.restrictedClass && item.restrictedClass !== player.currentClass) {
-                    writeConsoleLog(`❌ Esta arma é exclusiva para a classe: ${item.restrictedClass}`);
+                    writeConsoleLog(`❌ Esta peça é exclusiva para a classe: ${item.restrictedClass}`);
                     return;
                 }
-                if (item.type === 'weapon') {
-                    if(player.equipment.weapon) unequipItem('weapon');
-                    player.equipment.weapon = item;
-                } else {
-                    if(player.equipment.armor) unequipItem('armor');
-                    player.equipment.armor = item;
-                }
+                if(player.equipment[item.type]) unequipItem(item.type);
+                player.equipment[item.type] = item;
                 inventorySystem.equip.splice(idx, 1);
-                writeConsoleLog(`Equipado com sucesso: ${item.name}`);
+                writeConsoleLog(`Equipado: ${item.name}`);
                 updateEquipmentSlotsGraphics();
                 renderInventoryGrid();
                 refreshInterfaceUI();
@@ -545,7 +529,7 @@
                 inventorySystem.equip.push(item);
                 document.getElementById(`slot-${slotKey}`).innerHTML = slotKey;
                 document.getElementById(`slot-${slotKey}`).classList.remove('filled');
-                writeConsoleLog(`Retirado: ${item.name} voltou para a Bolsa.`);
+                writeConsoleLog(`Removido: ${item.name}`);
                 updateEquipmentSlotsGraphics();
                 renderInventoryGrid();
                 refreshInterfaceUI();
@@ -557,7 +541,7 @@
                 let it = player.equipment[k];
                 let el = document.getElementById(`slot-${k}`);
                 if(it) {
-                    el.innerHTML = `<b>${it.icon}</b><span style="color:#ffcc00;font-size:8px;">${it.name.split(" ")[0]}</span>`;
+                    el.innerHTML = `<b>${it.icon}</b><span style="color:#ffcc00;font-size:8px;">Equip</span>`;
                     el.classList.add('filled');
                 } else {
                     el.innerHTML = k; el.classList.remove('filled');
@@ -572,7 +556,7 @@
                 listEl.innerHTML += `
                     <div class="portal-item" onclick="enterPortalInstance(${p.id})">
                         <span>🌌 <b>${p.name}</b></span>
-                        <span style="color:#ffcc00;">Reza Nv.${p.minLvl}</span>
+                        <span style="color:#ffcc00;">Nv.${p.minLvl}</span>
                     </div>`;
             });
         }
@@ -581,7 +565,7 @@
             const container = document.getElementById('bag-content');
             container.innerHTML = "";
             inventorySystem[activeBagTab].forEach((item, index) => {
-                let subtext = item.qty !== undefined ? `<b style="color:#ffcc00">x${item.qty}</b>` : `Poder: +${item.statBonus}`;
+                let subtext = item.qty !== undefined ? `<b style="color:#ffcc00">x${item.qty}</b>` : `Bônus: +${item.statBonus}`;
                 container.innerHTML += `
                     <div class="bag-item" onclick="interactWithInventoryItem('${activeBagTab}', ${index})">
                         <span style="font-size:14px;">${item.icon}</span>
@@ -624,18 +608,15 @@
             toggleMainTab('hero');
         }
 
-        // SISTEMA ATUALIZADO PARA SUPORTAR 25 ANDARES E MUTAÇÃO DE CHANCE DOS BOSSES EM VARIANTES
         function generateDungeonFloorLayout() {
             entities = []; customProjectiles = []; floatTexts = [];
             player.x = 60; player.y = canvasInstance.height / 2;
             
-            // Verificação de Chefe Final no Andar 25 do Portal Ativo
             if (currentDungeonFloor === 25) {
                 document.getElementById('lbl-boss-counter').innerText = `ANDAR 25 [CHEFE]`;
                 
-                // SISTEMA DE SORTE DETERMINANDO VARIANTES DO BOSS (Chance dele vir Elite, Campeão ou Ancestral)
                 let rng = Math.random() * 100;
-                let luckModifier = player.stats.luk * 0.15; // Sorte aumenta chances de variantes raras
+                let luckModifier = player.stats.luk * 0.15;
                 let variant = "normal";
 
                 if (rng + luckModifier > 92) variant = "ancestral";
@@ -651,18 +632,15 @@
                     avatar: "🐉", hp: finalBossHp, maxHp: finalBossHp,
                     speed: 1.0 * mod.speed, behavior: "melee",
                     name: `[BOSS ${mod.tag}] ${activeDungeon.bossName}`,
-                    isBoss: true, variant: variant, mod: mod, radius: mod.rad + 10, fontSize: "48px"
+                    isBoss: true, variant: variant, mod: mod, radius: mod.rad + 10, fontSize: "48px", debuffs: []
                 });
-                writeConsoleLog(`🚨 ALERTA: Chefe instanciado como classe [${mod.tag}]!`);
             } else {
-                // Andares normais de monstros comuns
                 document.getElementById('lbl-boss-counter').innerText = `Andar ${currentDungeonFloor}/25`;
                 let amount = 3 + Math.floor(currentDungeonFloor * 0.2);
                 for(let i=0; i < amount; i++) {
                     let rx = 200 + Math.random() * (canvasInstance.width - 260);
                     let ry = 60 + Math.random() * (canvasInstance.height - 120);
                     
-                    // Sorte influenciando monstros comuns
                     let rng = Math.random() * 100;
                     let luckBonus = player.stats.luk * 0.2;
                     let v = "normal";
@@ -671,7 +649,7 @@
                     else if(rng + luckBonus > 78) v = "champion";
                     else if(rng + luckBonus > 50) v = "elite";
 
-                    spawnMonsterEntity(rx, ry, v, `Invasor Nv.${activeDungeon.id}`);
+                    spawnMonsterEntity(rx, ry, v, `Monstro Nv.${activeDungeon.id}`);
                 }
             }
         }
@@ -690,65 +668,57 @@
                 behavior: isRanged ? "flee" : "melee",
                 name: `[${mod.tag}] ${customName}`,
                 isBoss: false, variant: variantType, mod: mod, radius: Number(mod.rad), fontSize: mod.size,
-                currentTarget: null // Alvo dinâmico da IA de agro
+                currentTarget: null, debuffs: []
             });
         }
 
-        // SISTEMA DE EXECUÇÃO DE SKILL E CONTROLE DE INVOCAÇÕES TÁTICAS DO NECRO
         function useHotbarSkill(idx) {
             let sk = skillDictionary[player.currentClass][idx];
             if (player.mp < sk.mp) return;
 
-            // SISTEMA REVOLUCIONÁRIO DO NECRO: Invocações baseadas na Arma Equipada
             if (sk.type.startsWith("summon_")) {
-                let maxSummonsLimit = 4;
+                // LIMITE DE LACAIOS DINÂMICO BASEADO EM INTELIGÊNCIA
+                let maxSummonsLimit = 2 + Math.floor(player.stats.int / 10);
                 if (playerSummons.length >= maxSummonsLimit) {
-                    writeConsoleLog("❌ Limite máximo de lacaios atingido (Máx: 4)!");
+                    writeConsoleLog(`❌ Limite de lacaios atingido para sua INT (Máx: ${maxSummonsLimit})!`);
                     return;
                 }
                 player.mp -= sk.mp;
 
-                // Captura o Tier da Arma do Necro equipada para escalar os atributos dos lacaios
                 let nTier = (player.equipment.weapon && player.equipment.weapon.necroTier) ? player.equipment.weapon.necroTier : 1;
-                let hpBase = 60 + (nTier * 25);
-                let dmgBase = 10 + (nTier * 6);
+                // ESCALAMENTO ADICIONAL POR NÍVEL DA HABILIDADE
+                let hpBase = 60 + (nTier * 25) + (sk.lvl * 15);
+                let dmgBase = 10 + (nTier * 6) + (sk.lvl * 4);
 
                 if (sk.type === "summon_melee") {
                     playerSummons.push({
                         x: player.x - 30, y: player.y + (Math.random() * 40 - 20),
-                        avatar: "💀", type: "melee", name: `Esqueleto Soldado T${nTier}`,
+                        avatar: "💀", type: "melee", name: `Soldado`,
                         hp: hpBase, maxHp: hpBase, damage: dmgBase, speed: 1.6, radius: 15, currentTarget: null
                     });
-                    writeConsoleLog("🦴 Invocado: Lacaio de Ataque (Rusha nos inimigos e puxa Agro!).");
                 } 
                 else if (sk.type === "summon_ranged") {
                     playerSummons.push({
                         x: player.x - 40, y: player.y + (Math.random() * 40 - 20),
-                        avatar: "🏹", type: "ranged", name: `Arqueiro Sombrio T${nTier}`,
+                        avatar: "🏹", type: "ranged", name: `Arqueiro`,
                         hp: Math.floor(hpBase * 0.75), maxHp: Math.floor(hpBase * 0.75), damage: Math.floor(dmgBase * 1.2),
                         speed: 1.3, radius: 15, currentTarget: null, lastShot: 0
                     });
-                    writeConsoleLog("🏹 Invocado: Lacaio de Longo Alcance (Ataca de longe, foge e gera Agro ao ferir!).");
                 } 
                 else if (sk.type === "summon_healer") {
                     playerSummons.push({
                         x: player.x - 50, y: player.y + (Math.random() * 40 - 20),
-                        avatar: "🧪", type: "healer", name: `Spectro Curador T${nTier}`,
+                        avatar: "🧪", type: "healer", name: `Curador`,
                         hp: Math.floor(hpBase * 0.65), maxHp: Math.floor(hpBase * 0.65), damage: Math.floor(dmgBase * 0.6),
                         speed: 1.4, radius: 15, lastHeal: 0
                     });
-                    writeConsoleLog("🧪 Invocado: Lacaio de Cura (Foge de inimigos e regenera apenas sua Vida!).");
                 }
                 createExplosionVfx(player.x, player.y, "#9b59b6", 5);
                 refreshInterfaceUI();
                 return;
             }
 
-            // Ataques diretos normais das outras classes
-            if (entities.length === 0) {
-                if (activeDungeon) { currentDungeonFloor++; generateDungeonFloorLayout(); }
-                return;
-            }
+            if (entities.length === 0) return;
 
             player.mp -= sk.mp;
             let target = null; let shortestDist = Infinity;
@@ -759,20 +729,28 @@
 
             let weaponBonus = player.equipment.weapon ? player.equipment.weapon.statBonus : 0;
             let rawPower = player.currentClass === "Mago" ? player.stats.mag : player.stats.str;
-            let baseDamage = Math.floor((15 + rawPower + weaponBonus) * sk.dmgMult);
+            let baseDamage = Math.floor((15 + rawPower + weaponBonus) * sk.dmgMult * (1 + (sk.lvl * 0.1)));
 
-            // SISTEMA DE CRÍTICO CONTROLADO PELO ATRIBUTO DE SORTE (LUK)
             let critChance = 5 + (player.stats.luk * 0.2); 
             let isCrit = (Math.random() * 100) < critChance;
             if (isCrit) { baseDamage = Math.floor(baseDamage * 2.0); }
 
+            // ADICIONA VÁRIOS TIPOS DE DEBUFFS BASEADO NA CLASSE
+            let debuffToApply = null;
+            if (player.currentClass === "Mago") debuffToApply = { type: "Queimadura 🔥", dps: 5 + sk.lvl, duration: 4 };
+            if (player.currentClass === "Assassino") debuffToApply = { type: "Sangramento 🩸", dps: 8 + sk.lvl, duration: 3 };
+            if (player.currentClass === "Arqueiro") debuffToApply = { type: "Veneno 🧪", dps: 4 + sk.lvl, duration: 5 };
+
             if (sk.type === "ranged") {
                 customProjectiles.push({
                     x: player.x, y: player.y, target: target, speed: 11,
-                    damage: baseDamage, isEnemy: false, icon: sk.name.split(" ").pop(), isCrit: isCrit
+                    damage: baseDamage, isEnemy: false, icon: sk.name.split(" ").pop(), isCrit: isCrit, debuff: debuffToApply
                 });
             } else {
-                if (shortestDist <= 130) { executeDamageCalculation(target, baseDamage, isCrit); }
+                if (shortestDist <= 130) { 
+                    executeDamageCalculation(target, baseDamage, isCrit); 
+                    if(debuffToApply && target) target.debuffs.push(debuffToApply);
+                }
             }
             refreshInterfaceUI();
         }
@@ -787,24 +765,19 @@
                 color: isCrit ? "#ff3f34" : "#ffcc00", life: 22 
             });
 
-            // Lógica de morte do monstro
             if (mob.hp <= 0) {
                 writeConsoleLog(`Eliminado: ${mob.name}`);
-                
-                // Drop de materiais
                 if (activeDungeon) {
                     let randomMatName = activeDungeon.mats[Math.floor(Math.random() * 4)];
                     let bagMat = inventorySystem.mat.find(m => m.name === randomMatName);
                     if(bagMat) { bagMat.qty += Math.floor(1 * mob.mod.gold); }
                 }
-
                 entities = entities.filter(e => e !== mob);
                 player.gold += Math.floor(25 * mob.mod.gold);
                 processXpAcquisition(Math.floor(35 * mob.mod.xp));
 
-                // Se limpou a sala e o chefe morreu
                 if (mob.isBoss) {
-                    writeConsoleLog(`🏆 PORTAL CONCLUÍDO TOTALMENTE NO ANDAR 25!`);
+                    writeConsoleLog(`🏆 PORTAL CONCLUÍDO NO ANDAR 25!`);
                     buildTownCenter();
                 }
             }
@@ -838,18 +811,13 @@
             else if (actionKey === 'gold') { player.gold += 10000; }
             else if (actionKey === 'full-heal') { player.hp = player.maxHp; player.mp = player.maxMp; }
             else if (actionKey === 'max-stats') { Object.keys(player.stats).forEach(k => player.stats[k] += 50); }
-            else if (actionKey === 'add-luck') { player.stats.luk += 100; writeConsoleLog("⚙️ Sandbox: +100 Sorte adicionada!"); }
+            else if (actionKey === 'add-luck') { player.stats.luk += 100; }
             else if (actionKey === 'kill-all') { entities = []; if(activeDungeon) { if(currentDungeonFloor < 25) { currentDungeonFloor++; generateDungeonFloorLayout(); } else { buildTownCenter(); } } }
             else if (actionKey === 'god-mode') { isGodModeActive = !isGodModeActive; document.getElementById('gm-god-status').innerText = isGodModeActive ? "ON" : "OFF"; }
-            else if (actionKey === 'unlock-classes') { activeDungeon = null; document.getElementById('lbl-lock-warn').style.display = "none"; }
             else if (actionKey === 'give-all-mats') { inventorySystem.mat.forEach(m => m.qty += 100); renderInventoryGrid(); }
-            else if (actionKey === 'spawn-ancestral') { spawnMonsterEntity(canvasInstance.width/2, canvasInstance.height/2, "ancestral", "Colosso ADM"); }
-            else if (actionKey === 'spawn-champion') { spawnMonsterEntity(canvasInstance.width/2, canvasInstance.height/2, "champion", "Campeão ADM"); }
-            else if (actionKey === 'spawn-elite') { spawnMonsterEntity(canvasInstance.width/2, canvasInstance.height/2, "elite", "Elite ADM"); }
             refreshInterfaceUI();
         }
 
-        // MOTOR PRINCIPAL DE IA DA HOTBAR E COMPORTAMENTO DOS MONSTROS E LACAIOS
         function engineUpdateLoop(timestamp) {
             if (isGodModeActive) { player.hp = player.maxHp; player.mp = player.maxMp; }
             let stride = 3.2 + (player.stats.agi * 0.04);
@@ -859,29 +827,31 @@
             if (keyBindState['a'] && player.x > 20) player.x -= stride;
             if (keyBindState['d'] && player.x < canvasInstance.width - 20) player.x += stride;
 
-            // =========================================================
-            // 1. INTELIGÊNCIA ARTIFICIAL: COMPORTAMENTO DOS MONSTROS (AGRO)
-            // =========================================================
+            // PROCESSAMENTO DOS DEBUFFS NOS MONSTROS
             entities.forEach(mob => {
-                // Determina o alvo mais próximo inicial ou o lacaio que chamou atenção
+                mob.debuffs.forEach((db, dIdx) => {
+                    if(!db.lastTick || timestamp - db.lastTick > 1000) {
+                        db.lastTick = timestamp;
+                        mob.hp -= db.dps;
+                        db.duration--;
+                        floatTexts.push({ x: mob.x, y: mob.y - 35, text: `${db.type} -${db.dps}`, color: "#e74c3c", life: 15 });
+                    }
+                });
+                mob.debuffs = mob.debuffs.filter(db => db.duration > 0);
+            });
+
+            // COMPORTAMENTO DOS MONSTROS COM SCRIPT DE TRAVA NA TELA (SCREEN BOUNDS)
+            entities.forEach(mob => {
                 let targetEntity = player;
                 let shortestDist = Math.hypot(player.x - mob.x, player.y - mob.y);
 
-                // Mobs focam nas invocações de ataque ou distância se estiverem perto
                 playerSummons.forEach(sum => {
                     let dSum = Math.hypot(sum.x - mob.x, sum.y - mob.y);
-                    if (mob.currentTarget === sum && sum.hp > 0) {
-                        targetEntity = sum;
-                        shortestDist = dSum;
-                    } else if ((sum.type === "melee" || sum.type === "ranged") && dSum < shortestDist) {
-                        targetEntity = sum;
-                        shortestDist = dSum;
-                    }
+                    if (mob.currentTarget === sum && sum.hp > 0) { targetEntity = sum; shortestDist = dSum; }
+                    else if ((sum.type === "melee" || sum.type === "ranged") && dSum < shortestDist) { targetEntity = sum; shortestDist = dSum; }
                 });
 
-                // Movimentação do Mob em direção ao alvo determinado pelo Agro
-                let dx = targetEntity.x - mob.x;
-                let dy = targetEntity.y - mob.y;
+                let dx = targetEntity.x - mob.x; let dy = targetEntity.y - mob.y;
                 let norm = Math.hypot(dx, dy) || 1;
 
                 if (mob.behavior === "flee" && targetEntity === player) {
@@ -893,11 +863,9 @@
                         customProjectiles.push({ x: mob.x, y: mob.y, target: targetEntity, speed: 6, damage: Math.floor(6 * mob.mod.dmg), isEnemy: true, icon: "🔸" });
                     }
                 } else {
-                    // Perseguição corpo a corpo
                     if (shortestDist > 25) {
                         mob.x += (dx / norm) * mob.speed; mob.y += (dy / norm) * mob.speed;
                     } else {
-                        // Ataque Físico contra o alvo (Jogador ou Lacaio)
                         if (!mob.lastMelee || timestamp - mob.lastMelee > 1000) {
                             mob.lastMelee = timestamp;
                             let damageInflicted = Math.max(1, Math.floor(8 * mob.mod.dmg));
@@ -907,129 +875,87 @@
                                 floatTexts.push({ x: player.x, y: player.y - 20, text: `💔 -${damageInflicted}`, color: "#ff3b30", life: 20 });
                                 if (player.hp <= 0 && !isGodModeActive) buildTownCenter();
                             } else {
-                                // Monstro batendo no lacaio do Necro
                                 targetEntity.hp -= damageInflicted;
                                 floatTexts.push({ x: targetEntity.x, y: targetEntity.y - 15, text: `💀 -${damageInflicted}`, color: "#e02883", life: 15 });
-                                // Se der dano no Necro, limpa foco (Regra: Ataca até morrer ou até dar dano no Necro)
                                 if(Math.random() > 0.6) mob.currentTarget = null;
                             }
                             refreshInterfaceUI();
                         }
                     }
                 }
+
+                // BARREIRA DE TELA ABSOLUTA: IMPEDE OS MOBS DE SAFFAREM DA ÁREA GRÁFICA
+                if (mob.x < 20) mob.x = 20;
+                if (mob.x > canvasInstance.width - 20) mob.x = canvasInstance.width - 20;
+                if (mob.y < 20) mob.y = 20;
+                if (mob.y > canvasInstance.height - 20) mob.y = canvasInstance.height - 20;
             });
 
-            // Limpa lacaios mortos da lista
             playerSummons = playerSummons.filter(s => s.hp > 0);
 
-            // =========================================================
-            // 2. INTELIGÊNCIA ARTIFICIAL: COMPORTAMENTO DOS LACAIOS DO NECRO
-            // =========================================================
+            // INTELIGÊNCIA ARTIFICIAL DAS INVOCAÇÕES
             playerSummons.forEach(sum => {
-                // Regra de Foco: Focam no inimigo mais próximo do INVOCADOR (Player)
-                let optimalMob = null;
-                let minPlayerDist = Infinity;
-
+                let optimalMob = null; let minPlayerDist = Infinity;
                 entities.forEach(m => {
                     let d = Math.hypot(m.x - player.x, m.y - player.y);
                     if (d < minPlayerDist) { minPlayerDist = d; optimalMob = m; }
                 });
 
                 if (sum.type === "melee") {
-                    // LACAIO DE ATAQUE: Rusha direto no Mob mais próximo
                     if (optimalMob) {
                         let mx = optimalMob.x - sum.x; let my = optimalMob.y - sum.y;
-                        let dist = Math.hypot(mx, my);
-                        let n = dist || 1;
-                        if (dist > 20) {
-                            sum.x += (mx / n) * sum.speed; sum.y += (my / n) * sum.speed;
-                        } else {
+                        let dist = Math.hypot(mx, my); let n = dist || 1;
+                        if (dist > 20) { sum.x += (mx / n) * sum.speed; sum.y += (my / n) * sum.speed; }
+                        else {
                             if (!sum.lastAtk || timestamp - sum.lastAtk > 900) {
-                                sum.lastAtk = timestamp;
-                                optimalMob.currentTarget = sum; // Chama a atenção do Mob!
+                                sum.lastAtk = timestamp; optimalMob.currentTarget = sum;
                                 executeDamageCalculation(optimalMob, sum.damage, false);
                             }
                         }
-                    } else {
-                        // Sem mobs: segue o player
-                        let px = player.x - sum.x; let py = player.y - sum.y;
-                        if(Math.hypot(px, py) > 50) { sum.x += (px/Math.hypot(px,py))*sum.speed; sum.y += (py/Math.hypot(px,py))*sum.speed; }
                     }
                 } 
                 else if (sum.type === "ranged") {
-                    // LACAIO DISTÂNCIA: Mantém recuo se algum mob chegar muito perto
                     let dangerMob = null;
                     entities.forEach(m => { if(Math.hypot(m.x - sum.x, m.y - sum.y) < 100) dangerMob = m; });
-
                     if (dangerMob) {
-                        // Foge do mob em perigo
                         let rx = sum.x - dangerMob.x; let ry = sum.y - dangerMob.y;
                         let rn = Math.hypot(rx, ry) || 1;
                         sum.x += (rx / rn) * sum.speed; sum.y += (ry / rn) * sum.speed;
-                    } else if (optimalMob) {
-                        // Se posiciona a uma distância segura do alvo do player
-                        let tx = optimalMob.x - sum.x; let ty = optimalMob.y - sum.y;
-                        let td = Math.hypot(tx, ty);
-                        if (td > 200) {
-                            sum.x += (tx / td) * sum.speed; sum.y += (ty / td) * sum.speed;
-                        }
                     }
-
-                    // Realiza disparos periódicos
                     if (optimalMob && (!sum.lastShot || timestamp - sum.lastShot > 1300)) {
                         sum.lastShot = timestamp;
-                        customProjectiles.push({
-                            x: sum.x, y: sum.y, target: optimalMob, speed: 8,
-                            damage: sum.damage, isEnemy: false, icon: "🦴",
-                            callAgro: true, summonSource: sum // Passa propriedade de agro ao causar dano
-                        });
+                        customProjectiles.push({ x: sum.x, y: sum.y, target: optimalMob, speed: 8, damage: sum.damage, isEnemy: false, icon: "bone", callAgro: true, summonSource: sum });
                     }
                 } 
                 else if (sum.type === "healer") {
-                    // LACAIO DE CURA: Foge de qualquer monstro próximo de forma absoluta
                     let dangerMob = null;
                     entities.forEach(m => { if(Math.hypot(m.x - sum.x, m.y - sum.y) < 120) dangerMob = m; });
-
                     if (dangerMob) {
                         let rx = sum.x - dangerMob.x; let ry = sum.y - dangerMob.y;
                         let rn = Math.hypot(rx, ry) || 1;
                         sum.x += (rx / rn) * sum.speed; sum.y += (ry / rn) * sum.speed;
-                    } else {
-                        // Mantém proximidade com o jogador para curá-lo
-                        let px = player.x - sum.x; let py = player.y - sum.y;
-                        let pd = Math.hypot(px, py);
-                        if(pd > 60) { sum.x += (px / pd) * sum.speed; sum.y += (py / pd) * sum.speed; }
                     }
-
-                    // Cura apenas a VIDA do invocador (Nunca cura mana!)
                     if (player.hp < player.maxHp && (!sum.lastHeal || timestamp - sum.lastHeal > 2000)) {
                         sum.lastHeal = timestamp;
-                        let healAmount = sum.damage; // Escala com o dano/poder da arma
-                        player.hp = Math.min(player.maxHp, player.hp + healAmount);
-                        createExplosionVfx(player.x, player.y, "#2ecc71", 4);
-                        floatTexts.push({ x: player.x, y: player.y - 25, text: `💚 +${healAmount} HP`, color: "#2ecc71", life: 15 });
+                        player.hp = Math.min(player.maxHp, player.hp + sum.damage);
+                        floatTexts.push({ x: player.x, y: player.y - 25, text: `💚 +${sum.damage} HP`, color: "#2ecc71", life: 15 });
                         refreshInterfaceUI();
                     }
                 }
             });
 
-            // =========================================================
-            // 3. ATUALIZAÇÃO E COLISÃO DE PROJÉTEIS
-            // =========================================================
+            // PROJÉTEIS
             customProjectiles.forEach((proj, i) => {
                 let dx = proj.target.x - proj.x; let dy = proj.target.y - proj.y;
                 let distance = Math.hypot(dx, dy);
                 if (distance < 20) {
                     if (proj.isEnemy) {
                         if (!isGodModeActive) proj.target.hp -= proj.damage;
-                        floatTexts.push({ x: proj.target.x, y: proj.target.y - 20, text: `💥 -${proj.damage}`, color: "#ff2a1a", life: 20 });
                         if (player.hp <= 0 && !isGodModeActive) buildTownCenter();
                     } else {
-                        // Projétil do jogador ou lacaio atingindo monstro
-                        if (proj.callAgro && proj.summonSource) {
-                            proj.target.currentTarget = proj.summonSource; // Alvo de distância chama atenção ao dar dano!
-                        }
+                        if (proj.callAgro && proj.summonSource) proj.target.currentTarget = proj.summonSource;
                         executeDamageCalculation(proj.target, proj.damage, proj.isCrit);
+                        if(proj.debuff && proj.target) proj.target.debuffs.push(proj.debuff);
                     }
                     customProjectiles.splice(i, 1);
                 } else {
@@ -1037,53 +963,30 @@
                 }
             });
 
-            environmentParticles.forEach((p, i) => { p.x += p.vx; p.y += p.vy; p.life--; if(p.life <= 0) environmentParticles.splice(i, 1); });
-
-            // =========================================================
-            // RENDERIZAÇÃO GRÁFICA NO CANVAS ENGINE
-            // =========================================================
+            // RENDERIZAÇÃO
             canvasContext.fillStyle = "#020202"; canvasContext.fillRect(0, 0, canvasInstance.width, canvasInstance.height);
-            
-            // Desenho do Grid de Background
-            canvasContext.strokeStyle = "rgba(84, 52, 30, 0.05)";
-            for(let g = 0; g < canvasInstance.width; g += 40) { canvasContext.beginPath(); canvasContext.moveTo(g,0); canvasContext.lineTo(g,canvasInstance.height); canvasContext.stroke(); }
-
-            environmentParticles.forEach(p => { canvasContext.fillStyle = p.color; canvasContext.fillRect(p.x, p.y, 4, 4); });
-
-            // Render do Jogador
             canvasContext.font = "32px Courier New"; canvasContext.textAlign = "center"; canvasContext.textBaseline = "middle";
             canvasContext.fillText(player.icon, player.x, player.y);
 
-            // Render das Invocações Ativas do Necro
             playerSummons.forEach(sum => {
-                canvasContext.font = "24px Courier New";
-                canvasContext.fillText(sum.avatar, sum.x, sum.y);
-                // Nome do lacaio em cima
-                canvasContext.fillStyle = "#9b59b6";
-                canvasContext.font = "9px Courier New";
-                canvasContext.fillText(`${sum.hp}/${sum.maxHp}`, sum.x, sum.y - 18);
+                canvasContext.font = "24px Courier New"; canvasContext.fillText(sum.avatar, sum.x, sum.y);
             });
 
-            // Render dos Monstros
             entities.forEach(mob => {
                 if (mob.mod.aura) {
                     canvasContext.beginPath(); canvasContext.arc(mob.x, mob.y, mob.radius + 2, 0, Math.PI * 2);
-                    canvasContext.strokeStyle = mob.mod.aura; canvasContext.lineWidth = 2; canvasContext.stroke();
+                    canvasContext.strokeStyle = mob.mod.aura; canvasContext.stroke();
                 }
                 canvasContext.font = `${mob.fontSize} Courier New`; canvasContext.fillText(mob.avatar, mob.x, mob.y);
-                
-                // Barra de Vida dos monstros tratada
                 canvasContext.fillStyle = "#1c0a06"; canvasContext.fillRect(mob.x - 20, mob.y - mob.radius - 12, 40, 4);
                 canvasContext.fillStyle = "#e74c3c"; canvasContext.fillRect(mob.x - 20, mob.y - mob.radius - 12, (mob.hp / mob.maxHp) * 40, 4);
             });
 
             customProjectiles.forEach(p => { canvasContext.font = "20px Courier New"; canvasContext.fillText(p.icon, p.x, p.y); });
-            floatTexts.forEach((f, i) => { canvasContext.fillStyle = f.color; canvasContext.font = "bold 12px Courier New"; canvasContext.fillText(f.text, f.x, f.y); f.life--; f.y -= 0.5; if(f.life <= 0) floatTexts.splice(i, 1); });
+            floatTexts.forEach((f, i) => { canvasContext.fillStyle = f.color; canvasContext.font = "12px Courier New"; canvasContext.fillText(f.text, f.x, f.y); f.life--; if(f.life <= 0) floatTexts.splice(i, 1); });
 
-            // Se limpou a sala de um andar normal, avança automático até o andar 25
             if (entities.length === 0 && activeDungeon && currentDungeonFloor < 25) {
-                currentDungeonFloor++;
-                generateDungeonFloorLayout();
+                currentDungeonFloor++; generateDungeonFloorLayout();
             }
 
             requestAnimationFrame(engineUpdateLoop);
@@ -1093,14 +996,12 @@
             document.getElementById('lbl-class').innerText = player.currentClass;
             document.getElementById('lbl-gold').innerText = player.gold;
             document.getElementById('lbl-lvl').innerText = player.lvl;
-            
             document.getElementById('fill-hp').style.width = `${(player.hp / player.maxHp) * 100}%`;
             document.getElementById('txt-hp').innerText = `HP: ${player.hp}/${player.maxHp}`;
             document.getElementById('fill-mp').style.width = `${(player.mp / player.maxMp) * 100}%`;
             document.getElementById('txt-mp').innerText = `MP: ${player.mp}/${player.maxMp}`;
             document.getElementById('fill-xp').style.width = `${(player.xp / player.nextXp) * 100}%`;
             document.getElementById('txt-xp').innerText = `XP: ${player.xp}/${player.nextXp}`;
-
             document.getElementById('val-str').innerText = player.stats.str;
             document.getElementById('val-agi').innerText = player.stats.agi;
             document.getElementById('val-mag').innerText = player.stats.mag;
@@ -1108,15 +1009,11 @@
             document.getElementById('val-def').innerText = player.stats.def;
             document.getElementById('val-luk').innerText = player.stats.luk;
             document.getElementById('val-pts').innerText = player.freePoints;
-
-            let btnWrapper = document.getElementById('class-button-wrapper');
-            let btns = btnWrapper.getElementsByTagName('button');
-            for (let i = 0; i < btns.length; i++) { btns[i].disabled = (activeDungeon !== null); }
         }
 
         function writeConsoleLog(msg) {
             const out = document.getElementById('terminal-log-output');
-            out.innerHTML += `<p style='margin:1px 0;'>&gt; ${msg}</p>`; out.scrollTop = out.scrollHeight;
+            out.innerHTML += `<p>&gt; ${msg}</p>`; out.scrollTop = out.scrollHeight;
         }
 
         window.onload = init;
