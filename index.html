@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNI MMORPG: TOTAL RESTORATION & EXPANSION</title>
+    <title>OMNI MMORPG: TOTAL RESTORATION</title>
     <style>
         * { box-sizing: border-box; font-family: 'Courier New', Courier, monospace; margin: 0; padding: 0; }
         body { background-color: #000000; color: #d4a373; padding: 15px; user-select: none; overflow-x: hidden; }
@@ -33,7 +33,6 @@
 
         .section-title { font-size: 11px; color: #ff3b30; font-weight: bold; margin: 12px 0 6px 0; text-transform: uppercase; display: flex; align-items: center; gap: 4px; border-bottom: 1px solid #3d2212; padding-bottom: 2px; }
         
-        /* GRID DE EQUIPAMENTOS ATUALIZADO COM ARMADURAS, ACESSÓRIOS E ARTEFATOS separados */
         .equip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 10px; }
         .equip-slot { background: #000000; border: 1px dashed #422817; height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; color: #575757; text-align: center; padding: 2px; cursor: pointer; }
         .equip-slot:hover { border-color: #ffcc00; background: #120704; }
@@ -85,7 +84,6 @@
     <div class="main-title">🔮 OMNI MMORPG: COMPLETE RESTORED EDITION 🔮</div>
 
     <div class="grid-engine">
-        
         <div class="panel">
             <div class="top-tabs">
                 <button id="btn-tab-hero" class="active" onclick="toggleMainTab('hero')">Herói</button>
@@ -107,7 +105,7 @@
                 <div class="bar-container"><div id="fill-mp" class="bar-fill mp-fill"></div><div id="txt-mp" class="bar-text">MP: 60/60</div></div>
                 <div class="bar-container"><div id="fill-xp" class="bar-fill xp-fill"></div><div id="txt-xp" class="bar-text">XP: 0/100</div></div>
 
-                <div class="section-title">🛡️ Equipamentos, Acessórios e Artefatos Ativos</div>
+                <div class="section-title">🛡️ Equipamentos, Acessórios e Artefatos</div>
                 <div class="equip-grid">
                     <div class="equip-slot" id="slot-weapon" onclick="unequipItem('weapon')">Arma</div>
                     <div class="equip-slot" id="slot-armor" onclick="unequipItem('armor')">Armadura</div>
@@ -155,7 +153,7 @@
             </div>
 
             <div id="view-forge" class="tab-view">
-                <div class="section-title" style="color:#ffcc00;">🔨 Estação de Forja Avançada (Selecione o Portal de Origem)</div>
+                <div class="section-title" style="color:#ffcc00;">🔨 Estação de Forja Avançada</div>
                 <select id="forge-portal-select" style="width:100%; background:#140a06; color:#fff; border:1px solid #54341e; padding:6px; margin-bottom:10px;" onchange="renderForgeRecipes()">
                 </select>
                 <div id="forge-recipes-list" class="scroll-list"></div>
@@ -209,10 +207,10 @@
 
             <div class="terminal-box" id="terminal-log-output"></div>
         </div>
-    </div>
-
-    <script>
-        // RESTAURAÇÃO TOTAL: TODOS OS 25 PORTAIS RETORNADOS AO JOGO
+    </div><script>
+        // ==========================================
+        // BANCO DE DADOS DOS 25 PORTAIS ORIGINAIS
+        // ==========================================
         const portalDatabase = [];
         const portalNames = [
             "Esgotos de Bronze 🐀", "Caverna do Eco 🦇", "Ninho de Aracnídeos 🕷️", "Cripta dos Crânios 💀", "Ruínas Desérticas 🦂",
@@ -221,7 +219,6 @@
             "Prisão Sombria ⛓️", "Deserto de Sangue 🩸", "Cume Celestial ☁️", "Vazio Estelar 🌌", "Forja Infernal 🌋",
             "Santuário Antigo 🏛️", "Campos Congelados 🏔️", "Catacumbas Ocultas ⚰️", "Dimensão Alfa 🌀", "Trono Omni 👑"
         ];
-        const portalMats = ["Minério 🟫", "Essência 🌀", "Fragmento 💎", "Relíquia 🏺"];
 
         for(let i = 1; i <= 25; i++) {
             portalDatabase.push({
@@ -233,6 +230,9 @@
             });
         }
 
+        // ==========================================
+        // ÁRVORE DE SKILLS COMPLETA POR CLASSE
+        // ==========================================
         let skillDictionary = {
             "Guerreiro": [
                 { name: "Corte Rápido ⚔️", mp: 8, dmgMult: 1.5, type: "melee", lvl: 1 },
@@ -285,37 +285,63 @@
             ]
         };
 
+        // ==========================================
+        // VARIANTES DE INIMIGOS E MODIFICADORES
+        // ==========================================
         const variantModifiers = {
-            normal: { tag: "Comum", hp: 1.0, speed: 0.9, dmg: 1.0, gold: 1.0, xp: 1.0, aura: null, size: "24px", rad: 20 },
-            elite: { tag: "Elite", hp: 2.5, speed: 1.1, dmg: 1.6, gold: 3.0, xp: 3.0, aura: "#3498db", size: "28px", rad: 24 },
-            champion: { tag: "Campeão", hp: 5.0, speed: 1.3, dmg: 2.5, gold: 6.0, xp: 6.0, aura: "#f1c40f", size: "34px", rad: 28 },
-            ancestral: { tag: "Ancestral", hp: 9.0, speed: 1.5, dmg: 4.0, gold: 12.0, xp: 12.0, aura: "#9b59b6", size: "44px", rad: 36 }
+            normal: { tag: "Comum", hp: 1.0, speed: 0.9, dmg: 1.0, gold: 1.0, xp: 1.0, aura: null, fontSize: "24px", radius: 20 },
+            elite: { tag: "Elite", hp: 2.5, speed: 1.1, dmg: 1.6, gold: 3.0, xp: 3.0, aura: "#3498db", fontSize: "28px", radius: 24 },
+            champion: { tag: "Campeão", hp: 5.0, speed: 1.3, dmg: 2.5, gold: 6.0, xp: 6.0, aura: "#f1c40f", fontSize: "34px", radius: 28 },
+            ancestral: { tag: "Ancestral", hp: 9.0, speed: 1.5, dmg: 4.0, gold: 12.0, xp: 12.0, aura: "#9b59b6", fontSize: "44px", radius: 36 }
         };
 
+        // ESTADO GLOBAL DO JOGADOR (INVENTÁRIO E SLOTS CORRIGIDOS)
         let player = {
             x: 230, y: 245, currentClass: "Guerreiro", icon: "🛡️",
             lvl: 1, xp: 0, nextXp: 100, hp: 120, maxHp: 120, mp: 60, maxMp: 60, gold: 500,
             stats: { str: 10, agi: 10, mag: 10, int: 10, def: 10, luk: 10 }, freePoints: 0,
-            // SISTEMA SEPARADO DE ARMADURAS, ACESSÓRIOS E ARTEFATOS RESTAURADO
             equipment: { weapon: null, armor: null, helm: null, boots: null, ring: null, amulet: null, artifact1: null, artifact2: null }
         };
 
-        let inventorySystem = { equip: [], mat: [], pot: [{ id: 'p_hp', name: "Poção HP", type: "hp", icon: "🧪", qty: 5 }, { id: 'p_mp', name: "Poção MP", type: "mp", icon: "🧪", qty: 3 }] };
-        let activeBagTab = 'equip';
-        let entities = []; let playerSummons = []; let customProjectiles = []; let floatTexts = [];
-        let keyBindState = {}; let canvasInstance, canvasContext; let activeDungeon = null; let currentDungeonFloor = 1;
+        let inventorySystem = { 
+            equip: [], 
+            mat: [], 
+            pot: [
+                { id: 'p_hp', name: "Poção HP", type: "hp", icon: "🧪", qty: 5 }, 
+                { id: 'p_mp', name: "Poção MP", type: "mp", icon: "🧪", qty: 3 }
+            ] 
+        };
 
+        let activeBagTab = 'equip';
+        let entities = []; 
+        let playerSummons = []; 
+        let customProjectiles = []; 
+        let floatTexts = [];
+        let keyBindState = {}; 
+        let canvasInstance, canvasContext; 
+        let activeDungeon = null; 
+        let currentDungeonFloor = 1;// ==========================================
+        // INICIALIZAÇÃO DO MOTOR DE JOGO
+        // ==========================================
         function init() {
             canvasInstance = document.getElementById('gameCanvas');
             canvasContext = canvasInstance.getContext('2d');
             adaptCanvasResolution();
 
             window.addEventListener('resize', adaptCanvasResolution);
-            window.addEventListener('keydown', e => { keyBindState[e.key.toLowerCase()] = true; handleDirectHotkeys(e.key.toLowerCase()); });
-            window.addEventListener('keyup', e => { keyBindState[e.key.toLowerCase()] = false; });
+            window.addEventListener('keydown', e => { 
+                keyBindState[e.key.toLowerCase()] = true; 
+                handleDirectHotkeys(e.key.toLowerCase()); 
+            });
+            window.addEventListener('keyup', e => { 
+                keyBindState[e.key.toLowerCase()] = false; 
+            });
 
+            // Registrar os materiais de drop na bolsa
             portalDatabase.forEach(p => {
-                p.mats.forEach(m => { inventorySystem.mat.push({ name: m, icon: m.split(" ").pop(), qty: 0 }); });
+                p.mats.forEach(m => { 
+                    inventorySystem.mat.push({ name: m, icon: m.split(" ").pop(), qty: 0 }); 
+                });
             });
 
             buildTownCenter();
@@ -328,7 +354,12 @@
             requestAnimationFrame(engineUpdateLoop);
         }
 
-        function adaptCanvasResolution() { canvasInstance.width = canvasInstance.parentElement.clientWidth; canvasInstance.height = canvasInstance.parentElement.clientHeight; }
+        function adaptCanvasResolution() { 
+            canvasInstance.width = canvasInstance.parentElement.clientWidth; 
+            canvasInstance.height = canvasInstance.parentElement.clientHeight; 
+        }
+
+        // CONTROLADOR DE NAVEGAÇÃO DE ABAS
         function toggleMainTab(tabId) {
             document.querySelectorAll('.tab-view').forEach(view => view.classList.remove('active'));
             document.querySelectorAll('.top-tabs button').forEach(btn => btn.classList.remove('active'));
@@ -336,28 +367,43 @@
             document.getElementById(`btn-tab-${tabId}`).classList.add('active');
             if(tabId === 'skills') renderSkillTree();
         }
-        function toggleBagSubtab(subTabId) { activeBagTab = subTabId; document.querySelectorAll('.bag-subtabs button').forEach(b => b.classList.remove('active')); document.getElementById(`btn-bag-${subTabId}`).classList.add('active'); renderInventoryGrid(); }
 
+        function toggleBagSubtab(subTabId) { 
+            activeBagTab = subTabId; 
+            document.querySelectorAll('.bag-subtabs button').forEach(b => b.classList.remove('active')); 
+            document.getElementById(`btn-bag-${subTabId}`).classList.add('active'); 
+            renderInventoryGrid(); 
+        }
+
+        // SISTEMA DE ATRIBUTOS UPÁVEIS
         function addStatPoint(statKey) {
             if (player.freePoints > 0) {
-                player.freePoints--; player.stats[statKey]++;
+                player.freePoints--; 
+                player.stats[statKey]++;
                 if (statKey === 'def') { player.maxHp += 15; player.hp += 15; }
                 if (statKey === 'int') { player.maxMp += 10; player.mp += 10; }
                 refreshInterfaceUI();
             }
         }
 
+        // SISTEMA DE TROCA DE VOCAÇÕES (TRAVA EM COMBATE ATIVA)
         function selectClass(className, glyph) {
-            if (activeDungeon !== null) return;
-            player.currentClass = className; player.icon = glyph;
+            if (activeDungeon !== null) {
+                writeConsoleLog("⚠️ Você não pode trocar de classe dentro de um portal!");
+                return;
+            }
+            player.currentClass = className; 
+            player.icon = glyph;
             for(let i=0; i<5; i++) {
                 let sk = skillDictionary[className][i];
                 document.getElementById(`hotbar-ico-${i}`).innerText = sk.name.split(" ").pop();
                 document.getElementById(`hotbar-txt-${i}`).innerText = sk.name.split(" ")[0];
             }
+            writeConsoleLog(`🎭 Vocação alterada para: ${className}`);
             refreshInterfaceUI();
         }
 
+        // ÁRVORE DE SKILLS EVOLUTIVA
         function renderSkillTree() {
             const treeContainer = document.getElementById('skills-tree-list');
             treeContainer.innerHTML = "";
@@ -366,29 +412,35 @@
                     <div class="skill-tree-node">
                         <div>
                             <div style="font-weight:bold; color:#fff;">${sk.name} (Nv. ${sk.lvl})</div>
-                            <div style="font-size:9px; color:#aaa;">MP: ${sk.mp} | Tipo: ${sk.type}</div>
+                            <div style="font-size:9px; color:#aaa;">MP: ${sk.mp} | Dano Base: x${sk.dmgMult.toFixed(1)}</div>
                         </div>
-                        <button class="skill-up-btn" onclick="upgradeSkill(${index})">UP HABILIDADE</button>
+                        <button class="skill-up-btn" onclick="upgradeSkill(${index})">UP SKILL (-1 PT)</button>
                     </div>`;
             });
         }
 
         function upgradeSkill(idx) {
             if (player.freePoints > 0) {
-                player.freePoints--; skillDictionary[player.currentClass][idx].lvl++;
-                writeConsoleLog(`✨ Upada: ${skillDictionary[player.currentClass][idx].name} para Nv. ${skillDictionary[player.currentClass][idx].lvl}`);
-                renderSkillTree(); refreshInterfaceUI();
+                player.freePoints--; 
+                skillDictionary[player.currentClass][idx].lvl++;
+                writeConsoleLog(`✨ Habilidade [${skillDictionary[player.currentClass][idx].name}] evoluída para o Nível ${skillDictionary[player.currentClass][idx].lvl}!`);
+                renderSkillTree(); 
+                refreshInterfaceUI();
+            } else {
+                writeConsoleLog("❌ Você não possui pontos disponíveis.");
             }
         }
 
         function populatePortalSelectMenu() {
             const select = document.getElementById('forge-portal-select');
             select.innerHTML = "";
-            portalDatabase.forEach(p => { select.innerHTML += `<option value="${p.id}">${p.name}</option>`; });
+            portalDatabase.forEach(p => { 
+                select.innerHTML += `<option value="${p.id}">${p.name}</option>`; 
+            });
             renderForgeRecipes();
         }
 
-        // SISTEMA DE FORJA EXPANDIDO: INCLUI ARMAS, ARMADURAS, ACESSÓRIOS E ARTEFATOS
+        // GERADOR DE RECEITAS DE FORJA COM COMPONENTES SEPARADOS
         function renderForgeRecipes() {
             const portalId = parseInt(document.getElementById('forge-portal-select').value);
             const port = portalDatabase.find(p => p.id === portalId);
@@ -398,36 +450,44 @@
 
             let bonus = port.id * 3;
 
-            // Opção 1: Armas Alternativas
+            // Categoria 1: Armas do Andar
             listEl.innerHTML += `
                 <div class="craft-card" style="border-left: 3px solid #ffcc00;">
-                    <div style="font-weight:bold; color:#fff;">⚔️ Espada Mágica do Andar ${port.id} (+${bonus})</div>
-                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'weapon', 'Espada Mágica', ${bonus}, '⚔️')">Forjar Arma</button>
+                    <div style="font-weight:bold; color:#fff;">⚔️ Espada de Artat P${port.id} (+${bonus})</div>
+                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'weapon', 'Lâmina do Andar', ${bonus}, '⚔️')">Forjar Lâmina</button>
                 </div>`;
             
-            // Opção 2: Armaduras Completas
+            // Categoria 2: Armaduras Completas (Elmo, Peitoral, Botas)
             listEl.innerHTML += `
                 <div class="craft-card" style="border-left: 3px solid #2ecc71;">
-                    <div style="font-weight:bold; color:#fff;">👕 Armadura Peitoral de Placas (+${bonus})</div>
-                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'armor', 'Peitoral de Placas', ${bonus}, '👕')">Forjar Armadura</button>
+                    <div style="font-weight:bold; color:#fff;">🪖 Elmo Guardião P${port.id} (+${bonus})</div>
+                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'helm', 'Yelmo Forjado', ${bonus}, '🪖')">Forjar Elmo</button>
+                </div>
+                <div class="craft-card" style="border-left: 3px solid #2ecc71;">
+                    <div style="font-weight:bold; color:#fff;">👕 Armadura Peitoral P${port.id} (+${bonus})</div>
+                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'armor', 'Cota de Placas', ${bonus}, '👕')">Forjar Peitoral</button>
+                </div>
+                <div class="craft-card" style="border-left: 3px solid #2ecc71;">
+                    <div style="font-weight:bold; color:#fff;">🥾 Grevas do Desbravador P${port.id} (+${bonus})</div>
+                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'boots', 'Botas de Ferro', ${bonus}, '🥾')">Forjar Botas</button>
                 </div>`;
 
-            // Opção 3: Sistema de Acessórios (Anéis e Amuletos)
+            // Categoria 3: Acessórios Relíquias (Anéis e Amuletos)
             listEl.innerHTML += `
                 <div class="craft-card" style="border-left: 3px solid #3498db;">
-                    <div style="font-weight:bold; color:#fff;">💍 Anel de Brilhante Místico (+${bonus})</div>
-                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'ring', 'Anel Místico', ${bonus}, '💍')">Forjar Anel</button>
+                    <div style="font-weight:bold; color:#fff;">💍 Anel de Diamante Arcano (+${bonus})</div>
+                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'ring', 'Anel Encantado', ${bonus}, '💍')">Forjar Anel</button>
                 </div>
                 <div class="craft-card" style="border-left: 3px solid #1abc9c;">
-                    <div style="font-weight:bold; color:#fff;">📿 Amulet de Proteção Oculta (+${bonus})</div>
-                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'amulet', 'Amulet Oculto', ${bonus}, '📿')">Forjar Amuleto</button>
+                    <div style="font-weight:bold; color:#fff;">📿 Amuleto Rúnico Elemental (+${bonus})</div>
+                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'amulet', 'Amuleto Primordial', ${bonus}, '📿')">Forjar Amuleto</button>
                 </div>`;
 
-            // Opção 4: Sistema de Artefatos Ancestrais
+            // Categoria 4: Artefatos Ancestrais Lendários
             listEl.innerHTML += `
                 <div class="craft-card" style="border-left: 3px solid #e02883;">
-                    <div style="font-weight:bold; color:#fff;">🔮 Artefato Proibido Divino Nv.${port.id}</div>
-                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'artifact1', 'Artefato Sagrado', ${bonus * 2}, '🔮')">Forjar Artefato</button>
+                    <div style="font-weight:bold; color:#fff;">🔮 Artefato OMNI Proibido (+${bonus * 2})</div>
+                    <button class="adm-btn" onclick="executeProceduralCraft(${port.id}, 'artifact1', 'Cálice Sagrado', ${bonus * 2}, '🔮')">Forjar Artefato</button>
                 </div>`;
         }
 
@@ -437,23 +497,29 @@
                 name: `${prefix} P${portalId} (+${bonus})`,
                 type: type, icon: icon, statBonus: bonus, necroTier: portalId
             });
-            writeConsoleLog(`🔨 Forjado com Sucesso: ${prefix}!`);
+            writeConsoleLog(`🔨 Sucesso! Forjado item de tier ${portalId}: ${prefix}`);
             renderInventoryGrid();
         }
 
+        // GERENCIAMENTO DE EQUIPE, TROCA E UKNIT DE SLOTS
         function interactWithInventoryItem(tab, idx) {
             let item = inventorySystem[tab][idx];
             if(!item) return;
 
             if (tab === 'equip') {
                 let slotKey = item.type;
-                if(slotKey === 'artifact1' && player.equipment.artifact1 !== null) slotKey = 'artifact2';
+                // Suporte para o duplo slot de Artefatos
+                if(slotKey === 'artifact1' && player.equipment.artifact1 !== null) {
+                    slotKey = 'artifact2';
+                }
 
                 if(player.equipment[slotKey]) unequipItem(slotKey);
                 player.equipment[slotKey] = item;
                 inventorySystem.equip.splice(idx, 1);
-                writeConsoleLog(`Equipado: ${item.name}`);
-                updateEquipmentSlotsGraphics(); renderInventoryGrid(); refreshInterfaceUI();
+                writeConsoleLog(`🛡️ Equipou: ${item.name}`);
+                updateEquipmentSlotsGraphics(); 
+                renderInventoryGrid(); 
+                refreshInterfaceUI();
             } else if (tab === 'pot') {
                 useConsumable(item.type);
             }
@@ -464,19 +530,28 @@
             if (item) {
                 player.equipment[slotKey] = null;
                 inventorySystem.equip.push(item);
-                document.getElementById(`slot-${slotKey}`).innerHTML = slotKey;
+                let defaultLabel = slotKey === 'ring' ? 'Anel (Acess.)' : slotKey === 'amulet' ? 'Amulet (Acess.)' : slotKey.startsWith('artifact') ? 'Artefato' : slotKey;
+                document.getElementById(`slot-${slotKey}`).innerHTML = defaultLabel;
                 document.getElementById(`slot-${slotKey}`).classList.remove('filled');
-                updateEquipmentSlotsGraphics(); renderInventoryGrid(); refreshInterfaceUI();
+                writeConsoleLog(`📦 Removeu item para o inventário.`);
+                updateEquipmentSlotsGraphics(); 
+                renderInventoryGrid(); 
+                refreshInterfaceUI();
             }
         }
 
         function updateEquipmentSlotsGraphics() {
             Object.keys(player.equipment).forEach(k => {
-                let it = player.equipment[k]; let el = document.getElementById(`slot-${k}`);
-                if(it && el) { el.innerHTML = `<b>${it.icon}</b><span style="color:#ffcc00;font-size:8px;">+${it.statBonus}</span>`; el.classList.add('filled'); }
+                let it = player.equipment[k]; 
+                let el = document.getElementById(`slot-${k}`);
+                if(it && el) { 
+                    el.innerHTML = `<b>${it.icon}</b><span style="color:#ffcc00;font-size:8px;">+${it.statBonus}</span>`; 
+                    el.classList.add('filled'); 
+                }
             });
-        }
-
+        }// ==========================================
+        // SISTEMA DE INTERFACES E RENDERIZAÇÃO DA BOLSA
+        // ==========================================
         function renderPortalList() {
             const listEl = document.getElementById('portals-container-list');
             listEl.innerHTML = "";
@@ -486,7 +561,8 @@
         }
 
         function renderInventoryGrid() {
-            const container = document.getElementById('bag-content'); container.innerHTML = "";
+            const container = document.getElementById('bag-content'); 
+            container.innerHTML = "";
             inventorySystem[activeBagTab].forEach((item, index) => {
                 let txt = item.qty !== undefined ? `x${item.qty}` : `+${item.statBonus}`;
                 container.innerHTML += `<div class="bag-item" onclick="interactWithInventoryItem('${activeBagTab}', ${index})"><span>${item.icon}</span><div style="font-size:8px;">${item.name}</div><b>${txt}</b></div>`;
@@ -499,66 +575,126 @@
                 pot.qty--;
                 if (type === 'hp') player.hp = Math.min(player.maxHp, player.hp + 50);
                 else player.mp = Math.min(player.maxMp, player.mp + 30);
-                renderInventoryGrid(); refreshInterfaceUI();
+                renderInventoryGrid(); 
+                refreshInterfaceUI();
             }
         }
 
-        function buyPotion(type) { if (player.gold >= 25) { player.gold -= 25; let item = inventorySystem.pot.find(p => p.type === type); if (item) item.qty++; renderInventoryGrid(); refreshInterfaceUI(); } }
-        function buildTownCenter() { activeDungeon = null; currentDungeonFloor = 1; entities = []; playerSummons = []; customProjectiles = []; floatTexts = []; document.getElementById('lbl-map-title').innerText = "VILA LOBBY %;"> document.getElementById('lbl-boss-counter').innerText = "Lobby"; document.getElementById('lbl-lock-warn').style.display = "none"; refreshInterfaceUI(); }
+        function buyPotion(type) { 
+            if (player.gold >= 25) { 
+                player.gold -= 25; 
+                let item = inventorySystem.pot.find(p => p.type === type); 
+                if (item) item.qty++; 
+                renderInventoryGrid(); 
+                refreshInterfaceUI(); 
+            } 
+        }
 
+        function buildTownCenter() { 
+            activeDungeon = null; 
+            currentDungeonFloor = 1; 
+            entities = []; 
+            playerSummons = []; 
+            customProjectiles = []; 
+            floatTexts = []; 
+            document.getElementById('lbl-map-title').innerText = "VILA LOBBY 🌆"; 
+            document.getElementById('lbl-boss-counter').innerText = "Lobby"; 
+            document.getElementById('lbl-lock-warn').style.display = "none"; 
+            refreshInterfaceUI(); 
+        }
+
+        // INSTANCIAMENTO DINÂMICO DE PORTAIS (1 A 25)
         function enterPortalInstance(id) {
             let port = portalDatabase.find(x => x.id === id);
-            if (player.lvl < port.minLvl) return;
-            activeDungeon = port; currentDungeonFloor = 1;
+            if (player.lvl < port.minLvl) {
+                writeConsoleLog(`❌ Nível insuficiente! Você precisa de nível ${port.minLvl} para este portal.`);
+                return;
+            }
+            activeDungeon = port; 
+            currentDungeonFloor = id;
             document.getElementById('lbl-lock-warn').style.display = "inline";
             generateDungeonFloorLayout();
             toggleMainTab('hero');
         }
 
         function generateDungeonFloorLayout() {
-            entities = []; customProjectiles = []; player.x = 60; player.y = canvasInstance.height / 2;
+            entities = []; 
+            customProjectiles = []; 
+            player.x = 60; 
+            player.y = canvasInstance.height / 2;
+            
             document.getElementById('lbl-map-title').innerText = `${activeDungeon.name.toUpperCase()}`;
             document.getElementById('lbl-boss-counter').innerText = `Andar ${activeDungeon.id} / 25`;
             
             let df = activeDungeon.id;
-            let finalBossHp = Math.floor(150 + (df * 80));
+            let finalBossHp = Math.floor(150 + (df * 110));
 
-            // Inimigos Normais/Elites na sala
-            for(let i=0; i<3; i++) {
+            // Invocando monstros comuns/elites dinamicamente com base no andar
+            for(let i = 0; i < 3; i++) {
                 let rx = 200 + Math.random() * (canvasInstance.width - 260);
                 let ry = 60 + Math.random() * (canvasInstance.height - 120);
+                let randType = Math.random();
+                let chosenVariant = "normal";
+                
+                if (randType > 0.85) chosenVariant = "champion";
+                else if (randType > 0.6) chosenVariant = "elite";
+
+                let modifier = variantModifiers[chosenVariant];
+
                 entities.push({
-                    x: rx, y: ry, avatar: "👾", hp: 30 + (df*10), maxHp: 30 + (df*10), speed: 0.9, behavior: "melee",
-                    name: `Monstro Andar ${df}`, isBoss: false, variant: "normal", mod: variantModifiers.normal, radius: 20, fontSize: "24px", debuffs: []
+                    x: rx, y: ry, avatar: "👾", 
+                    hp: Math.floor((30 + (df * 15)) * modifier.hp), 
+                    maxHp: Math.floor((30 + (df * 15)) * modifier.hp), 
+                    speed: modifier.speed, 
+                    behavior: "melee",
+                    name: `${modifier.tag} do Andar ${df}`, 
+                    isBoss: false, 
+                    variant: chosenVariant, 
+                    mod: modifier, 
+                    radius: modifier.radius, 
+                    fontSize: modifier.fontSize, 
+                    debuffs: []
                 });
             }
 
-            // Chefe do Andar Selecionado
+            // Chefe de andar supremo
             entities.push({
-                x: canvasInstance.width - 150, y: canvasInstance.height / 2, avatar: "🐉", hp: finalBossHp, maxHp: finalBossHp, speed: 1.1, behavior: "melee",
-                name: `${activeDungeon.bossName}`, isBoss: true, variant: "ancestral", mod: variantModifiers.ancestral, radius: 35, fontSize: "42px", debuffs: []
+                x: canvasInstance.width - 150, y: canvasInstance.height / 2, avatar: "🐉", 
+                hp: finalBossHp, maxHp: finalBossHp, speed: 1.2, behavior: "melee",
+                name: `${activeDungeon.bossName}`, isBoss: true, variant: "ancestral", 
+                mod: variantModifiers.ancestral, radius: 36, fontSize: "44px", debuffs: []
             });
+
+            writeConsoleLog(`⚔️ Você entrou no portal: ${activeDungeon.name}. Derrote o Guardião!`);
         }
 
+        // EXECUÇÃO DE SKILLS NA HOTBAR COM ESCALONAMENTO DE ARTEFATOS
         function useHotbarSkill(idx) {
             let sk = skillDictionary[player.currentClass][idx];
-            if (player.mp < sk.mp) return;
+            if (player.mp < sk.mp) {
+                writeConsoleLog("❌ Mana insuficiente para esta habilidade!");
+                return;
+            }
 
+            // Invocação de Lacaios do Necromante
             if (sk.type.startsWith("summon_")) {
                 let maxSummonsLimit = 2 + Math.floor(player.stats.int / 10);
-                if (playerSummons.length >= maxSummonsLimit) { writeConsoleLog("❌ Limite de lacaios atingido!"); return; }
+                if (playerSummons.length >= maxSummonsLimit) { 
+                    writeConsoleLog("❌ Limite máximo de lacaios atingido!"); 
+                    return; 
+                }
                 
                 player.mp -= sk.mp;
                 let nTier = (player.equipment.weapon) ? player.equipment.weapon.necroTier : 1;
                 
-                // SISTEMA PEDIDO: QUANTO MAIS UPADA A SKILL, MAIS FORTE OS LACAIOS FICAM!
-                let hpBase = 60 + (nTier * 20) + (sk.lvl * 25);
-                let dmgBase = 10 + (nTier * 5) + (sk.lvl * 6);
+                let hpBase = 60 + (nTier * 25) + (sk.lvl * 30);
+                let dmgBase = 10 + (nTier * 6) + (sk.lvl * 8);
 
                 playerSummons.push({
-                    x: player.x - 35, y: player.y + (Math.random()*40 - 20), avatar: "💀", type: "melee",
+                    x: player.x - 35, y: player.y + (Math.random() * 40 - 20), avatar: "💀", type: "melee",
                     hp: hpBase, maxHp: hpBase, damage: dmgBase, speed: 1.6, radius: 15
                 });
+                writeConsoleLog(`✨ Invocado lacaio Nv.${sk.lvl} com ${hpBase} HP!`);
                 refreshInterfaceUI();
                 return;
             }
@@ -566,9 +702,15 @@
             if (entities.length === 0) return;
             player.mp -= sk.mp;
 
+            // Alvo mais próximo
             let target = entities[0];
             let weaponBonus = player.equipment.weapon ? player.equipment.weapon.statBonus : 0;
-            let artBonus = (player.equipment.artifact1 ? player.equipment.artifact1.statBonus : 0) + (player.equipment.artifact2 ? player.equipment.artifact2.statBonus : 0);
+            
+            // Soma do bônus de ambos os slots de Artefatos e Acessórios
+            let artBonus = (player.equipment.artifact1 ? player.equipment.artifact1.statBonus : 0) + 
+                             (player.equipment.artifact2 ? player.equipment.artifact2.statBonus : 0) +
+                             (player.equipment.ring ? player.equipment.ring.statBonus : 0) +
+                             (player.equipment.amulet ? player.equipment.amulet.statBonus : 0);
             
             let baseDamage = Math.floor((15 + player.stats.str + weaponBonus + artBonus) * sk.dmgMult * (1 + (sk.lvl * 0.15)));
 
@@ -577,7 +719,7 @@
             if (player.currentClass === "Assassino") debuffToApply = { type: "Sangramento 🩸", dps: 9 + sk.lvl, duration: 3 };
 
             if (sk.type === "ranged") {
-                customProjectiles.push({ x: player.x, y: player.y, target: target, speed: 11, damage: baseDamage, isEnemy: false, icon: "🔮", debuff: debuffToApply });
+                customProjectiles.push({ x: player.x, y: player.y, target: target, speed: 12, damage: baseDamage, isEnemy: false, icon: "🔮", debuff: debuffToApply });
             } else {
                 executeDamageCalculation(target, baseDamage);
                 if(debuffToApply) target.debuffs.push(debuffToApply);
@@ -592,17 +734,31 @@
 
             if (mob.hp <= 0) {
                 entities = entities.filter(e => e !== mob);
-                player.gold += 40;
-                processXpAcquisition(50);
-                if (mob.isBoss) { writeConsoleLog(`🏆 Chefe Derrotado! Retornando ao vilarejo.`); buildTownCenter(); }
+                
+                // Concessão de Ouro e Exp baseada na variante do monstro
+                let rewardGold = Math.floor(40 * mob.mod.gold);
+                let rewardXp = Math.floor(50 * mob.mod.xp);
+                
+                player.gold += rewardGold;
+                processXpAcquisition(rewardXp);
+                
+                writeConsoleLog(`☠️ Derrotado: ${mob.name}! (+${rewardGold} Ouro / +${rewardXp} XP)`);
+
+                if (mob.isBoss) { 
+                    writeConsoleLog(`🏆 CHEFE SUPREMO DERROTADO! Andar ${currentDungeonFloor} Concluído.`); 
+                    buildTownCenter(); 
+                }
             }
         }
 
         function processXpAcquisition(val) {
             player.xp += val;
             if (player.xp >= player.nextXp) {
-                player.xp -= player.nextXp; player.lvl++; player.nextXp += 80;
+                player.xp -= player.nextXp; 
+                player.lvl++; 
+                player.nextXp += 85;
                 player.freePoints += 5;
+                writeConsoleLog(`🎉 NÍVEL UP! Você alcançou o nível ${player.lvl}! +5 Pontos de Atributos obtidos.`);
             }
         }
 
@@ -612,6 +768,7 @@
             if (key === 'e') useConsumable('mp');
         }
 
+        // SANDBOX ADMINISTRATIVA GM
         function gmAction(actionKey) {
             if (actionKey === 'lvl15') { for(let i=0; i<15; i++) { processXpAcquisition(player.nextXp); } }
             else if (actionKey === 'gold') { player.gold += 10000; }
@@ -622,58 +779,113 @@
             refreshInterfaceUI();
         }
 
+        // LOOP DE ATUALIZAÇÃO E DESENHO CANVAS 60FPS
         function engineUpdateLoop(timestamp) {
-            let stride = 3.5;
+            let stride = 4.0;
             if (keyBindState['w'] && player.y > 20) player.y -= stride;
             if (keyBindState['s'] && player.y < canvasInstance.height - 20) player.y += stride;
             if (keyBindState['a'] && player.x > 20) player.x -= stride;
             if (keyBindState['d'] && player.x < canvasInstance.width - 20) player.x += stride;
 
-            // PROCESSAMENTO DE DEBUFFS
+            // Processador temporal de DoTs/Debuffs nos inimigos
             entities.forEach(mob => {
                 mob.debuffs.forEach(db => {
                     if(!db.lastTick || timestamp - db.lastTick > 1000) {
-                        db.lastTick = timestamp; mob.hp -= db.dps; db.duration--;
+                        db.lastTick = timestamp; 
+                        mob.hp -= db.dps; 
+                        db.duration--;
                         floatTexts.push({ x: mob.x, y: mob.y - 30, text: `${db.type} -${db.dps}`, color: "#e74c3c", life: 15 });
                     }
                 });
                 mob.debuffs = mob.debuffs.filter(db => db.duration > 0);
             });
 
-            // BARREIRA DO MONSTRO ATIVA (SCREEN BOUNDS)
+            // Inteligência Artificial de perseguição dos monstros
             entities.forEach(mob => {
-                let dx = player.x - mob.x; let dy = player.y - mob.y;
+                let dx = player.x - mob.x; 
+                let dy = player.y - mob.y;
                 let dist = Math.hypot(dx, dy) || 1;
-                if (dist > 25) { mob.x += (dx / dist) * mob.speed; mob.y += (dy / dist) * mob.speed; }
-                
-                // Impede sair da tela absolutamente
-                if (mob.x < 20) mob.x = 20; if (mob.x > canvasInstance.width - 20) mob.x = canvasInstance.width - 20;
-                if (mob.y < 20) mob.y = 20; if (mob.y > canvasInstance.height - 20) mob.y = canvasInstance.height - 20;
+                if (dist > 25) { 
+                    mob.x += (dx / dist) * mob.speed; 
+                    mob.y += (dy / dist) * mob.speed; 
+                } else {
+                    // Dano contínuo no jogador caso encoste
+                    if (Math.random() < 0.05) {
+                        let armorBonus = (player.equipment.armor ? player.equipment.armor.statBonus : 0) +
+                                         (player.equipment.helm ? player.equipment.helm.statBonus : 0) +
+                                         (player.equipment.boots ? player.equipment.boots.statBonus : 0);
+                        let finalDmg = Math.max(1, (currentDungeonFloor * 4) - Math.floor((player.stats.def + armorBonus) * 0.3));
+                        player.hp = Math.max(0, player.hp - finalDmg);
+                        floatTexts.push({ x: player.x, y: player.y - 25, text: `💔 -${finalDmg}`, color: "#ff3b30", life: 15 });
+                        refreshInterfaceUI();
+                        if(player.hp <= 0) {
+                            writeConsoleLog("💀 Você desmaiou! Retornando ao vilarejo para se recuperar...");
+                            player.hp = Math.floor(player.maxHp * 0.5);
+                            buildTownCenter();
+                        }
+                    }
+                }
             });
 
-            // PROJÉTEIS
+            // Gerenciamento vetorial de projéteis
             customProjectiles.forEach((proj, i) => {
-                let dx = proj.target.x - proj.x; let dy = proj.target.y - proj.y;
+                let dx = proj.target.x - proj.x; 
+                let dy = proj.target.y - proj.y;
                 let dist = Math.hypot(dx, dy) || 1;
-                if (dist < 20) {
+                if (dist < 22) {
                     executeDamageCalculation(proj.target, proj.damage);
                     if(proj.debuff && proj.target) proj.target.debuffs.push(proj.debuff);
                     customProjectiles.splice(i, 1);
-                } else { proj.x += (dx / dist) * proj.speed; proj.y += (dy / dist) * proj.speed; }
+                } else { 
+                    proj.x += (dx / dist) * proj.speed; 
+                    proj.y += (dy / dist) * proj.speed; 
+                }
             });
 
-            // CANVAS DRAW
-            canvasContext.fillStyle = "#020202"; canvasContext.fillRect(0, 0, canvasInstance.width, canvasInstance.height);
-            canvasContext.font = "32px Courier New"; canvasContext.textAlign = "center"; canvasContext.textBaseline = "middle";
+            // Renderizador do Rendercontext do Canvas
+            canvasContext.fillStyle = "#020202"; 
+            canvasContext.fillRect(0, 0, canvasInstance.width, canvasInstance.height);
+            
+            // Render do Herói
+            canvasContext.font = "32px Courier New"; 
+            canvasContext.textAlign = "center"; 
+            canvasContext.textBaseline = "middle";
             canvasContext.fillText(player.icon, player.x, player.y);
 
-            playerSummons.forEach(sum => { canvasContext.font = "24px Courier New"; canvasContext.fillText(sum.avatar, sum.x, sum.y); });
-            entities.forEach(mob => {
-                canvasContext.font = `${mob.fontSize} Courier New`; canvasContext.fillText(mob.avatar, mob.x, mob.y);
-                canvasContext.fillStyle = "#e74c3c"; canvasContext.fillRect(mob.x - 20, mob.y - mob.radius - 10, (mob.hp / mob.maxHp) * 40, 4);
+            // Desenhar lacaios
+            playerSummons.forEach(sum => { 
+                canvasContext.font = "24px Courier New"; 
+                canvasContext.fillText(sum.avatar, sum.x, sum.y); 
             });
+
+            // Desenhar monstros, barras de vida e auras variantes
+            entities.forEach(mob => {
+                if (mob.mod.aura) {
+                    canvasContext.strokeStyle = mob.mod.aura;
+                    canvasContext.lineWidth = 2;
+                    canvasContext.beginPath();
+                    canvasContext.arc(mob.x, mob.y, mob.radius + 4, 0, Math.PI * 2);
+                    canvasContext.stroke();
+                }
+                canvasContext.font = `${mob.fontSize} Courier New`; 
+                canvasContext.fillText(mob.avatar, mob.x, mob.y);
+                
+                // Barra de HP flutuante do mob
+                canvasContext.fillStyle = "#222";
+                canvasContext.fillRect(mob.x - 20, mob.y - mob.radius - 10, 40, 5);
+                canvasContext.fillStyle = "#e74c3c"; 
+                canvasContext.fillRect(mob.x - 20, mob.y - mob.radius - 10, (mob.hp / mob.maxHp) * 40, 5);
+            });
+
+            // Desenhar Projéteis e Textos flutuantes de dano
             customProjectiles.forEach(p => { canvasContext.fillText(p.icon, p.x, p.y); });
-            floatTexts.forEach((f, i) => { canvasContext.fillStyle = f.color; canvasContext.font = "12px Courier New"; canvasContext.fillText(f.text, f.x, f.y); f.life--; if(f.life <= 0) floatTexts.splice(i, 1); });
+            floatTexts.forEach((f, i) => { 
+                canvasContext.fillStyle = f.color; 
+                canvasContext.font = "bold 12px Courier New"; 
+                canvasContext.fillText(f.text, f.x, f.y); 
+                f.life--; 
+                if(f.life <= 0) floatTexts.splice(i, 1); 
+            });
 
             requestAnimationFrame(engineUpdateLoop);
         }
@@ -697,7 +909,11 @@
             document.getElementById('val-pts').innerText = player.freePoints;
         }
 
-        function writeConsoleLog(msg) { const out = document.getElementById('terminal-log-output'); out.innerHTML += `<p>&gt; ${msg}</p>`; out.scrollTop = out.scrollHeight; }
+        function writeConsoleLog(msg) { 
+            const out = document.getElementById('terminal-log-output'); 
+            out.innerHTML += `<p>&gt; ${msg}</p>`; 
+            out.scrollTop = out.scrollHeight; 
+        }
 
         window.onload = init;
     </script>
